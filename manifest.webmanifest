@@ -1,0 +1,38 @@
+{
+  "id": "./",
+  "name": "Nouf-Aloe",
+  "short_name": "Nouf-Aloe",
+  "description": "Bienfaits, composition et vitamines des produits Forever",
+  "lang": "fr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#D9A11A",
+  "theme_color": "#D9A11A",
+  "categories": [
+    "health",
+    "lifestyle",
+    "shopping"
+  ],
+  "icons": [
+    {
+      "src": "img/icone-nouf-aloe-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "img/icone-nouf-aloe-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "img/icone-nouf-aloe-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

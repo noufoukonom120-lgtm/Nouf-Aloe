@@ -1,0 +1,70 @@
+// Nouf-Aloe : fonctionne hors connexion après la première ouverture
+const CACHE="nouf-aloe-v1";
+const FILES=[
+ "./",
+ "index.html",
+ "manifest.webmanifest",
+ "img/absorbent-c.png",
+ "img/active-ha.png",
+ "img/active-pro-b.png",
+ "img/aloe-blossom-tea.png",
+ "img/aloe-body-wash.webp",
+ "img/aloe-first.webp",
+ "img/aloe-jojoba-shampoo.webp",
+ "img/aloe-lips.png",
+ "img/aloe-liquid-soap.png",
+ "img/aloe-peaches.png",
+ "img/aloe-vera-gel.webp",
+ "img/aloe-vera-gelly.webp",
+ "img/arctic-sea.webp",
+ "img/argi-plus.png",
+ "img/bee-honey.webp",
+ "img/bee-pollen.png",
+ "img/bee-propolis.webp",
+ "img/berry-nectar.webp",
+ "img/bright-toothgel.webp",
+ "img/c9.jpg",
+ "img/calcium.png",
+ "img/champ-aloe-entete.jpg",
+ "img/daily.png",
+ "img/dx4.jpg",
+ "img/ever-shield.webp",
+ "img/f15-v2.jpg",
+ "img/fab-x.png",
+ "img/fiber.png",
+ "img/fields-of-greens.png",
+ "img/freedom.jpg",
+ "img/garcinia-plus.webp",
+ "img/garlic-thyme.png",
+ "img/heat-lotion.png",
+ "img/icone-nouf-aloe-180.png",
+ "img/icone-nouf-aloe-192.png",
+ "img/icone-nouf-aloe-32.png",
+ "img/icone-nouf-aloe-512.png",
+ "img/immublend.png",
+ "img/immune-gummy.png",
+ "img/kids.png",
+ "img/lean.png",
+ "img/lite-ultra.webp",
+ "img/logo-forever-v2.png",
+ "img/lycium-plus.png",
+ "img/malosi.jpg",
+ "img/moisturizing-lotion.webp",
+ "img/move-1.png",
+ "img/move-2.webp",
+ "img/msm-gel.png",
+ "img/profil-nouf-aloe.png",
+ "img/propolis-creme.webp",
+ "img/royal-jelly.webp",
+ "img/skin-oil.jpg",
+ "img/supergreens.png",
+ "img/vital5.png"
+];
+self.addEventListener("install",e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(FILES)).then(()=>self.skipWaiting()))});
+self.addEventListener("activate",e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
+self.addEventListener("fetch",e=>{
+  const r=e.request; if(r.method!=="GET")return;
+  const u=new URL(r.url);
+  if(r.mode==="navigate"){e.respondWith(fetch(r).then(res=>{const c=res.clone();caches.open(CACHE).then(k=>k.put("index.html",c));return res}).catch(()=>caches.match("index.html")));return}
+  e.respondWith(caches.match(r).then(hit=>hit||fetch(r).then(res=>{if(res.ok&&(u.origin===location.origin||u.host.endsWith("googleapis.com")||u.host.endsWith("gstatic.com"))){const c=res.clone();caches.open(CACHE).then(k=>k.put(r,c))}return res})))
+});

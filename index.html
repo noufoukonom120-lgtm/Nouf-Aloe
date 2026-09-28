@@ -1,0 +1,961 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Bienfaits, composition et vitamines des produits Forever">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>Nouf-Aloe</title>
+<link rel="icon" type="image/png" sizes="32x32" href="img/icone-nouf-aloe-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="img/icone-nouf-aloe-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="img/icone-nouf-aloe-180.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#D9A11A">
+<meta name="apple-mobile-web-app-title" content="Nouf-Aloe">
+<meta name="application-name" content="Nouf-Aloe">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap">
+<style>
+:root{
+  color-scheme: light;
+  --bg:#D9A11A;          /* jaune foncé */
+  --bg-deep:#C48E0E;
+  --panel:#FFF5DA;          /* ivoire chaud : fond des écritures */
+  --panel-soft:#FFFBEF;
+  --ink:#111008;          /* noir */
+  --ink-2:#2B2410;
+  --ink-3:#5A4A1A;
+  --cream:#FFF5DA;
+  --line:rgba(17,16,8,.22);
+  --aloe:#1E5B2E;
+  --display:"DM Serif Display", Georgia, "Times New Roman", serif;
+  --body:"Nunito Sans", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{background:var(--bg);color:var(--ink)}
+body{font-family:var(--body);font-size:16px;line-height:1.55;padding-inline:16px;padding-block:0 48px}
+.wrap{max-width:1120px;margin:0 auto}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0;color:var(--ink)}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+
+/* En-tête */
+header.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;margin-top:16px;padding:40px 20px 20px;min-height:220px;border:2px solid var(--ink);border-radius:18px;overflow:hidden;
+  background:linear-gradient(90deg,rgba(255,245,218,.9) 0%,rgba(255,245,218,.7) 38%,rgba(255,245,218,.15) 72%,rgba(255,245,218,0) 100%),url("img/champ-aloe-entete.jpg") center 60%/cover no-repeat,var(--cream)}
+header.top .brand p{color:var(--ink)}
+.brand{display:flex;align-items:center;gap:14px}
+.avatar{flex:none;width:76px;height:76px;padding:0;border:3px solid var(--ink);border-radius:50%;overflow:hidden;background:var(--cream);cursor:zoom-in;box-shadow:0 0 0 3px var(--cream)}
+.avatar img{width:100%;height:100%;max-width:none;object-fit:cover;object-position:18% 40%;display:block}
+.lightbox{position:fixed;inset:0;z-index:30;background:rgba(17,16,8,.8);display:grid;place-items:center;padding:16px;cursor:zoom-out}
+.lightbox img{max-width:min(900px,100%);max-height:90vh;border-radius:14px;border:3px solid var(--cream)}
+.brand h1{font-size:clamp(2.4rem,7vw,3.6rem);line-height:.95;letter-spacing:-.01em}
+.brand h1 i{font-style:italic}
+.brand p{margin:6px 0 0;font-weight:600;color:var(--ink-2);font-size:.95rem}
+.tabs{display:flex;gap:6px;background:var(--bg-deep);padding:4px;border-radius:999px}
+.tabs button{border:0;background:transparent;padding:8px 16px;border-radius:999px;font-weight:700;cursor:pointer;font-size:.92rem}
+.tabs button[aria-selected="true"]{background:var(--ink);color:var(--bg)}
+
+/* Barre d'outils */
+.tools{display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding-block:20px 8px}
+.search{flex:1 1 260px;display:flex;align-items:center;gap:8px;background:var(--panel-soft);border:2px solid var(--ink);border-radius:12px;padding:0 12px}
+.search input{flex:1;border:0;background:transparent;padding:12px 0;font:inherit;font-weight:600;color:var(--ink);min-width:0}
+.search input::placeholder{color:var(--ink-3)}
+.search input:focus{outline:none}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:2px solid var(--ink);background:transparent;border-radius:999px;padding:6px 14px;font-weight:700;font-size:.88rem;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.vitrow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding-block:4px 18px}
+.vitrow .lbl{font-size:.78rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-inline-end:4px;color:var(--ink-2)}
+.vchip{border:1.5px solid var(--ink);background:var(--panel);border-radius:8px;padding:3px 10px;font-weight:800;font-size:.82rem;cursor:pointer}
+.vchip[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.count{font-size:.9rem;font-weight:700;color:var(--ink-2);margin:0 0 14px}
+
+/* Grille produits */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
+.card{display:flex;flex-direction:column;text-align:start;background:var(--panel);border:2px solid var(--ink);border-radius:16px;padding:0;overflow:hidden;cursor:pointer;transition:transform .15s ease, box-shadow .15s ease}
+.card:hover{transform:translateY(-3px);box-shadow:5px 5px 0 var(--ink)}
+.card .pic{background:var(--panel-soft);border-bottom:2px solid var(--ink);display:grid;place-items:center;aspect-ratio:4/3;max-width:100%}
+.card .pic svg{height:86%;width:auto}
+.card .pic.has-photo,.sheet .hero.has-photo{background:#FFFFFF}
+.card .pic{position:relative;overflow:hidden}
+.card .pic .photo{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:contain;padding:10px 10px 10px 88px}
+.sheet .hero .photo{display:block;height:260px;width:auto;max-width:100%;object-fit:contain;margin:0 auto}
+.fbadge{position:absolute;top:10px;left:10px;z-index:2;display:flex;flex-direction:column;align-items:center;gap:4px;width:74px;pointer-events:none}
+.fbadge img{width:44px;height:44px;border-radius:50%;background:#FFFFFF;object-fit:contain;padding:2px;box-shadow:0 0 0 2px var(--bg)}
+.fbadge span{background:var(--bg);color:var(--ink);border:1.5px solid var(--ink);border-radius:6px;padding:2px 4px;font-size:.6rem;font-weight:800;line-height:1.15;text-align:center;letter-spacing:.02em;text-transform:uppercase}
+.sheet .hero .fbadge{top:14px;left:14px;width:92px}
+.sheet .hero .fbadge img{width:56px;height:56px}
+.sheet .hero .fbadge span{font-size:.68rem}
+.thumbs{display:flex;gap:8px;justify-content:center;margin-top:12px}
+.thumbs button{width:56px;height:56px;padding:3px;border:2px solid var(--line);border-radius:10px;background:#FFFFFF;cursor:pointer}
+.thumbs button[aria-pressed="true"]{border-color:var(--ink)}
+.thumbs img{width:100%;height:100%;object-fit:contain}
+.card .txt{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
+.code{font-size:.74rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.card h3{font-size:1.35rem;line-height:1.1}
+.card p{margin:0;font-size:.93rem;color:var(--ink-2)}
+.tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:auto;padding-top:8px}
+.tag{font-size:.72rem;font-weight:800;border:1.5px solid var(--ink);border-radius:6px;padding:1px 6px}
+.empty{padding:40px 0;font-weight:700;font-size:1.05rem}
+
+/* Fiche détaillée */
+.sheet{position:fixed;inset:0;background:rgba(17,16,8,.55);display:flex;justify-content:flex-end;z-index:20}
+.sheet .panel{background:var(--cream);width:min(560px,100%);height:100%;overflow-y:auto;border-left:3px solid var(--ink);padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}
+.sheet .hero{background:var(--panel-soft);border-bottom:2px solid var(--ink);display:grid;place-items:center;padding:24px 24px 24px 110px;position:relative}
+.sheet .hero svg{height:220px;width:auto;max-width:100%}
+.close{position:absolute;top:12px;right:12px;border:2px solid var(--ink);background:var(--bg);border-radius:999px;width:40px;height:40px;font-size:1.3rem;font-weight:800;cursor:pointer;line-height:1}
+.sheet .body{padding:22px 22px 32px;display:flex;flex-direction:column;gap:22px}
+.sheet h2{font-size:2.1rem;line-height:1.05}
+.lead{margin:6px 0 0;font-size:1.05rem;font-weight:600;color:var(--ink-2)}
+.sec h4{margin:0 0 8px;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;font-weight:800;display:flex;align-items:center;gap:8px}
+.sec h4::after{content:"";flex:1;height:2px;background:var(--ink)}
+.sec ul{margin:0;padding-inline-start:1.2em;display:flex;flex-direction:column;gap:6px}
+.sec li{max-width:62ch}
+.comp{display:flex;flex-direction:column;border:2px solid var(--ink);border-radius:12px;overflow:hidden}
+.comp div{display:flex;justify-content:space-between;gap:12px;padding:8px 12px;border-top:1px solid var(--line);background:#FFFFFF}
+.comp div:first-child{border-top:0}
+.comp span:last-child{font-weight:800;text-align:end;font-variant-numeric:tabular-nums}
+.vitlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.vit{border:2px solid var(--ink);border-radius:10px;padding:8px 10px;background:#FFFFFF}
+.vit b{display:block;font-family:var(--display);font-weight:400;font-size:1.15rem}
+.vit small{font-size:.82rem;color:var(--ink-2);line-height:1.35;display:block}
+.incs{display:flex;flex-direction:column;gap:10px}
+.inc{display:flex;gap:12px;align-items:center;text-align:start;background:#FFFFFF;border:2px solid var(--ink);border-radius:14px;padding:8px;cursor:pointer;transition:transform .15s ease, box-shadow .15s ease}
+.inc:hover{transform:translateY(-2px);box-shadow:4px 4px 0 var(--ink)}
+.ipic{flex:none;width:76px;height:76px;background:#FFFFFF;border:1.5px solid var(--ink);border-radius:10px;display:grid;place-items:center;overflow:hidden;position:relative}
+.ipic .photo{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:contain;padding:4px}
+.ipic svg{height:90%;width:auto}
+.itxt{display:flex;flex-direction:column;gap:2px;min-width:0}
+.itxt b{font-family:var(--display);font-weight:400;font-size:1.15rem;line-height:1.15}
+.itxt small{font-size:.85rem;color:var(--ink-2);line-height:1.35}
+.use{background:var(--ink);color:var(--bg);border-radius:12px;padding:12px 14px;font-weight:600}
+.use b{color:var(--bg)}
+
+/* Onglet vitamines */
+.vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;padding-top:22px}
+.vcard{background:var(--panel);border:2px solid var(--ink);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:10px}
+.vcard .big{font-family:var(--display);font-size:2.6rem;line-height:1}
+.vcard h3{font-size:1.25rem}
+.vcard p{margin:0;color:var(--ink-2)}
+.vcard .src{font-size:.85rem;font-weight:700}
+.plinks{display:flex;flex-wrap:wrap;gap:6px}
+.plinks button{border:1.5px solid var(--ink);background:var(--panel-soft);border-radius:8px;padding:3px 9px;font-weight:700;font-size:.82rem;cursor:pointer}
+
+/* Pied de page */
+.note{margin-top:36px;border-top:2px solid var(--ink);padding-top:18px;display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between;align-items:flex-start}
+.note p{margin:0;max-width:62ch;font-size:.88rem;color:var(--ink-2)}
+.contact{background:var(--ink);color:var(--bg);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.contact small{font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;font-weight:800;opacity:.85}
+.contact strong{font-size:1.05rem}
+.contact .mgr{font-size:1.25rem;font-weight:800;letter-spacing:.04em;margin-top:4px}
+.contact .learn{font-size:1rem;font-weight:600;line-height:1.4;max-width:34ch}
+
+/* Langues */
+.hright{display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+.langs{display:flex;gap:4px;background:rgba(255,245,218,.92);border:2px solid var(--ink);padding:3px;border-radius:999px}
+.langs button{border:0;background:transparent;padding:4px 12px;border-radius:999px;font-weight:800;font-size:.85rem;cursor:pointer;min-width:44px}
+.langs button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.langs button[data-lang="ar"]{font-family:"Amiri",serif;font-size:1rem;font-weight:700;padding-block:1px}
+html[dir="rtl"] body,html[dir="rtl"] button,html[dir="rtl"] input{font-family:"Amiri","Traditional Arabic",serif}
+html[dir="rtl"] body{font-size:18px;line-height:1.8}
+html[dir="rtl"] .chip,html[dir="rtl"] .tabs button{font-size:1.02rem}
+html[dir="rtl"] .vchip,html[dir="rtl"] .tag{font-size:.92rem;font-weight:700}
+html[dir="rtl"] .fbadge span{font-size:.7rem;line-height:1.3}
+html[dir="rtl"] .brand p{font-size:1.1rem;font-weight:700}
+html[dir="rtl"] .card p,html[dir="rtl"] .itxt small,html[dir="rtl"] .vit small{font-size:1.02rem;line-height:1.7}
+html[dir="rtl"] .sec h4{font-size:1rem}
+html[dir="rtl"] .code{font-size:.85rem}
+html[dir="rtl"] .lead{font-size:1.2rem}
+html[dir="rtl"] .sheet h2,html[dir="rtl"] .card h3,html[dir="rtl"] .vcard h3,html[dir="rtl"] .itxt b,html[dir="rtl"] .vit b{font-family:"Amiri",var(--display);font-weight:700}
+html[dir="rtl"] .brand h1{direction:ltr}
+html[dir="rtl"] .vitrow .lbl,html[dir="rtl"] .sec h4,html[dir="rtl"] .code,html[dir="rtl"] .contact small{letter-spacing:0}
+html[dir="rtl"] .sheet{justify-content:flex-start}
+html[dir="rtl"] .close{right:auto;left:12px}
+html[dir="rtl"] .sheet .hero{padding:24px 110px 24px 24px}
+html[dir="rtl"] .sheet .hero .fbadge{left:auto;right:14px}
+html[dir="rtl"] .card .pic .photo{padding:10px 88px 10px 10px}
+html[dir="rtl"] .card .fbadge{left:auto;right:10px}
+html[dir="rtl"] header.top{background:linear-gradient(270deg,rgba(255,245,218,.9) 0%,rgba(255,245,218,.7) 38%,rgba(255,245,218,.15) 72%,rgba(255,245,218,0) 100%),url("img/champ-aloe-entete.jpg") center 60%/cover no-repeat,var(--cream)}
+
+@media (max-width:560px){
+  header.top{align-items:flex-start;min-height:190px;padding:28px 16px 16px;background:linear-gradient(180deg,rgba(255,245,218,.9) 0%,rgba(255,245,218,.72) 55%,rgba(255,245,218,.35) 100%),url("img/champ-aloe-entete.jpg") center/cover no-repeat,var(--cream)}
+  .sheet .hero svg{height:170px}
+  .sheet h2{font-size:1.8rem}
+  .hright{align-items:flex-start;width:100%}
+  html[dir="rtl"] header.top{background:linear-gradient(180deg,rgba(255,245,218,.9) 0%,rgba(255,245,218,.72) 55%,rgba(255,245,218,.35) 100%),url("img/champ-aloe-entete.jpg") center/cover no-repeat,var(--cream)}
+}
+@media (prefers-reduced-motion:reduce){.card{transition:none}.card:hover{transform:none}}
+
+/* Bouton installer */
+.install{display:inline-flex;align-items:center;gap:8px;border:2px solid var(--ink);background:var(--ink);color:var(--bg);border-radius:999px;padding:7px 16px;font-weight:800;font-size:.9rem;cursor:pointer}
+.install svg{flex:none}
+.ihelp{position:fixed;inset:0;z-index:40;background:rgba(17,16,8,.6);display:grid;place-items:end center;padding:16px}
+.ihelp .box{background:var(--cream);border:3px solid var(--ink);border-radius:18px;padding:20px;max-width:440px;width:100%;display:flex;flex-direction:column;gap:12px}
+.ihelp h3{font-size:1.5rem}
+.ihelp ol{margin:0;padding-inline-start:1.3em;display:flex;flex-direction:column;gap:8px;font-weight:600}
+.ihelp button{align-self:flex-end;border:2px solid var(--ink);background:var(--bg);border-radius:999px;padding:7px 18px;font-weight:800;cursor:pointer}
+@media (display-mode: standalone){.install{display:none!important}}
+body{margin:0}
+img{max-width:100%}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <button class="avatar" id="avatar" aria-label="Voir la photo de profil"><img src="img/profil-nouf-aloe.png" alt="Nouf-Aloe, produit Forever naturel pur"></button>
+      <div>
+        <h1>Nouf-<i>Aloe</i></h1>
+        <p id="t-sub">Bienfaits, composition et vitamines des produits Forever</p>
+      </div>
+    </div>
+    <div class="hright">
+      <button class="install" id="install" hidden><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 20h16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="t-install">Installer l'application</span></button>
+      <div class="langs" id="langs" role="group" aria-label="Langue">
+        <button data-lang="fr" aria-pressed="true" lang="fr">FR</button>
+        <button data-lang="en" aria-pressed="false" lang="en">EN</button>
+        <button data-lang="ar" aria-pressed="false" lang="ar">عربي</button>
+      </div>
+      <div class="tabs" role="tablist">
+        <button role="tab" id="tab-prod" aria-selected="true">Produits</button>
+        <button role="tab" id="tab-vit" aria-selected="false">Vitamines</button>
+      </div>
+    </div>
+  </header>
+
+  <section id="view-prod">
+    <div class="tools">
+      <label class="search" for="q">
+        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="#111008" stroke-width="2.4"/><path d="M15.5 15.5 21 21" stroke="#111008" stroke-width="2.4" stroke-linecap="round"/></svg>
+        <input id="q" type="search" placeholder="Chercher un produit, un bienfait, un ingrédient…" autocomplete="off">
+      </label>
+      <div class="chips" id="cats"></div>
+    </div>
+    <div class="vitrow" id="vitfilter"><span class="lbl">Contient :</span></div>
+    <p class="count" id="count"></p>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section id="view-vit" hidden>
+    <div class="vgrid" id="vgrid"></div>
+  </section>
+
+  <footer class="note">
+    <p id="t-note"><b>Important :</b> les produits Forever sont des compléments alimentaires et des produits de soin. Ils ne remplacent ni un traitement médical ni une alimentation variée. En cas de grossesse, d'allaitement, de maladie ou de traitement en cours, demandez l'avis d'un médecin. Les compositions peuvent varier selon le pays : l'étiquette du produit fait toujours foi.</p>
+    <div class="contact">
+      <small id="t-ftitle">Formation</small>
+      <span class="learn" id="t-ftext">Apprendre les produits Forever et le business Forever avec les managers du pays.</span>
+      <strong class="mgr" id="t-fmgr">MANAGER KONOMBO</strong>
+    </div>
+  </footer>
+</div>
+
+<div class="ihelp" id="ihelp" hidden><div class="box" role="dialog" aria-modal="true" aria-labelledby="ih-t"><h3 id="ih-t"></h3><ol id="ih-steps"></ol><button id="ih-ok">OK</button></div></div>
+<div class="lightbox" id="lightbox" hidden><img src="img/profil-nouf-aloe.png" alt="Nouf-Aloe, produit Forever naturel pur"></div>
+<div class="sheet" id="sheet" hidden>
+  <div class="panel" role="dialog" aria-modal="true" aria-labelledby="d-name">
+    <div class="hero"><span class="fbadge"><img src="img/logo-forever-v2.png" alt="Logo Forever"><span id="t-badge">Produit Forever Living</span></span><div id="d-pic"></div><button class="close" id="close" aria-label="Fermer">×</button></div>
+    <div class="body">
+      <div>
+        <div class="code" id="d-code"></div>
+        <h2 id="d-name"></h2>
+        <p class="lead" id="d-tag"></p>
+      </div>
+      <div class="sec"><h4 id="t-ben">Bienfaits</h4><ul id="d-ben"></ul></div>
+      <div class="sec" id="d-inc-sec" hidden><h4 id="t-inc">Produits du pack</h4><div class="incs" id="d-inc"></div></div>
+      <div class="sec"><h4 id="t-comp">Composition</h4><div class="comp" id="d-comp"></div></div>
+      <div class="sec"><h4 id="t-vit">Vitamines &amp; nutriments</h4><div class="vitlist" id="d-vit"></div></div>
+      <div class="use" id="d-use"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ---------- Vitamines & nutriments ---------- */
+const VIT = {
+  A:{name:"Vitamine A",role:"Vision, peau saine et défenses naturelles.",src:"Carotte, mangue, patate douce, foie"},
+  B:{name:"Vitamines B",role:"Transforment les aliments en énergie, soutiennent les nerfs et réduisent la fatigue.",src:"Céréales complètes, légumineuses, œufs"},
+  B12:{name:"Vitamine B12",role:"Formation des globules rouges et bon fonctionnement du système nerveux.",src:"Viande, poisson, œufs, lait"},
+  B9:{name:"Vitamine B9 (acide folique)",role:"Renouvellement des cellules. Essentielle avant et pendant la grossesse.",src:"Légumes verts, haricots, arachide"},
+  C:{name:"Vitamine C",role:"Défenses immunitaires, formation du collagène, absorption du fer, réduit la fatigue.",src:"Agrumes, goyave, baobab, papaye"},
+  D:{name:"Vitamine D",role:"Fixe le calcium sur les os et les dents, soutient les muscles.",src:"Soleil, poissons gras, œufs"},
+  E:{name:"Vitamine E",role:"Antioxydant : protège les cellules et la peau.",src:"Huiles végétales, amandes, arachide"},
+  K:{name:"Vitamine K",role:"Coagulation normale du sang et solidité des os.",src:"Feuilles vertes (oseille, épinard)"},
+  Ca:{name:"Calcium",role:"Os et dents solides, contraction des muscles.",src:"Lait, sésame, petits poissons"},
+  Mg:{name:"Magnésium",role:"Réduit la fatigue, détend les muscles, équilibre nerveux.",src:"Céréales complètes, fonio, cacao"},
+  Zn:{name:"Zinc",role:"Immunité, cicatrisation, peau, cheveux et ongles.",src:"Viande, graines de courge, arachide"},
+  Om3:{name:"Oméga-3",role:"Cœur, cerveau et vision (EPA et DHA).",src:"Sardine, maquereau, poissons gras"},
+  Prot:{name:"Protéines",role:"Construisent et entretiennent les muscles, rassasient.",src:"Viande, poisson, niébé, soja"},
+  Fib:{name:"Fibres",role:"Transit régulier et sensation de satiété.",src:"Légumes, fruits, céréales complètes"},
+  Pro:{name:"Probiotiques",role:"Bonnes bactéries pour l'équilibre de la flore intestinale.",src:"Yaourt, lait fermenté"}
+};
+const VIT_ORDER=["A","B","B9","B12","C","D","E","K","Ca","Mg","Zn","Om3","Prot","Fib","Pro"];
+
+/* ---------- Produits ---------- */
+const P = [
+ {code:"715",name:"Forever Aloe Vera Gel",cat:"Boissons",shape:"jug",c1:"#2E7D46",c2:"#F4F1E8",
+  tag:"Le gel d'aloès stabilisé, pur à 99,7 %, pris directement de la feuille.",
+  ben:["Soutient une digestion confortable et un transit régulier","Aide l'organisme à mieux absorber les nutriments","Participe à l'hydratation et à la vitalité au quotidien","La vitamine C ajoutée contribue aux défenses immunitaires"],
+  comp:[["Gel de feuille d'Aloe vera stabilisé","99,7 %"],["Vitamine C (acide ascorbique)","ajoutée"],["Vitamine E (tocophérol)","ajoutée"],["Acide citrique","conservateur naturel"]],
+  vit:["A","B","B12","C","E","Ca","Mg","Zn"],
+  use:"60 à 120 ml par jour, pur ou dilué dans de l'eau, de préférence à jeun. Conserver au frais après ouverture."},
+ {code:"734",name:"Forever Aloe Berry Nectar",cat:"Boissons",shape:"jug",c1:"#B3263A",c2:"#F4F1E8",
+  tag:"Gel d'aloès associé à la canneberge et à la pomme, au goût fruité.",
+  ben:["Mêmes atouts que le gel d'aloès, avec un goût plus doux","La canneberge est riche en antioxydants (proanthocyanidines)","Apprécié pour le confort urinaire","Idéal pour ceux qui trouvent l'aloès nature trop amer"],
+  comp:[["Gel de feuille d'Aloe vera","90,7 %"],["Concentré de jus de canneberge","fruit"],["Concentré de jus de pomme","fruit"],["Fructose","sucre du fruit"],["Vitamine C","ajoutée"]],
+  vit:["A","C","E","B"],
+  use:"60 à 120 ml par jour. Bien agiter avant usage. Conserver au frais après ouverture."},
+ {code:"777",name:"Forever Aloe Peaches",cat:"Boissons",shape:"jug",c1:"#E68A2E",c2:"#F4F1E8",
+  tag:"Gel d'aloès et purée de pêche : la porte d'entrée préférée des enfants.",
+  ben:["Apporte les bienfaits de l'aloès au goût de pêche","Soutient la digestion et l'hydratation","Adapté à toute la famille"],
+  comp:[["Gel de feuille d'Aloe vera","84,5 %"],["Purée de pêche","fruit"],["Fructose","sucre du fruit"],["Vitamine C","ajoutée"]],
+  vit:["A","C","E"],
+  use:"60 à 120 ml par jour. Enfants : demi-dose. Conserver au frais après ouverture."},
+ {code:"026",name:"Forever Bee Pollen",cat:"Produits de la ruche",shape:"bottle",c1:"#E9B21A",c2:"#1C1A12",
+  tag:"Pollen d'abeille récolté dans le désert d'Arizona, en comprimés.",
+  ben:["Source naturelle de protéines, acides aminés et vitamines B","Aide à réduire la fatigue et à retrouver du tonus","Soutient la vitalité pendant les périodes d'effort"],
+  comp:[["Pollen d'abeille","ingrédient principal"],["Miel","liant naturel"]],
+  vit:["B","C","E","Prot","Mg","Zn"],
+  use:"1 à 4 comprimés par jour, pendant le repas. Déconseillé en cas d'allergie aux produits de la ruche."},
+ {code:"027",name:"Forever Bee Propolis",cat:"Produits de la ruche",shape:"bottle",c1:"#8A4B12",c2:"#F4F1E8",
+  tag:"La propolis, bouclier naturel de la ruche, en comprimés à croquer.",
+  ben:["Soutient les défenses naturelles, surtout lors des changements de saison","Riche en flavonoïdes antioxydants","Apprécié pour le confort de la gorge"],
+  comp:[["Propolis d'abeille","ingrédient principal"],["Protéine de soja","support"],["Poudre d'amande","saveur"],["Miel","liant"],["Gelée royale","complément"]],
+  vit:["B","E","Prot"],
+  use:"1 à 2 comprimés par jour. Déconseillé en cas d'allergie aux produits de la ruche."},
+ {code:"036",name:"Forever Royal Jelly",cat:"Produits de la ruche",shape:"bottle",c1:"#F2D35B",c2:"#1C1A12",
+  tag:"La gelée royale, nourriture exclusive de la reine des abeilles.",
+  ben:["Aide à lutter contre la fatigue physique et intellectuelle","Soutient la concentration et le tonus","Riche en vitamines B, acides aminés et minéraux"],
+  comp:[["Gelée royale","ingrédient principal"],["Miel","liant"],["Fructose","saveur"]],
+  vit:["B","B9","Prot","Zn"],
+  use:"1 à 2 comprimés par jour, le matin. Déconseillé en cas d'allergie aux produits de la ruche."},
+ {code:"065",name:"Forever Garlic-Thyme",cat:"Nutrition",shape:"bottle",c1:"#F4F1E8",c2:"#2E7D46",
+  tag:"L'ail et le thym réunis en capsules, sans odeur.",
+  ben:["L'ail soutient la santé du cœur et une bonne circulation","Le thym soutient les voies respiratoires","Contribue aux défenses naturelles"],
+  comp:[["Huile d'ail","ingrédient principal"],["Thym","plante"],["Gélatine","enveloppe de la capsule"]],
+  vit:["B","C"],
+  use:"1 capsule 2 fois par jour, pendant le repas."},
+ {code:"376",name:"Forever Arctic Sea",cat:"Nutrition",shape:"bottle",c1:"#1F4E8C",c2:"#F4F1E8",
+  tag:"Oméga-3 issus d'huiles de poisson et de calamar, avec huile d'olive.",
+  ben:["L'EPA et le DHA contribuent au bon fonctionnement du cœur","Le DHA soutient le cerveau et la vision","Aide à maintenir un bon équilibre des graisses dans le sang"],
+  comp:[["Huile de poisson (EPA, DHA)","oméga-3"],["Huile de calamar","oméga-3 (DHA)"],["Huile d'olive","oméga-9"],["Vitamine E","antioxydant"]],
+  vit:["Om3","E"],
+  use:"2 capsules 3 fois par jour, pendant les repas. Avis médical si vous prenez des anticoagulants."},
+ {code:"439",name:"Forever Daily",cat:"Nutrition",shape:"bottle",c1:"#1C1A12",c2:"#E9B21A",
+  tag:"La multivitamine complète de Forever, avec un complexe de fruits et légumes.",
+  ben:["Comble les petits manques de l'alimentation de tous les jours","Réduit la fatigue et soutient l'énergie","Soutient l'immunité, la peau, les os et la vision","Contient le complexe AOS 40 pour une meilleure absorption"],
+  comp:[["Vitamines A, C, D, E, K","liposolubles et hydrosolubles"],["Vitamines B1, B2, B3, B6, B9, B12","groupe B complet"],["Biotine, acide pantothénique","groupe B"],["Calcium, magnésium, zinc, fer, sélénium","minéraux"],["Complexe AOS 40","absorption"],["Poudre de fruits et légumes","extraits"]],
+  vit:["A","B","B9","B12","C","D","E","K","Ca","Mg","Zn"],
+  use:"2 comprimés par jour, pendant un repas."},
+ {code:"048",name:"Forever Absorbent-C",cat:"Nutrition",shape:"bottle",c1:"#E36A1C",c2:"#F4F1E8",
+  tag:"Vitamine C liée au son d'avoine, en comprimés à croquer au miel et à la papaye.",
+  ben:["Contribue au fonctionnement normal du système immunitaire","Aide à la formation du collagène (peau, gencives, vaisseaux)","Réduit la fatigue et améliore l'absorption du fer","Le son d'avoine libère la vitamine C progressivement"],
+  comp:[["Vitamine C (acide ascorbique)","60 mg par comprimé"],["Son d'avoine","fibres"],["Miel","saveur"],["Papaye","saveur"]],
+  vit:["C","Fib"],
+  use:"1 à 2 comprimés par jour."},
+ {code:"354",name:"Forever Kids",cat:"Nutrition",shape:"bottle",c1:"#7B3FA0",c2:"#F4F1E8",
+  tag:"Multivitamines à croquer pour les enfants, goût raisin.",
+  ben:["Soutient la croissance et le développement","Aide les défenses naturelles pendant les années d'école","Soutient la concentration et l'énergie","Pratique pour les enfants qui mangent peu de légumes"],
+  comp:[["Vitamines A, C, D, E","croissance et défenses"],["Vitamines B (B1, B2, B6, B12, B9)","énergie"],["Calcium, fer, zinc","minéraux"],["Poudre de fruits et légumes","extraits"]],
+  vit:["A","B","B9","B12","C","D","E","Ca","Zn"],
+  use:"Enfants : 2 comprimés par jour. Adultes : 4 comprimés. Tenir hors de portée des jeunes enfants."},
+ {code:"206",name:"Forever Calcium",cat:"Nutrition",shape:"bottle",c1:"#F4F1E8",c2:"#1F4E8C",
+  tag:"Calcium et magnésium avec vitamine D, pour des os solides.",
+  ben:["Maintient des os et des dents solides","Le magnésium soutient les muscles et réduit la fatigue","La vitamine D aide le corps à fixer le calcium","Utile à tout âge, en particulier après 40 ans"],
+  comp:[["Calcium","os et dents"],["Magnésium","muscles et nerfs"],["Vitamine D","fixation du calcium"],["Vitamine C","collagène"],["Zinc, cuivre, manganèse","oligo-éléments"]],
+  vit:["Ca","Mg","D","C","Zn"],
+  use:"4 comprimés par jour, pendant les repas."},
+ {code:"464",name:"Forever Fiber",cat:"Nutrition",shape:"box",c1:"#6B8E23",c2:"#F4F1E8",
+  tag:"Mélange de fibres solubles en sachets, à diluer dans une boisson.",
+  ben:["Favorise un transit régulier","Aide à la sensation de satiété, utile pour contrôler son poids","Nourrit les bonnes bactéries de l'intestin","Sans goût : se mélange à l'eau ou au gel d'aloès"],
+  comp:[["Fructo-oligosaccharides (FOS)","fibre prébiotique"],["Gomme de guar","fibre soluble"],["Maltodextrine résistante","fibre soluble"],["Gomme d'acacia","fibre soluble"]],
+  vit:["Fib"],
+  use:"1 sachet par jour dans 250 ml d'eau ou de gel d'aloès. Boire suffisamment d'eau."},
+ {code:"610",name:"Forever Active Pro-B",cat:"Nutrition",shape:"bottle",c1:"#2A9D8F",c2:"#F4F1E8",
+  tag:"Six souches de probiotiques et un prébiotique en gélules.",
+  ben:["Soutient l'équilibre de la flore intestinale","Aide la digestion et le confort du ventre","Utile après un traitement antibiotique (sur avis médical)","Une flore saine soutient les défenses naturelles"],
+  comp:[["6 souches probiotiques (Lactobacillus, Bifidobacterium)","8 milliards d'UFC"],["Fructo-oligosaccharides (FOS)","prébiotique"]],
+  vit:["Pro","Fib"],
+  use:"1 gélule par jour, avec ou sans repas. Conserver au frais."},
+ {code:"196",name:"Forever Freedom",cat:"Boissons",shape:"jug",c1:"#2B5FA6",c2:"#F4F1E8",
+  tag:"Gel d'aloès enrichi en glucosamine, chondroïtine et MSM, goût orange.",
+  ben:["Soutient la souplesse et le confort des articulations","La vitamine C contribue à la formation du cartilage","Apprécié des sportifs et des personnes âgées"],
+  comp:[["Gel de feuille d'Aloe vera","base"],["Glucosamine","articulations"],["Chondroïtine","articulations"],["MSM (méthylsulfonylméthane)","soufre organique"],["Vitamine C","collagène"]],
+  vit:["C","A","E"],
+  use:"60 à 120 ml par jour. Contient des crustacés : déconseillé en cas d'allergie."},
+ {code:"621",name:"Forever Supergreens",cat:"Nutrition",shape:"box",c1:"#3F8F3A",c2:"#F4F1E8",
+  tag:"Plus de 20 fruits et légumes en poudre, avec aloès, en sticks.",
+  ben:["Complète les apports en fruits et légumes","Riche en antioxydants et en vitamines","Soutient l'énergie et l'équilibre acido-basique"],
+  comp:[["Mélange de 20+ fruits et légumes","poudres"],["Poudre d'aloès","aloès"],["Vitamines et minéraux","ajoutés"]],
+  vit:["A","B","C","E","K","Mg","Fib"],
+  use:"1 stick par jour dans 500 ml d'eau."},
+ {code:"470",name:"Forever Lite Ultra",cat:"Nutrition",shape:"tub",c1:"#5A3A1E",c2:"#F4F1E8",
+  tag:"Boisson protéinée en poudre pour remplacer un repas ou compléter l'alimentation.",
+  ben:["Riche en protéines pour garder le muscle pendant une perte de poids","Rassasie durablement","Apporte une vingtaine de vitamines et minéraux","Pratique au petit-déjeuner ou après le sport"],
+  comp:[["Protéines de soja","protéines végétales"],["Vitamines A, B, C, D, E","ajoutées"],["Calcium, magnésium, zinc, fer","minéraux"],["Fibres","satiété"]],
+  vit:["Prot","A","B","C","D","E","Ca","Mg","Zn","Fib"],
+  use:"2 cuillères dans 300 ml de lait écrémé ou de boisson végétale, 1 à 2 fois par jour."},
+ {code:"061",name:"Aloe Vera Gelly",cat:"Soins",shape:"tube",c1:"#2E7D46",c2:"#F4F1E8",
+  tag:"Gel transparent à 84 % d'aloès pur pour la peau.",
+  ben:["Apaise la peau après le soleil, un coup de rasoir ou une piqûre d'insecte","Hydrate et rafraîchit","Aide la peau abîmée à se réparer","Non gras, pour tout le corps"],
+  comp:[["Gel de feuille d'Aloe vera stabilisé","84 %"],["Allantoïne","apaisant"],["Vitamine E","antioxydant"]],
+  vit:["E"],
+  use:"Appliquer en couche fine sur la zone concernée, plusieurs fois par jour si besoin."},
+ {code:"051",name:"Aloe Propolis Creme",cat:"Soins",shape:"tube",c1:"#8A4B12",c2:"#F4F1E8",
+  tag:"Crème riche à l'aloès, à la propolis et à la camomille.",
+  ben:["Nourrit et protège les peaux sèches","Calme les petites irritations et rougeurs","La propolis aide à assainir la peau"],
+  comp:[["Gel d'Aloe vera","base"],["Propolis d'abeille","protection"],["Camomille","apaisant"],["Vitamines A et E","soin de la peau"]],
+  vit:["A","E"],
+  use:"Appliquer sur une peau propre, masser jusqu'à pénétration."},
+ {code:"063",name:"Aloe Moisturizing Lotion",cat:"Soins",shape:"tube",c1:"#D8C3A5",c2:"#1C1A12",
+  tag:"Lait hydratant visage et corps à l'aloès et au collagène.",
+  ben:["Hydrate en profondeur sans laisser de film gras","Assouplit et adoucit la peau","Convient aux peaux sensibles"],
+  comp:[["Gel d'Aloe vera","base"],["Collagène et élastine","souplesse"],["Huile de jojoba","nutrition"],["Vitamine E","antioxydant"]],
+  vit:["E"],
+  use:"Appliquer matin et soir sur le visage et le corps."},
+ {code:"064",name:"Aloe Heat Lotion",cat:"Soins",shape:"tube",c1:"#C0392B",c2:"#F4F1E8",
+  tag:"Lotion chauffante à l'aloès, au menthol et à l'eucalyptus.",
+  ben:["Procure une chaleur relaxante sur les muscles après l'effort","Idéale pour le massage","Hydrate la peau grâce à l'aloès"],
+  comp:[["Gel d'Aloe vera","base"],["Salicylate de méthyle","effet chauffant"],["Menthol","fraîcheur"],["Huile d'eucalyptus","plante"]],
+  vit:[],
+  use:"Masser sur la zone concernée. Éviter les yeux et les muqueuses. Se laver les mains après usage."},
+ {code:"022",name:"Aloe Lips",cat:"Soins",shape:"stick",c1:"#2E7D46",c2:"#F4F1E8",
+  tag:"Baume à lèvres à l'aloès, au jojoba et à la cire d'abeille.",
+  ben:["Protège les lèvres du vent, du soleil et de l'harmattan","Apaise les lèvres gercées","S'utilise aussi sur les petites zones sèches"],
+  comp:[["Aloe vera","apaisant"],["Huile de jojoba","nutrition"],["Cire d'abeille","protection"]],
+  vit:["E"],
+  use:"Appliquer aussi souvent que nécessaire."},
+ {code:"028",name:"Forever Bright Toothgel",cat:"Soins",shape:"tube",c1:"#2A9D8F",c2:"#F4F1E8",
+  tag:"Dentifrice sans fluor à l'aloès et à la propolis.",
+  ben:["Nettoie en douceur les dents et les gencives","Rafraîchit l'haleine (menthe verte et menthe poivrée)","Sans fluor : convient à toute la famille"],
+  comp:[["Gel d'Aloe vera","soin des gencives"],["Propolis d'abeille","assainissant"],["Menthe","fraîcheur"]],
+  vit:[],
+  use:"Se brosser les dents au moins 2 fois par jour."},
+ {code:"473",name:"ARGI+",cat:"Nutrition",
+  tag:"L-arginine et complexe de vitamines en sticks, goût fruits rouges.",
+  ben:["La L-arginine aide le corps à produire du monoxyde d'azote, qui soutient la circulation sanguine","Soutient l'énergie et l'endurance, apprécié des sportifs","Les vitamines C et D contribuent aux défenses immunitaires","Les vitamines B aident à réduire la fatigue"],
+  comp:[["L-arginine","5 g par stick"],["Vitamines C, D, K","ajoutées"],["Vitamines B6, B9, B12","ajoutées"],["Extraits de fruits rouges","saveur et antioxydants"]],
+  vit:["C","D","K","B","B9","B12"],
+  use:"1 stick par jour dans 250 à 500 ml d'eau ou de gel d'aloès. Avis médical en cas de problème cardiaque ou de traitement pour la tension."},
+ {code:"355",name:"Forever ImmuBlend",cat:"Nutrition",
+  tag:"Comprimés pour les défenses naturelles : vitamines, champignons maitaké et shiitaké, lactoferrine.",
+  ben:["La vitamine C, la vitamine D et le zinc contribuent au fonctionnement normal du système immunitaire","Les champignons maitaké et shiitaké sont utilisés traditionnellement en Asie pour la vitalité","La lactoferrine et les FOS soutiennent l'équilibre intestinal"],
+  comp:[["Vitamine C","immunité"],["Vitamine D","immunité"],["Zinc","immunité"],["Maitaké et shiitaké","champignons"],["Lactoferrine","protéine du lait"],["FOS (fructo-oligosaccharides)","prébiotique"]],
+  vit:["C","D","Zn","Fib"],
+  use:"2 comprimés par jour, avec un grand verre d'eau."},
+ {id:"immune-gummy",name:"Forever Immune Gummy",cat:"Nutrition",
+  tag:"Gommes à mâcher avec 10 vitamines et du zinc, formule végane.",
+  ben:["Contribue au fonctionnement normal du système immunitaire","Pratique pour ceux qui n'aiment pas avaler de comprimés","Aide à réduire la fatigue"],
+  comp:[["10 vitamines (dont A, C, D, E et vitamines B)","immunité et énergie"],["Zinc","immunité"],["Formule végane","sans gélatine animale"]],
+  vit:["A","B","B12","C","D","E","Zn"],
+  use:"Suivre la dose indiquée sur l'étiquette. Tenir hors de portée des jeunes enfants."},
+ {code:"551",name:"Forever Move",cat:"Nutrition",
+  tag:"Membrane de coquille d'œuf et extrait de curcuma, pour les articulations.",
+  ben:["Soutient le confort et la souplesse des articulations","Aide à retrouver la mobilité après l'effort","Le curcuma est connu pour ses propriétés antioxydantes"],
+  comp:[["Membrane de coquille d'œuf (NEM)","collagène, élastine, glucosamine naturels"],["Extrait de curcuma","antioxydant"],["Extrait de caroubier","selon l'étiquette française"]],
+  vit:[],
+  use:"3 capsules par jour, en une seule prise. Contient de l'œuf : déconseillé en cas d'allergie."},
+ {code:"264",name:"Forever Active HA",cat:"Nutrition",
+  tag:"Acide hyaluronique, gingembre et curcuma en capsules.",
+  ben:["L'acide hyaluronique participe à la lubrification des articulations","Aide à garder une peau hydratée et souple","Le gingembre et le curcuma soutiennent le confort articulaire"],
+  comp:[["Acide hyaluronique","articulations et peau"],["Huile de gingembre","plante"],["Curcuma","plante"]],
+  vit:[],
+  use:"1 capsule par jour, pendant un repas."},
+ {code:"289",name:"Forever Lean",cat:"Nutrition",
+  tag:"Capsules pour accompagner un programme de contrôle du poids.",
+  ben:["La fibre de figue de Barbarie aide à limiter l'absorption des graisses","L'extrait de haricot blanc aide à limiter l'absorption des sucres","Le chrome contribue au maintien d'une glycémie normale","À associer à une alimentation équilibrée et à l'activité physique"],
+  comp:[["Fibre de figue de Barbarie (Opuntia)","graisses"],["Extrait de haricot blanc","sucres"],["Chrome","glycémie"]],
+  vit:["Fib"],
+  use:"2 capsules avant les deux repas les plus riches de la journée. Avis médical en cas de diabète."},
+ {code:"200",name:"Aloe Blossom Herbal Tea",cat:"Boissons",
+  tag:"Infusion de fleurs d'aloès et d'épices, sans caféine.",
+  ben:["Boisson chaude apaisante, idéale le soir","Aide à la détente et au confort digestif","Sans caféine : convient à toute la famille"],
+  comp:[["Fleurs d'aloès","plante"],["Cannelle, gingembre, cardamome, clou de girofle","épices"],["Écorce d'orange","arôme"],["Camomille","plante apaisante"]],
+  vit:[],
+  use:"1 sachet dans une tasse d'eau chaude, infuser 3 à 5 minutes. Se boit chaud ou froid."},
+ {code:"205",name:"Aloe MSM Gel",cat:"Soins",
+  tag:"Gel à l'aloès et au MSM pour les muscles et les articulations.",
+  ben:["Procure une sensation de fraîcheur et de confort sur les muscles et les articulations","Pratique après le sport ou une longue journée debout","L'aloès hydrate la peau"],
+  comp:[["Gel d'Aloe vera","base"],["MSM (méthylsulfonylméthane)","soufre organique"],["Extraits de plantes","apaisants"]],
+  vit:[],
+  use:"Masser sur la zone concernée aussi souvent que nécessaire. Éviter les yeux."},
+ {code:"067",name:"Aloe Ever-Shield",cat:"Soins",
+  tag:"Déodorant stick à l'aloès, sans sels d'aluminium.",
+  ben:["Protège des odeurs toute la journée","Sans sels d'aluminium ni alcool : doux pour la peau","Ne tache pas les vêtements"],
+  comp:[["Gel d'Aloe vera","apaisant"],["Agent anti-odeur","sans aluminium"]],
+  vit:[],
+  use:"Appliquer sur des aisselles propres et sèches."},
+ {id:"liquid-soap",name:"Aloe Liquid Soap",cat:"Soins",
+  tag:"Savon liquide à l'aloès pour les mains et le corps, 473 ml.",
+  ben:["Nettoie en douceur sans dessécher la peau","Formule qui retient l'hydratation","Agents lavants d'origine naturelle"],
+  comp:[["Aloe vera","hydratation"],["Agents lavants d'origine naturelle","dérivés de la noix de coco"]],
+  vit:[],
+  use:"Appliquer sur les mains ou le corps mouillés, faire mousser, rincer."},
+ {id:"body-wash",name:"Aloe Body Wash",cat:"Soins",
+  tag:"Gel douche moussant à l'aloès, 236 ml.",
+  ben:["Nettoie tout en préservant l'hydratation de la peau","Laisse une sensation de fraîcheur","Agents lavants d'origine naturelle"],
+  comp:[["Aloe vera","hydratation"],["Agents lavants d'origine naturelle","nettoyage doux"]],
+  vit:[],
+  use:"Appliquer sur la peau mouillée, faire mousser, rincer."},
+ {id:"malosi",name:"Forever Malosi",cat:"Soins",
+  tag:"Parfum fin pour homme de la collection Forever.",
+  ben:["Parfum élégant et durable pour le quotidien ou les grandes occasions","Flacon pratique à emporter"],
+  comp:[["Parfum (fragrance)","eau de parfum"],["Alcool, eau","base"]],
+  vit:[],
+  use:"Vaporiser sur le cou et les poignets. Éviter les yeux."},
+ {code:"207",name:"Forever Bee Honey",cat:"Produits de la ruche",
+  tag:"Miel 100 % naturel, en flacon verseur de 500 g.",
+  ben:["Source d'énergie naturelle et rapide","Adoucit la gorge, apprécié dans les tisanes chaudes","Remplace le sucre dans les boissons et les desserts"],
+  comp:[["Miel naturel","100 %"]],
+  vit:[],
+  use:"1 à 2 cuillères par jour, nature ou dans une boisson tiède. Ne pas donner aux bébés de moins d'un an."},
+ {code:"072",name:"Forever Lycium Plus",cat:"Nutrition",
+  tag:"Comprimés aux baies de lycium (goji) et à la réglisse.",
+  ben:["Les baies de goji sont riches en antioxydants","Utilisées traditionnellement en Asie pour la vitalité et la vision","La réglisse est connue pour le confort de la gorge et de la digestion"],
+  comp:[["Extrait de baies de lycium (goji)","antioxydants"],["Extrait de racine de réglisse","plante"]],
+  vit:[],
+  use:"1 à 2 comprimés par jour. Déconseillé en cas d'hypertension (réglisse), de grossesse ou d'allaitement."},
+ {code:"071",name:"Forever Garcinia Plus",cat:"Nutrition",
+  tag:"Capsules au Garcinia cambogia et au chrome, pour accompagner la gestion du poids.",
+  ben:["Le Garcinia cambogia (riche en HCA) est utilisé pour aider à contrôler l'appétit","Le chrome contribue au maintien d'une glycémie normale","Élément clé des programmes C9 et F15"],
+  comp:[["Extrait de Garcinia cambogia","acide hydroxycitrique (HCA)"],["Chrome","glycémie"]],
+  vit:[],
+  use:"1 capsule 30 minutes avant chacun des 3 repas principaux. Avis médical en cas de diabète, de grossesse ou d'allaitement."},
+ {code:"068",name:"Fields of Greens",cat:"Nutrition",
+  tag:"Comprimés de jeunes pousses d'orge et de blé, luzerne et piment de Cayenne.",
+  ben:["Apporte des « légumes verts » concentrés quand l'alimentation en manque","Les jeunes pousses d'orge et de blé sont riches en chlorophylle et en antioxydants","Soutient l'énergie au quotidien"],
+  comp:[["Jeunes pousses d'orge","plante verte"],["Jeunes pousses de blé","plante verte"],["Luzerne","plante"],["Piment de Cayenne","plante"],["Miel","liant"]],
+  vit:[],
+  use:"1 à 2 comprimés par jour, pendant un repas. Contient du blé (gluten)."},
+ {id:"skin-oil",name:"Replenishing Skin Oil",cat:"Soins",
+  tag:"Huile de soin pour le visage en flacon compte-gouttes, 30 ml.",
+  ben:["Nourrit et adoucit les peaux sèches","Aide la peau à retenir son hydratation","Donne un teint plus lumineux"],
+  comp:[["Mélange d'huiles végétales","nutrition"],["Vitamine E","antioxydant"]],
+  vit:["E"],
+  use:"Chauffer 2 à 3 gouttes entre les doigts et appliquer sur le visage propre, le soir."},
+ {id:"shampoo",name:"Aloe-Jojoba Shampoo",cat:"Soins",
+  tag:"Shampooing doux à l'aloès et au jojoba, pour tous types de cheveux, 296 ml.",
+  ben:["Lave en douceur les cheveux et le cuir chevelu","L'aloès apaise le cuir chevelu","L'huile de jojoba nourrit et fait briller"],
+  comp:[["Aloe vera","apaisant"],["Huile de jojoba","nutrition"],["Agents lavants doux","nettoyage"]],
+  vit:[],
+  use:"Appliquer sur cheveux mouillés, masser, rincer. Répéter si nécessaire."},
+ {id:"c9",name:"C9 : programme 9 jours",cat:"Programmes",inc:["715","470","071","464"],
+  tag:"Le premier pas du programme F.I.T. : 9 jours pour se sentir plus léger.",
+  ben:["Programme guidé de 9 jours pour démarrer une perte de poids","Aide à retrouver de bonnes habitudes alimentaires","Associe l'aloès, les fibres et une boisson protéinée"],
+  comp:[["Forever Aloe Vera Gel","2 × 1 litre"],["Forever Lite Ultra","1 sachet"],["Forever Garcinia Plus","capsules"],["Forever Therm","comprimés"],["Forever Fiber","9 sachets"],["Shaker et guide","inclus"]],
+  vit:["Prot","Fib","C","E"],
+  use:"Suivre le guide jour par jour. Boire au moins 2 litres d'eau par jour. Avis médical en cas de grossesse, d'allaitement ou de maladie."},
+ {id:"f15",name:"F15 : programme 15 jours",cat:"Programmes",inc:["715","470","071","464"],
+  tag:"La suite du C9 : 15 jours pour continuer à perdre du poids et gagner en forme.",
+  ben:["Programme de 15 jours avec des repas équilibrés et de l'activité physique","Aide à contrôler l'appétit et à garder le muscle","Se répète jusqu'à atteindre son objectif"],
+  comp:[["Forever Aloe Vera Gel","2 × 1 litre"],["Forever Ultra (shake)","1 sachet"],["Forever Garcinia Plus","30 capsules"],["Forever Therm","30 comprimés"],["Forever Fiber","15 sachets"],["Shaker et guide","inclus"]],
+  vit:["Prot","Fib","C","E"],
+  use:"Suivre le guide : shakes, repas équilibrés et exercices du jour. Boire au moins 2 litres d'eau par jour."},
+ {id:"vital5",name:"Vital5 : programme 30 jours",cat:"Programmes",inc:["734","473","376","610","439"],
+  tag:"Cinq produits essentiels pour un mois de bien-être complet.",
+  ben:["Soutient l'énergie, la digestion et les défenses naturelles","Apporte oméga-3, probiotiques, vitamines et minéraux","L'ARGI+ soutient la circulation et l'endurance"],
+  comp:[["Boisson à l'aloès (Aloe Berry Nectar sur la photo)","4 × 1 litre"],["ARGI+","30 sticks"],["Forever Arctic Sea","oméga-3"],["Forever Active Pro-B","probiotiques"],["Forever Daily","multivitamines"]],
+  vit:["A","B","B9","B12","C","D","E","K","Ca","Mg","Zn","Om3","Pro"],
+  use:"Prendre chaque produit selon sa dose, chaque jour pendant 30 jours."},
+ {id:"dx4",name:"DX4 : programme 4 jours",cat:"Programmes",inc:["715"],
+  tag:"Le Body Balancing System : 4 jours pour faire le point et repartir sur de bonnes bases.",
+  ben:["Programme court de 4 jours pour rééquilibrer ses habitudes alimentaires","L'aloès soutient la digestion et l'hydratation","Les protéines végétales aident à rester rassasié","Bonne préparation avant un programme C9 ou F15"],
+  comp:[["Forever Aloe Vera Gel","mini-bouteilles 330 ml"],["Forever Plant Protein","protéines végétales"],["Forever LemonBlast","sticks à diluer"],["Forever Sensatiable","comprimés"],["DX4 Herbal Supplement","complément aux plantes"],["Guide du programme","inclus"]],
+  vit:["Prot","C","E"],
+  use:"Suivre le guide jour par jour pendant 4 jours. Boire au moins 2 litres d'eau par jour. Avis médical en cas de grossesse, d'allaitement, de maladie ou de traitement en cours."},
+ {code:"440",name:"FAB X (Forever Active Boost X)",cat:"Boissons",
+  tag:"Boisson énergisante sans sucre, enrichie en vitamines, canette de 250 ml.",
+  ben:["Donne un coup d'énergie rapide pendant l'effort ou une longue journée","Sans sucre ni calories","Les vitamines B contribuent à réduire la fatigue"],
+  comp:[["Caféine (guarana, maté)","énergie"],["Taurine","acide aminé"],["Vitamines B","énergie"],["Aloe vera","base"],["Édulcorants","sans sucre"]],
+  vit:["B","B12"],
+  use:"1 canette au besoin, à boire frais. Contient de la caféine : déconseillé aux enfants, aux femmes enceintes et aux personnes sensibles à la caféine."},
+ {code:"040",name:"Aloe First",cat:"Soins",
+  tag:"Spray apaisant à l'aloès, à la propolis et aux extraits de plantes, 473 ml.",
+  ben:["Apaise la peau après un coup de soleil, une petite brûlure, une égratignure ou une piqûre","Hydrate et rafraîchit, même le cuir chevelu","Pratique à garder dans l'armoire à pharmacie de la famille"],
+  comp:[["Gel d'Aloe vera stabilisé","base"],["Propolis d'abeille","protection"],["Allantoïne","apaisant"],["Extraits de plantes (dont camomille)","apaisants"]],
+  vit:[],
+  use:"Vaporiser directement sur la zone concernée aussi souvent que nécessaire. Éviter les yeux."}
+];
+/* Photos originales fournies par KONOMBO (affichées sans modification) */
+const IMG={
+ "715":["img/aloe-vera-gel.webp"],"777":["img/aloe-peaches.png"],"036":["img/royal-jelly.webp"],
+ "470":["img/lite-ultra.webp"],"051":["img/propolis-creme.webp"],"196":["img/freedom.jpg"],"464":["img/fiber.png"],
+ "473":["img/argi-plus.png"],"355":["img/immublend.png"],"immune-gummy":["img/immune-gummy.png"],
+ "551":["img/move-2.webp","img/move-1.png"],"264":["img/active-ha.png"],"289":["img/lean.png"],
+ "200":["img/aloe-blossom-tea.png"],"205":["img/msm-gel.png"],"067":["img/ever-shield.webp"],
+ "liquid-soap":["img/aloe-liquid-soap.png"],"body-wash":["img/aloe-body-wash.webp"],"malosi":["img/malosi.jpg"],
+ "610":["img/active-pro-b.png"],"048":["img/absorbent-c.png"],"734":["img/berry-nectar.webp"],"026":["img/bee-pollen.png"],
+ "376":["img/arctic-sea.webp"],"207":["img/bee-honey.webp"],"027":["img/bee-propolis.webp"],"072":["img/lycium-plus.png"],
+ "065":["img/garlic-thyme.png"],"206":["img/calcium.png"],"022":["img/aloe-lips.png"],"028":["img/bright-toothgel.webp"],
+ "063":["img/moisturizing-lotion.webp"],"439":["img/daily.png"],"064":["img/heat-lotion.png"],
+ "354":["img/kids.png"],"071":["img/garcinia-plus.webp"],"068":["img/fields-of-greens.png"],"skin-oil":["img/skin-oil.jpg"],
+ "shampoo":["img/aloe-jojoba-shampoo.webp"],"c9":["img/c9.jpg"],"f15":["img/f15-v2.jpg"],"621":["img/supergreens.png"],"vital5":["img/vital5.png"],"dx4":["img/dx4.jpg"],
+ "061":["img/aloe-vera-gelly.webp"],"440":["img/fab-x.png"],"040":["img/aloe-first.webp"]
+};
+P.forEach(p=>{p.key=p.id||p.code;p.img=IMG[p.key]||null});
+/* ---------- Traductions (FR par défaut, EN, AR) ---------- */
+const UI={
+ fr:{sub:"Bienfaits, composition et vitamines des produits Forever",tabProd:"Produits",tabVit:"Vitamines",search:"Chercher un produit, un bienfait, un ingrédient…",contains:"Contient :",
+  count:(n,v)=>n+(n>1?" produits":" produit")+(v?" riches en "+v.toLowerCase():""),empty:"Aucun produit ne correspond. Essayez un autre mot ou retirez un filtre.",
+  ben:"Bienfaits",inc:"Produits du pack",comp:"Composition",vit:"Vitamines & nutriments",use:"Conseil d'utilisation :",ref:"Réf.",badge:"Produit Forever Living",food:"Dans l'alimentation :",
+  skinT:"Soin externe",skinD:"Produit appliqué sur la peau : son action vient des plantes et de l'aloès, pas des vitamines.",
+  natT:"Ingrédients naturels",natD:"Pas de vitamines ajoutées : ses bienfaits viennent des ingrédients listés dans la composition.",
+  note:"<b>Important :</b> les produits Forever sont des compléments alimentaires et des produits de soin. Ils ne remplacent ni un traitement médical ni une alimentation variée. En cas de grossesse, d'allaitement, de maladie ou de traitement en cours, demandez l'avis d'un médecin. Les compositions peuvent varier selon le pays : l'étiquette du produit fait toujours foi.",
+  fTitle:"Formation",fText:"Apprendre les produits Forever et le business Forever avec les managers du pays.",fMgr:"MANAGER KONOMBO",
+  close:"Fermer",avatar:"Voir la photo de profil",langLbl:"Langue",
+  cats:{"Tous":"Tous","Programmes":"Programmes","Boissons":"Boissons","Nutrition":"Nutrition","Produits de la ruche":"Produits de la ruche","Soins":"Soins"}},
+ en:{sub:"Benefits, ingredients and vitamins of Forever products",tabProd:"Products",tabVit:"Vitamins",search:"Search a product, a benefit, an ingredient…",contains:"Contains:",
+  count:(n,v)=>n+(n>1?" products":" product")+(v?" rich in "+v:""),empty:"No product matches. Try another word or remove a filter.",
+  ben:"Benefits",inc:"Products in the pack",comp:"Ingredients",vit:"Vitamins & nutrients",use:"How to use:",ref:"Ref.",badge:"Forever Living product",food:"In food:",
+  skinT:"External care",skinD:"Applied to the skin: it works through plants and aloe, not through vitamins.",
+  natT:"Natural ingredients",natD:"No added vitamins: its benefits come from the ingredients listed above.",
+  note:"<b>Important:</b> Forever products are food supplements and personal care products. They do not replace medical treatment or a varied diet. If you are pregnant, breastfeeding, ill or under treatment, ask a doctor first. Formulas may vary by country: the product label always prevails.",
+  fTitle:"Training",fText:"Learn about Forever products and the Forever business with the country's managers.",fMgr:"MANAGER KONOMBO",
+  close:"Close",avatar:"View profile photo",langLbl:"Language",
+  cats:{"Tous":"All","Programmes":"Programs","Boissons":"Drinks","Nutrition":"Nutrition","Produits de la ruche":"Bee products","Soins":"Personal care"}}
+};
+
+/* Vitamines : nom, nom court (filtre), rôle, sources */
+const VIT_T={
+ en:{A:["Vitamin A","Vit. A","Vision, healthy skin and natural defenses.","Carrot, mango, sweet potato, liver"],
+  B:["B vitamins","Vit. B","Turn food into energy, support the nerves and reduce tiredness.","Whole grains, legumes, eggs"],
+  B12:["Vitamin B12","Vit. B12","Red blood cell formation and a healthy nervous system.","Meat, fish, eggs, milk"],
+  B9:["Vitamin B9 (folic acid)","Vit. B9","Cell renewal. Essential before and during pregnancy.","Green vegetables, beans, peanuts"],
+  C:["Vitamin C","Vit. C","Immune defenses, collagen formation, iron absorption, reduces tiredness.","Citrus, guava, baobab, papaya"],
+  D:["Vitamin D","Vit. D","Fixes calcium in bones and teeth, supports muscles.","Sunlight, oily fish, eggs"],
+  E:["Vitamin E","Vit. E","Antioxidant: protects cells and skin.","Vegetable oils, almonds, peanuts"],
+  K:["Vitamin K","Vit. K","Normal blood clotting and strong bones.","Green leaves (sorrel, spinach)"],
+  Ca:["Calcium","Calcium","Strong bones and teeth, muscle contraction.","Milk, sesame, small fish"],
+  Mg:["Magnesium","Magnesium","Reduces tiredness, relaxes muscles, nervous balance.","Whole grains, fonio, cocoa"],
+  Zn:["Zinc","Zinc","Immunity, wound healing, skin, hair and nails.","Meat, pumpkin seeds, peanuts"],
+  Om3:["Omega-3","Omega-3","Heart, brain and vision (EPA and DHA).","Sardines, mackerel, oily fish"],
+  Prot:["Protein","Protein","Builds and maintains muscle, keeps you full.","Meat, fish, cowpeas, soy"],
+  Fib:["Fiber","Fiber","Regular transit and a feeling of fullness.","Vegetables, fruit, whole grains"],
+  Pro:["Probiotics","Probiotics","Good bacteria for a balanced gut flora.","Yogurt, fermented milk"]}
+};
+
+/* Produits : {tag, ben, comp, use, name?} */
+const PT={en:{
+"715":{tag:"Stabilized aloe gel, 99.7% pure, taken straight from the leaf.",ben:["Supports comfortable digestion and regular transit","Helps the body absorb nutrients better","Contributes to daily hydration and vitality","Added vitamin C contributes to immune defenses"],comp:[["Stabilized Aloe vera leaf gel","99.7%"],["Vitamin C (ascorbic acid)","added"],["Vitamin E (tocopherol)","added"],["Citric acid","natural preservative"]],use:"60 to 120 ml a day, neat or diluted in water, preferably on an empty stomach. Keep refrigerated after opening."},
+"734":{tag:"Aloe gel with cranberry and apple, with a fruity taste.",ben:["Same benefits as aloe gel, with a milder taste","Cranberry is rich in antioxidants (proanthocyanidins)","Appreciated for urinary comfort","Ideal for those who find plain aloe too bitter"],comp:[["Aloe vera leaf gel","90.7%"],["Cranberry juice concentrate","fruit"],["Apple juice concentrate","fruit"],["Fructose","fruit sugar"],["Vitamin C","added"]],use:"60 to 120 ml a day. Shake well before use. Keep refrigerated after opening."},
+"777":{tag:"Aloe gel and peach purée: children's favorite way in.",ben:["Brings the benefits of aloe with a peach taste","Supports digestion and hydration","Suitable for the whole family"],comp:[["Aloe vera leaf gel","84.5%"],["Peach purée","fruit"],["Fructose","fruit sugar"],["Vitamin C","added"]],use:"60 to 120 ml a day. Children: half dose. Keep refrigerated after opening."},
+"026":{tag:"Bee pollen harvested in the Arizona desert, in tablets.",ben:["Natural source of protein, amino acids and B vitamins","Helps reduce tiredness and restore energy","Supports vitality during periods of effort"],comp:[["Bee pollen","main ingredient"],["Honey","natural binder"]],use:"1 to 4 tablets a day, with a meal. Not recommended if allergic to bee products."},
+"027":{tag:"Propolis, the hive's natural shield, in chewable tablets.",ben:["Supports natural defenses, especially when seasons change","Rich in antioxidant flavonoids","Appreciated for throat comfort"],comp:[["Bee propolis","main ingredient"],["Soy protein","carrier"],["Almond powder","flavor"],["Honey","binder"],["Royal jelly","complement"]],use:"1 to 2 tablets a day. Not recommended if allergic to bee products."},
+"036":{tag:"Royal jelly, the exclusive food of the queen bee.",ben:["Helps fight physical and mental tiredness","Supports concentration and energy","Rich in B vitamins, amino acids and minerals"],comp:[["Royal jelly","main ingredient"],["Honey","binder"],["Fructose","flavor"]],use:"1 to 2 tablets a day, in the morning. Not recommended if allergic to bee products."},
+"065":{tag:"Garlic and thyme together in odorless capsules.",ben:["Garlic supports heart health and good circulation","Thyme supports the respiratory tract","Contributes to natural defenses"],comp:[["Garlic oil","main ingredient"],["Thyme","plant"],["Gelatin","capsule shell"]],use:"1 capsule twice a day, with a meal."},
+"376":{tag:"Omega-3 from fish and squid oils, with olive oil.",ben:["EPA and DHA contribute to normal heart function","DHA supports the brain and vision","Helps maintain a good balance of fats in the blood"],comp:[["Fish oil (EPA, DHA)","omega-3"],["Squid oil","omega-3 (DHA)"],["Olive oil","omega-9"],["Vitamin E","antioxidant"]],use:"2 capsules 3 times a day, with meals. Ask a doctor if you take blood thinners."},
+"439":{tag:"Forever's complete multivitamin, with a fruit and vegetable blend.",ben:["Fills the small gaps in everyday eating","Reduces tiredness and supports energy","Supports immunity, skin, bones and vision","Contains the AOS 40 complex for better absorption"],comp:[["Vitamins A, C, D, E, K","fat- and water-soluble"],["Vitamins B1, B2, B3, B6, B9, B12","complete B group"],["Biotin, pantothenic acid","B group"],["Calcium, magnesium, zinc, iron, selenium","minerals"],["AOS 40 complex","absorption"],["Fruit and vegetable powder","extracts"]],use:"2 tablets a day, with a meal."},
+"048":{tag:"Vitamin C bound to oat bran, in chewable tablets with honey and papaya.",ben:["Contributes to normal immune function","Helps collagen formation (skin, gums, blood vessels)","Reduces tiredness and improves iron absorption","Oat bran releases vitamin C gradually"],comp:[["Vitamin C (ascorbic acid)","60 mg per tablet"],["Oat bran","fiber"],["Honey","flavor"],["Papaya","flavor"]],use:"1 to 2 tablets a day."},
+"354":{tag:"Chewable multivitamins for children, grape flavor.",ben:["Supports growth and development","Helps natural defenses during the school years","Supports concentration and energy","Handy for children who eat few vegetables"],comp:[["Vitamins A, C, D, E","growth and defenses"],["B vitamins (B1, B2, B6, B12, B9)","energy"],["Calcium, iron, zinc","minerals"],["Fruit and vegetable powder","extracts"]],use:"Children: 2 tablets a day. Adults: 4 tablets. Keep out of reach of young children."},
+"206":{tag:"Calcium and magnesium with vitamin D, for strong bones.",ben:["Maintains strong bones and teeth","Magnesium supports muscles and reduces tiredness","Vitamin D helps the body fix calcium","Useful at any age, especially after 40"],comp:[["Calcium","bones and teeth"],["Magnesium","muscles and nerves"],["Vitamin D","calcium fixation"],["Vitamin C","collagen"],["Zinc, copper, manganese","trace elements"]],use:"4 tablets a day, with meals."},
+"464":{tag:"Blend of soluble fibers in sachets, to mix into a drink.",ben:["Promotes regular transit","Helps you feel full, useful for weight control","Feeds the good gut bacteria","Tasteless: mixes with water or aloe gel"],comp:[["Fructo-oligosaccharides (FOS)","prebiotic fiber"],["Guar gum","soluble fiber"],["Resistant maltodextrin","soluble fiber"],["Acacia gum","soluble fiber"]],use:"1 sachet a day in 250 ml of water or aloe gel. Drink plenty of water."},
+"610":{tag:"Six probiotic strains and a prebiotic in capsules.",ben:["Supports a balanced gut flora","Helps digestion and belly comfort","Useful after antibiotics (on medical advice)","A healthy flora supports natural defenses"],comp:[["6 probiotic strains (Lactobacillus, Bifidobacterium)","8 billion CFU"],["Fructo-oligosaccharides (FOS)","prebiotic"]],use:"1 capsule a day, with or without food. Keep refrigerated."},
+"196":{tag:"Aloe gel with glucosamine, chondroitin and MSM, orange flavor.",ben:["Supports flexible, comfortable joints","Vitamin C contributes to cartilage formation","Appreciated by athletes and older people"],comp:[["Aloe vera leaf gel","base"],["Glucosamine","joints"],["Chondroitin","joints"],["MSM (methylsulfonylmethane)","organic sulfur"],["Vitamin C","collagen"]],use:"60 to 120 ml a day. Contains shellfish: not recommended if allergic."},
+"621":{tag:"Over 20 powdered fruits and vegetables, with aloe, in sticks.",ben:["Tops up your fruit and vegetable intake","Rich in antioxidants and vitamins","Supports energy and acid-base balance"],comp:[["Blend of 20+ fruits and vegetables","powders"],["Aloe powder","aloe"],["Vitamins and minerals","added"]],use:"1 stick a day in 500 ml of water."},
+"470":{tag:"Protein shake powder to replace a meal or complete your diet.",ben:["Rich in protein to keep muscle during weight loss","Keeps you full for longer","Provides about twenty vitamins and minerals","Handy at breakfast or after exercise"],comp:[["Soy protein","plant protein"],["Vitamins A, B, C, D, E","added"],["Calcium, magnesium, zinc, iron","minerals"],["Fiber","fullness"]],use:"2 scoops in 300 ml of skimmed milk or plant drink, 1 to 2 times a day."},
+"061":{tag:"Clear gel with 84% pure aloe for the skin.",ben:["Soothes skin after sun, shaving or an insect bite","Hydrates and refreshes","Helps damaged skin repair itself","Non-greasy, for the whole body"],comp:[["Stabilized Aloe vera leaf gel","84%"],["Allantoin","soothing"],["Vitamin E","antioxidant"]],use:"Apply a thin layer to the area, several times a day if needed."},
+"051":{tag:"Rich cream with aloe, propolis and chamomile.",ben:["Nourishes and protects dry skin","Calms minor irritation and redness","Propolis helps purify the skin"],comp:[["Aloe vera gel","base"],["Bee propolis","protection"],["Chamomile","soothing"],["Vitamins A and E","skin care"]],use:"Apply to clean skin, massage until absorbed."},
+"063":{tag:"Moisturizing face and body lotion with aloe and collagen.",ben:["Deeply hydrates without a greasy film","Softens and smooths the skin","Suitable for sensitive skin"],comp:[["Aloe vera gel","base"],["Collagen and elastin","suppleness"],["Jojoba oil","nourishment"],["Vitamin E","antioxidant"]],use:"Apply morning and evening to face and body."},
+"064":{tag:"Warming lotion with aloe, menthol and eucalyptus.",ben:["Gives a relaxing warmth to muscles after effort","Ideal for massage","Hydrates the skin thanks to aloe"],comp:[["Aloe vera gel","base"],["Methyl salicylate","warming effect"],["Menthol","coolness"],["Eucalyptus oil","plant"]],use:"Massage into the area. Avoid eyes and mucous membranes. Wash hands after use."},
+"022":{tag:"Lip balm with aloe, jojoba and beeswax.",ben:["Protects lips from wind, sun and the harmattan","Soothes chapped lips","Also works on small dry patches"],comp:[["Aloe vera","soothing"],["Jojoba oil","nourishment"],["Beeswax","protection"]],use:"Apply as often as needed."},
+"028":{tag:"Fluoride-free toothpaste with aloe and propolis.",ben:["Gently cleans teeth and gums","Freshens breath (spearmint and peppermint)","Fluoride-free: suitable for the whole family"],comp:[["Aloe vera gel","gum care"],["Bee propolis","purifying"],["Mint","freshness"]],use:"Brush your teeth at least twice a day."},
+"473":{tag:"L-arginine and vitamin complex in sticks, red berry flavor.",ben:["L-arginine helps the body produce nitric oxide, which supports blood circulation","Supports energy and endurance, popular with athletes","Vitamins C and D contribute to immune defenses","B vitamins help reduce tiredness"],comp:[["L-arginine","5 g per stick"],["Vitamins C, D, K","added"],["Vitamins B6, B9, B12","added"],["Red berry extracts","flavor and antioxidants"]],use:"1 stick a day in 250 to 500 ml of water or aloe gel. Ask a doctor if you have a heart condition or take blood pressure medication."},
+"355":{tag:"Tablets for natural defenses: vitamins, maitake and shiitake mushrooms, lactoferrin.",ben:["Vitamin C, vitamin D and zinc contribute to normal immune function","Maitake and shiitake are traditionally used in Asia for vitality","Lactoferrin and FOS support gut balance"],comp:[["Vitamin C","immunity"],["Vitamin D","immunity"],["Zinc","immunity"],["Maitake and shiitake","mushrooms"],["Lactoferrin","milk protein"],["FOS (fructo-oligosaccharides)","prebiotic"]],use:"2 tablets a day, with a large glass of water."},
+"immune-gummy":{tag:"Chewable gummies with 10 vitamins and zinc, vegan formula.",ben:["Contributes to normal immune function","Handy for those who dislike swallowing tablets","Helps reduce tiredness"],comp:[["10 vitamins (including A, C, D, E and B vitamins)","immunity and energy"],["Zinc","immunity"],["Vegan formula","no animal gelatin"]],use:"Follow the dose on the label. Keep out of reach of young children."},
+"551":{tag:"Eggshell membrane and turmeric extract, for the joints.",ben:["Supports comfortable, flexible joints","Helps restore mobility after effort","Turmeric is known for its antioxidant properties"],comp:[["Eggshell membrane (NEM)","natural collagen, elastin, glucosamine"],["Turmeric extract","antioxidant"],["Carob extract","per the French label"]],use:"3 capsules a day, in a single dose. Contains egg: not recommended if allergic."},
+"264":{tag:"Hyaluronic acid, ginger and turmeric in capsules.",ben:["Hyaluronic acid helps lubricate the joints","Helps keep skin hydrated and supple","Ginger and turmeric support joint comfort"],comp:[["Hyaluronic acid","joints and skin"],["Ginger oil","plant"],["Turmeric","plant"]],use:"1 capsule a day, with a meal."},
+"289":{tag:"Capsules to support a weight-management program.",ben:["Prickly pear fiber helps limit fat absorption","White bean extract helps limit sugar absorption","Chromium contributes to normal blood sugar","Combine with a balanced diet and physical activity"],comp:[["Prickly pear fiber (Opuntia)","fats"],["White bean extract","sugars"],["Chromium","blood sugar"]],use:"2 capsules before the two biggest meals of the day. Ask a doctor if you have diabetes."},
+"200":{tag:"Caffeine-free infusion of aloe flowers and spices.",ben:["Soothing hot drink, ideal in the evening","Helps relaxation and digestive comfort","Caffeine-free: suitable for the whole family"],comp:[["Aloe flowers","plant"],["Cinnamon, ginger, cardamom, clove","spices"],["Orange peel","aroma"],["Chamomile","soothing plant"]],use:"1 bag in a cup of hot water, steep 3 to 5 minutes. Drink hot or cold."},
+"205":{tag:"Aloe and MSM gel for muscles and joints.",ben:["Gives a cool, comforting feeling on muscles and joints","Handy after sport or a long day on your feet","Aloe hydrates the skin"],comp:[["Aloe vera gel","base"],["MSM (methylsulfonylmethane)","organic sulfur"],["Plant extracts","soothing"]],use:"Massage into the area as often as needed. Avoid the eyes."},
+"067":{tag:"Aloe stick deodorant, free of aluminum salts.",ben:["Protects against odor all day","No aluminum salts or alcohol: gentle on skin","Does not stain clothes"],comp:[["Aloe vera gel","soothing"],["Anti-odor agent","aluminum-free"]],use:"Apply to clean, dry underarms."},
+"liquid-soap":{tag:"Aloe liquid soap for hands and body, 473 ml.",ben:["Cleans gently without drying the skin","Formula that locks in moisture","Naturally derived cleansers"],comp:[["Aloe vera","hydration"],["Naturally derived cleansers","coconut-derived"]],use:"Apply to wet hands or body, lather, rinse."},
+"body-wash":{tag:"Foaming aloe body wash, 236 ml.",ben:["Cleans while preserving skin hydration","Leaves a fresh feeling","Naturally derived cleansers"],comp:[["Aloe vera","hydration"],["Naturally derived cleansers","gentle cleansing"]],use:"Apply to wet skin, lather, rinse."},
+"malosi":{tag:"Fine fragrance for men from the Forever collection.",ben:["Elegant, long-lasting scent for everyday or special occasions","Handy bottle to take along"],comp:[["Fragrance","eau de parfum"],["Alcohol, water","base"]],use:"Spray on the neck and wrists. Avoid the eyes."},
+"207":{tag:"100% natural honey, in a 500 g squeeze bottle.",ben:["Fast, natural source of energy","Soothes the throat, lovely in hot herbal teas","Replaces sugar in drinks and desserts"],comp:[["Natural honey","100%"]],use:"1 to 2 spoons a day, plain or in a warm drink. Do not give to babies under one year."},
+"072":{tag:"Tablets with lycium (goji) berries and licorice.",ben:["Goji berries are rich in antioxidants","Traditionally used in Asia for vitality and vision","Licorice is known for throat and digestive comfort"],comp:[["Lycium (goji) berry extract","antioxidants"],["Licorice root extract","plant"]],use:"1 to 2 tablets a day. Not recommended with high blood pressure (licorice), pregnancy or breastfeeding."},
+"071":{tag:"Garcinia cambogia and chromium capsules, to support weight management.",ben:["Garcinia cambogia (rich in HCA) is used to help control appetite","Chromium contributes to normal blood sugar","Key part of the C9 and F15 programs"],comp:[["Garcinia cambogia extract","hydroxycitric acid (HCA)"],["Chromium","blood sugar"]],use:"1 capsule 30 minutes before each of the 3 main meals. Ask a doctor if you have diabetes, are pregnant or breastfeeding."},
+"068":{tag:"Tablets of young barley and wheat grass, alfalfa and cayenne pepper.",ben:["Provides concentrated \"greens\" when your diet lacks them","Young barley and wheat grass are rich in chlorophyll and antioxidants","Supports everyday energy"],comp:[["Young barley grass","green plant"],["Young wheat grass","green plant"],["Alfalfa","plant"],["Cayenne pepper","plant"],["Honey","binder"]],use:"1 to 2 tablets a day, with a meal. Contains wheat (gluten)."},
+"skin-oil":{tag:"Facial care oil in a dropper bottle, 30 ml.",ben:["Nourishes and softens dry skin","Helps skin retain moisture","Gives a more radiant complexion"],comp:[["Blend of plant oils","nourishment"],["Vitamin E","antioxidant"]],use:"Warm 2 to 3 drops between your fingers and apply to clean face, in the evening."},
+"shampoo":{tag:"Gentle aloe and jojoba shampoo, for all hair types, 296 ml.",ben:["Gently washes hair and scalp","Aloe soothes the scalp","Jojoba oil nourishes and adds shine"],comp:[["Aloe vera","soothing"],["Jojoba oil","nourishment"],["Mild cleansers","cleansing"]],use:"Apply to wet hair, massage, rinse. Repeat if needed."},
+"c9":{name:"C9: 9-day program",tag:"The first step of the F.I.T. program: 9 days to feel lighter.",ben:["Guided 9-day program to start losing weight","Helps rebuild good eating habits","Combines aloe, fiber and a protein shake"],comp:[["Forever Aloe Vera Gel","2 × 1 liter"],["Forever Lite Ultra","1 pouch"],["Forever Garcinia Plus","capsules"],["Forever Therm","tablets"],["Forever Fiber","9 sachets"],["Shaker and guide","included"]],use:"Follow the guide day by day. Drink at least 2 liters of water a day. Ask a doctor if pregnant, breastfeeding or ill."},
+"f15":{name:"F15: 15-day program",tag:"The follow-up to C9: 15 days to keep losing weight and gain fitness.",ben:["15-day program with balanced meals and physical activity","Helps control appetite and keep muscle","Can be repeated until you reach your goal"],comp:[["Forever Aloe Vera Gel","2 × 1 liter"],["Forever Ultra (shake)","1 pouch"],["Forever Garcinia Plus","30 capsules"],["Forever Therm","30 tablets"],["Forever Fiber","15 sachets"],["Shaker and guide","included"]],use:"Follow the guide: shakes, balanced meals and the day's exercises. Drink at least 2 liters of water a day."},
+"vital5":{name:"Vital5: 30-day program",tag:"Five essential products for a full month of wellbeing.",ben:["Supports energy, digestion and natural defenses","Provides omega-3, probiotics, vitamins and minerals","ARGI+ supports circulation and endurance"],comp:[["Aloe drink (Aloe Berry Nectar in the photo)","4 × 1 liter"],["ARGI+","30 sticks"],["Forever Arctic Sea","omega-3"],["Forever Active Pro-B","probiotics"],["Forever Daily","multivitamins"]],use:"Take each product at its dose, every day for 30 days."},
+"dx4":{name:"DX4: 4-day program",tag:"The Body Balancing System: 4 days to take stock and start afresh.",ben:["Short 4-day program to rebalance eating habits","Aloe supports digestion and hydration","Plant protein helps you stay full","Good preparation before a C9 or F15 program"],comp:[["Forever Aloe Vera Gel","330 ml mini bottles"],["Forever Plant Protein","plant protein"],["Forever LemonBlast","sticks to dilute"],["Forever Sensatiable","tablets"],["DX4 Herbal Supplement","herbal supplement"],["Program guide","included"]],use:"Follow the guide day by day for 4 days. Drink at least 2 liters of water a day. Ask a doctor if pregnant, breastfeeding, ill or under treatment."},
+"440":{tag:"Sugar-free energy drink with added vitamins, 250 ml can.",ben:["Gives a quick energy boost during effort or a long day","Sugar- and calorie-free","B vitamins help reduce tiredness"],comp:[["Caffeine (guarana, maté)","energy"],["Taurine","amino acid"],["B vitamins","energy"],["Aloe vera","base"],["Sweeteners","sugar-free"]],use:"1 can as needed, served chilled. Contains caffeine: not recommended for children, pregnant women or people sensitive to caffeine."},
+"040":{tag:"Soothing spray with aloe, propolis and plant extracts, 473 ml.",ben:["Soothes skin after sunburn, a minor burn, a scrape or a bite","Hydrates and refreshes, even the scalp","Handy to keep in the family medicine cabinet"],comp:[["Stabilized Aloe vera gel","base"],["Bee propolis","protection"],["Allantoin","soothing"],["Plant extracts (including chamomile)","soothing"]],use:"Spray directly on the area as often as needed. Avoid the eyes."}
+}};
+UI.ar={sub:"دليلكم المرجعي لفوائد منتجات فوريفر ومكوّناتها وقيمتها الغذائية",tabProd:"المنتجات",tabVit:"الفيتامينات",search:"ابحثوا باسم المنتج أو الفائدة أو المكوّن…",contains:"يحتوي على:",
+  count:(n,v)=>(v?"المنتجات الغنية بـ"+v+": ":"عدد المنتجات المعروضة: ")+n,empty:"لا توجد منتجات مطابقة لبحثكم. يُرجى تجربة كلمة أخرى أو إلغاء أحد عوامل التصفية.",
+  ben:"الفوائد الرئيسية",inc:"محتويات الباقة",comp:"التركيبة",vit:"الفيتامينات والعناصر الغذائية",use:"طريقة الاستخدام:",ref:"المرجع",badge:"من منتجات فوريفر ليفينغ",food:"المصادر الغذائية:",
+  skinT:"للاستخدام الخارجي",skinD:"يُستخدم على البشرة، ويستمدّ فعاليته من الألوفيرا والمستخلصات النباتية لا من الفيتامينات.",
+  natT:"مكوّنات طبيعية",natD:"لا يحتوي على فيتامينات مضافة، وتعود فوائده إلى المكوّنات الواردة في التركيبة.",
+  note:"<b>تنبيه مهم:</b> منتجات فوريفر مكمّلات غذائية ومستحضرات للعناية الشخصية، ولا تُعدّ بديلًا عن العلاج الطبي أو النظام الغذائي المتوازن. يُرجى استشارة الطبيب قبل الاستخدام في حالات الحمل أو الرضاعة أو المرض أو عند تناول أي علاج. وقد تختلف التركيبات من بلد إلى آخر، ويبقى الملصق الموجود على المنتج هو المرجع المعتمد.",
+  fTitle:"التدريب",fText:"تعرّفوا على منتجات فوريفر وأسس النشاط التجاري معها، برفقة مديري فوريفر في البلد.",fMgr:"MANAGER KONOMBO",
+  close:"إغلاق",avatar:"عرض الصورة التعريفية",langLbl:"اللغة",
+  cats:{"Tous":"الكل","Programmes":"البرامج","Boissons":"المشروبات","Nutrition":"المكمّلات الغذائية","Produits de la ruche":"منتجات خلية النحل","Soins":"العناية الشخصية"}};
+
+VIT_T.ar={A:["فيتامين A","فيتامين A","يدعم صحة البصر وسلامة البشرة وكفاءة الدفاعات الطبيعية للجسم.","الجزر، المانجو، البطاطا الحلوة، الكبد"],
+  B:["فيتامينات B","فيتامين B","تساعد على تحويل الغذاء إلى طاقة، وتدعم الجهاز العصبي، وتسهم في الحدّ من الإرهاق.","الحبوب الكاملة، البقوليات، البيض"],
+  B12:["فيتامين B12","فيتامين B12","يسهم في تكوين كريات الدم الحمراء وفي الأداء الطبيعي للجهاز العصبي.","اللحوم، الأسماك، البيض، الحليب"],
+  B9:["فيتامين B9 (حمض الفوليك)","فيتامين B9","يسهم في تجدّد الخلايا، وهو عنصر أساسي قبل الحمل وخلاله.","الخضروات الورقية، الفاصوليا، الفول السوداني"],
+  C:["فيتامين C","فيتامين C","يعزّز المناعة، ويسهم في تكوين الكولاجين وامتصاص الحديد، ويحدّ من الإرهاق.","الحمضيات، الجوافة، ثمار الباوباب، البابايا"],
+  D:["فيتامين D","فيتامين D","يساعد على تثبيت الكالسيوم في العظام والأسنان، ويدعم وظائف العضلات.","أشعة الشمس، الأسماك الدهنية، البيض"],
+  E:["فيتامين E","فيتامين E","مضادّ قوي للأكسدة يحمي الخلايا والبشرة.","الزيوت النباتية، اللوز، الفول السوداني"],
+  K:["فيتامين K","فيتامين K","يسهم في التخثّر الطبيعي للدم وفي الحفاظ على صحة العظام.","الخضروات الورقية (الحمّاض، السبانخ)"],
+  Ca:["الكالسيوم","الكالسيوم","ضروري لسلامة العظام والأسنان ولانقباض العضلات.","الحليب، السمسم، الأسماك الصغيرة"],
+  Mg:["المغنيسيوم","المغنيسيوم","يحدّ من الإرهاق، ويساعد على استرخاء العضلات وتوازن الجهاز العصبي.","الحبوب الكاملة، الفونيو، الكاكاو"],
+  Zn:["الزنك","الزنك","يدعم المناعة والتئام الجروح وصحة البشرة والشعر والأظافر.","اللحوم، بذور اليقطين، الفول السوداني"],
+  Om3:["أوميغا 3","أوميغا 3","يدعم صحة القلب والدماغ والبصر (حمضا EPA وDHA).","السردين، الماكريل، الأسماك الدهنية"],
+  Prot:["البروتين","البروتين","يسهم في بناء الكتلة العضلية والحفاظ عليها، ويمنح إحساسًا بالشبع.","اللحوم، الأسماك، اللوبيا، الصويا"],
+  Fib:["الألياف","الألياف","تساعد على انتظام العبور المعوي وتمنح إحساسًا بالشبع.","الخضروات، الفواكه، الحبوب الكاملة"],
+  Pro:["البروبيوتيك","البروبيوتيك","بكتيريا نافعة تحافظ على توازن الفلورا المعوية.","الزبادي، الحليب المخمّر"]};
+
+PT.ar={
+"715":{tag:"جل الألوفيرا المثبّت بنقاء 99.7٪، مستخلص مباشرة من لبّ الورقة.",ben:["يدعم الهضم المريح وانتظام العبور المعوي","يعزّز قدرة الجسم على امتصاص العناصر الغذائية","يسهم في ترطيب الجسم وتعزيز حيويته يوميًا","يسهم فيتامين C المضاف في دعم الجهاز المناعي"],comp:[["جل أوراق الألوفيرا المثبّت","99.7٪"],["فيتامين C (حمض الأسكوربيك)","مضاف"],["فيتامين E (توكوفيرول)","مضاف"],["حمض الستريك","مادة حافظة طبيعية"]],use:"من 60 إلى 120 مل يوميًا، صافيًا أو مخففًا بالماء، ويُستحسن تناوله على معدة فارغة. يُحفظ في الثلاجة بعد الفتح."},
+"734":{tag:"جل الألوفيرا مدعّمًا بالتوت البري والتفاح، بمذاق فاكهي لطيف.",ben:["يجمع فوائد جل الألوفيرا بمذاق أكثر اعتدالًا","التوت البري مصدر غني بمضادات الأكسدة (البروأنثوسيانيدين)","يُقدَّر لدوره في دعم راحة المسالك البولية","خيار مثالي لمن يجد مذاق الألوفيرا الصافية مُرًّا"],comp:[["جل أوراق الألوفيرا","90.7٪"],["عصير التوت البري المركّز","فاكهة"],["عصير التفاح المركّز","فاكهة"],["الفركتوز","سكر الفاكهة"],["فيتامين C","مضاف"]],use:"من 60 إلى 120 مل يوميًا. يُرجّ جيدًا قبل الاستخدام، ويُحفظ في الثلاجة بعد الفتح."},
+"777":{tag:"جل الألوفيرا مع هريس الخوخ؛ الخيار المفضّل لدى الأطفال.",ben:["يقدّم فوائد الألوفيرا بمذاق الخوخ المحبّب","يدعم الهضم وترطيب الجسم","مناسب لجميع أفراد الأسرة"],comp:[["جل أوراق الألوفيرا","84.5٪"],["هريس الخوخ","فاكهة"],["الفركتوز","سكر الفاكهة"],["فيتامين C","مضاف"]],use:"من 60 إلى 120 مل يوميًا، ونصف الجرعة للأطفال. يُحفظ في الثلاجة بعد الفتح."},
+"026":{tag:"حبوب لقاح النحل المجموعة من صحراء أريزونا، في أقراص.",ben:["مصدر طبيعي للبروتين والأحماض الأمينية وفيتامينات B","يساعد على الحدّ من الإرهاق واستعادة النشاط","يدعم الحيوية خلال فترات الجهد البدني والذهني"],comp:[["حبوب لقاح النحل","المكوّن الأساسي"],["العسل","مادة رابطة طبيعية"]],use:"من قرص إلى 4 أقراص يوميًا مع الطعام. لا يُنصح باستخدامه في حال الحساسية تجاه منتجات النحل."},
+"027":{tag:"العكبر (البروبوليس)، الدرع الطبيعي لخلية النحل، في أقراص قابلة للمضغ.",ben:["يدعم الدفاعات الطبيعية للجسم، ولا سيما عند تغيّر الفصول","غني بالفلافونويدات المضادة للأكسدة","يُقدَّر لدوره في تلطيف الحلق"],comp:[["عكبر النحل","المكوّن الأساسي"],["بروتين الصويا","مادة حاملة"],["مسحوق اللوز","منكّه"],["العسل","مادة رابطة"],["غذاء ملكات النحل","مكوّن مكمّل"]],use:"قرص إلى قرصين يوميًا. لا يُنصح باستخدامه في حال الحساسية تجاه منتجات النحل."},
+"036":{tag:"غذاء ملكات النحل، الغذاء الحصري لملكة الخلية.",ben:["يساعد على مقاومة الإرهاق البدني والذهني","يدعم التركيز والنشاط","غني بفيتامينات B والأحماض الأمينية والمعادن"],comp:[["غذاء ملكات النحل","المكوّن الأساسي"],["العسل","مادة رابطة"],["الفركتوز","منكّه"]],use:"قرص إلى قرصين يوميًا في الصباح. لا يُنصح باستخدامه في حال الحساسية تجاه منتجات النحل."},
+"065":{tag:"الثوم والزعتر معًا في كبسولات عديمة الرائحة.",ben:["يدعم الثوم صحة القلب وسلامة الدورة الدموية","يدعم الزعتر صحة الجهاز التنفسي","يسهم في تعزيز الدفاعات الطبيعية للجسم"],comp:[["زيت الثوم","المكوّن الأساسي"],["الزعتر","نبات"],["الجيلاتين","غلاف الكبسولة"]],use:"كبسولة واحدة مرتين يوميًا مع الطعام."},
+"376":{tag:"أحماض أوميغا 3 من زيت السمك وزيت الحبّار، مع زيت الزيتون.",ben:["يسهم حمضا EPA وDHA في الأداء الطبيعي للقلب","يدعم حمض DHA وظائف الدماغ والبصر","يساعد على الحفاظ على توازن الدهون في الدم"],comp:[["زيت السمك (EPA وDHA)","أوميغا 3"],["زيت الحبّار","أوميغا 3 (DHA)"],["زيت الزيتون","أوميغا 9"],["فيتامين E","مضادّ للأكسدة"]],use:"كبسولتان ثلاث مرات يوميًا مع الوجبات. يُرجى استشارة الطبيب في حال تناول أدوية مميّعة للدم."},
+"439":{tag:"مكمّل الفيتامينات المتعددة الشامل من فوريفر، مع مزيج من الفواكه والخضروات.",ben:["يعوّض النقص البسيط في النظام الغذائي اليومي","يحدّ من الإرهاق ويدعم مستوى الطاقة","يدعم المناعة وصحة البشرة والعظام والبصر","يحتوي على مركّب AOS 40 لتحسين الامتصاص"],comp:[["فيتامينات A وC وD وE وK","ذوّابة في الدهون والماء"],["فيتامينات B1 وB2 وB3 وB6 وB9 وB12","مجموعة B كاملة"],["البيوتين وحمض البانتوثينيك","مجموعة B"],["الكالسيوم والمغنيسيوم والزنك والحديد والسيلينيوم","معادن"],["مركّب AOS 40","تحسين الامتصاص"],["مسحوق الفواكه والخضروات","مستخلصات"]],use:"قرصان يوميًا مع إحدى الوجبات."},
+"048":{tag:"فيتامين C مرتبط بنخالة الشوفان، في أقراص قابلة للمضغ بنكهة العسل والبابايا.",ben:["يسهم في الأداء الطبيعي للجهاز المناعي","يدعم تكوين الكولاجين (البشرة واللثة والأوعية الدموية)","يحدّ من الإرهاق ويحسّن امتصاص الحديد","تتيح نخالة الشوفان إطلاق فيتامين C بصورة تدريجية"],comp:[["فيتامين C (حمض الأسكوربيك)","60 ملغ في القرص الواحد"],["نخالة الشوفان","ألياف"],["العسل","منكّه"],["البابايا","منكّه"]],use:"قرص إلى قرصين يوميًا."},
+"354":{tag:"فيتامينات متعددة قابلة للمضغ للأطفال، بنكهة العنب.",ben:["يدعم النمو والتطوّر السليم","يعزّز الدفاعات الطبيعية خلال سنوات الدراسة","يدعم التركيز ومستوى الطاقة","حلّ عملي للأطفال قليلي تناول الخضروات"],comp:[["فيتامينات A وC وD وE","النمو والمناعة"],["فيتامينات B (B1 وB2 وB6 وB12 وB9)","الطاقة"],["الكالسيوم والحديد والزنك","معادن"],["مسحوق الفواكه والخضروات","مستخلصات"]],use:"للأطفال: قرصان يوميًا. للبالغين: 4 أقراص يوميًا. يُحفظ بعيدًا عن متناول الأطفال الصغار."},
+"206":{tag:"الكالسيوم والمغنيسيوم مع فيتامين D، لعظام قوية وسليمة.",ben:["يحافظ على سلامة العظام والأسنان","يدعم المغنيسيوم وظائف العضلات ويحدّ من الإرهاق","يساعد فيتامين D الجسم على تثبيت الكالسيوم","مفيد في جميع المراحل العمرية، ولا سيما بعد سن الأربعين"],comp:[["الكالسيوم","العظام والأسنان"],["المغنيسيوم","العضلات والأعصاب"],["فيتامين D","تثبيت الكالسيوم"],["فيتامين C","الكولاجين"],["الزنك والنحاس والمنغنيز","عناصر نادرة"]],use:"4 أقراص يوميًا مع الوجبات."},
+"464":{tag:"مزيج من الألياف القابلة للذوبان في أكياس، يُمزج مع المشروبات.",ben:["يعزّز انتظام العبور المعوي","يمنح إحساسًا بالشبع، ما يدعم التحكم في الوزن","يغذّي البكتيريا النافعة في الأمعاء","عديم المذاق، ويُمزج بسهولة مع الماء أو جل الألوفيرا"],comp:[["الفركتو أوليغوساكاريد (FOS)","ألياف بريبيوتيكية"],["صمغ الغوار","ألياف قابلة للذوبان"],["المالتوديكسترين المقاوم","ألياف قابلة للذوبان"],["الصمغ العربي","ألياف قابلة للذوبان"]],use:"كيس واحد يوميًا في 250 مل من الماء أو جل الألوفيرا، مع الحرص على شرب كمية كافية من الماء."},
+"610":{tag:"ست سلالات من البروبيوتيك مع مادة بريبيوتيكية، في كبسولات.",ben:["يدعم توازن الفلورا المعوية","يساعد على الهضم وراحة البطن","مفيد بعد العلاج بالمضادات الحيوية (بناءً على استشارة طبية)","تسهم الفلورا المتوازنة في دعم الدفاعات الطبيعية"],comp:[["6 سلالات من البروبيوتيك (Lactobacillus وBifidobacterium)","8 مليارات وحدة تكوين مستعمرات"],["الفركتو أوليغوساكاريد (FOS)","بريبيوتيك"]],use:"كبسولة واحدة يوميًا مع الطعام أو من دونه. يُحفظ في مكان بارد."},
+"196":{tag:"جل الألوفيرا مدعّمًا بالغلوكوزامين والكوندرويتين وMSM، بنكهة البرتقال.",ben:["يدعم مرونة المفاصل وراحتها","يسهم فيتامين C في تكوين الغضاريف","يحظى بتقدير الرياضيين وكبار السن"],comp:[["جل أوراق الألوفيرا","المكوّن الأساسي"],["الغلوكوزامين","المفاصل"],["الكوندرويتين","المفاصل"],["MSM (ميثيل سلفونيل ميثان)","كبريت عضوي"],["فيتامين C","الكولاجين"]],use:"من 60 إلى 120 مل يوميًا. يحتوي على مشتقات القشريات، لذا لا يُنصح به في حال الحساسية تجاهها."},
+"621":{tag:"أكثر من 20 نوعًا من مساحيق الفواكه والخضروات مع الألوفيرا، في أعواد.",ben:["يكمّل حاجتكم اليومية من الفواكه والخضروات","غني بمضادات الأكسدة والفيتامينات","يدعم مستوى الطاقة والتوازن الحمضي القاعدي"],comp:[["مزيج من أكثر من 20 نوعًا من الفواكه والخضروات","مساحيق"],["مسحوق الألوفيرا","ألوفيرا"],["فيتامينات ومعادن","مضافة"]],use:"عود واحد يوميًا في 500 مل من الماء."},
+"470":{tag:"مسحوق مشروب بروتيني يُستخدم بديلًا للوجبة أو مكمّلًا للنظام الغذائي.",ben:["غني بالبروتين للحفاظ على الكتلة العضلية خلال إنقاص الوزن","يمنح إحساسًا بالشبع لفترة طويلة","يوفّر نحو عشرين نوعًا من الفيتامينات والمعادن","خيار عملي لوجبة الفطور أو بعد التمارين الرياضية"],comp:[["بروتين الصويا","بروتين نباتي"],["فيتامينات A وB وC وD وE","مضافة"],["الكالسيوم والمغنيسيوم والزنك والحديد","معادن"],["الألياف","الشبع"]],use:"مغرفتان في 300 مل من الحليب منزوع الدسم أو مشروب نباتي، مرة أو مرتين يوميًا."},
+"061":{tag:"جل شفاف يحتوي على 84٪ من الألوفيرا النقية للعناية بالبشرة.",ben:["يلطّف البشرة بعد التعرّض للشمس أو الحلاقة أو لدغات الحشرات","يرطّب البشرة ويمنحها الانتعاش","يساعد البشرة المتضرّرة على التجدّد","خفيف وغير دهني، ومناسب للجسم كله"],comp:[["جل أوراق الألوفيرا المثبّت","84٪"],["الألانتوين","مهدّئ"],["فيتامين E","مضادّ للأكسدة"]],use:"تُوضع طبقة رقيقة على المنطقة المعنية، ويمكن تكرار ذلك عدة مرات يوميًا عند الحاجة."},
+"051":{tag:"كريم غني بالألوفيرا والعكبر والبابونج.",ben:["يغذّي البشرة الجافة ويحميها","يهدّئ التهيّجات والاحمرار الطفيف","يساعد العكبر على تنقية البشرة"],comp:[["جل الألوفيرا","المكوّن الأساسي"],["عكبر النحل","حماية"],["البابونج","مهدّئ"],["فيتامينا A وE","العناية بالبشرة"]],use:"يُوضع على بشرة نظيفة ويُدلَّك بلطف حتى يتغلغل تمامًا."},
+"063":{tag:"مستحلب مرطّب للوجه والجسم بالألوفيرا والكولاجين.",ben:["يرطّب البشرة بعمق دون أن يترك أثرًا دهنيًا","يمنح البشرة نعومة وليونة","مناسب للبشرة الحساسة"],comp:[["جل الألوفيرا","المكوّن الأساسي"],["الكولاجين والإيلاستين","المرونة"],["زيت الجوجوبا","تغذية"],["فيتامين E","مضادّ للأكسدة"]],use:"يُوضع صباحًا ومساءً على الوجه والجسم."},
+"064":{tag:"مستحلب دافئ بالألوفيرا والمنثول والأوكالبتوس.",ben:["يمنح العضلات دفئًا مريحًا بعد المجهود","مثالي لجلسات التدليك","يرطّب البشرة بفضل الألوفيرا"],comp:[["جل الألوفيرا","المكوّن الأساسي"],["ساليسيلات الميثيل","مفعول دافئ"],["المنثول","إحساس بالانتعاش"],["زيت الأوكالبتوس","نبات"]],use:"يُدلَّك على المنطقة المعنية. يُرجى تجنّب ملامسة العينين والأغشية المخاطية، وغسل اليدين بعد الاستخدام."},
+"022":{tag:"مرطّب للشفاه بالألوفيرا وزيت الجوجوبا وشمع النحل.",ben:["يحمي الشفاه من الرياح والشمس ورياح الهرمتان","يلطّف الشفاه المتشقّقة","يمكن استخدامه أيضًا على المناطق الجافة الصغيرة"],comp:[["الألوفيرا","مهدّئ"],["زيت الجوجوبا","تغذية"],["شمع النحل","حماية"]],use:"يُوضع كلما دعت الحاجة."},
+"028":{tag:"معجون أسنان خالٍ من الفلورايد بالألوفيرا والعكبر.",ben:["ينظّف الأسنان واللثة بلطف","يمنح النفَس انتعاشًا بفضل النعناع الأخضر والنعناع الفلفلي","خالٍ من الفلورايد، ومناسب لجميع أفراد الأسرة"],comp:[["جل الألوفيرا","العناية باللثة"],["عكبر النحل","منقٍّ"],["النعناع","انتعاش"]],use:"تُنظَّف الأسنان مرتين يوميًا على الأقل."},
+"473":{tag:"إل-أرجينين مع مركّب من الفيتامينات في أعواد، بنكهة التوت الأحمر.",ben:["يساعد إل-أرجينين الجسم على إنتاج أكسيد النيتريك الداعم للدورة الدموية","يدعم الطاقة والقدرة على التحمّل، ويحظى بتقدير الرياضيين","يسهم فيتامينا C وD في دعم الجهاز المناعي","تساعد فيتامينات B على الحدّ من الإرهاق"],comp:[["إل-أرجينين","5 غ في العود الواحد"],["فيتامينات C وD وK","مضافة"],["فيتامينات B6 وB9 وB12","مضافة"],["مستخلصات التوت الأحمر","نكهة ومضادات أكسدة"]],use:"عود واحد يوميًا في 250 إلى 500 مل من الماء أو جل الألوفيرا. يُرجى استشارة الطبيب في حال الإصابة بأمراض القلب أو تناول أدوية ضغط الدم."},
+"355":{tag:"أقراص لدعم الدفاعات الطبيعية: فيتامينات، وفطرا المايتاكي والشيتاكي، واللاكتوفيرين.",ben:["تسهم فيتامينات C وD والزنك في الأداء الطبيعي للجهاز المناعي","يُستخدم فطرا المايتاكي والشيتاكي تقليديًا في آسيا لتعزيز الحيوية","يدعم اللاكتوفيرين ومركّب FOS توازن الأمعاء"],comp:[["فيتامين C","المناعة"],["فيتامين D","المناعة"],["الزنك","المناعة"],["فطرا المايتاكي والشيتاكي","فطريات"],["اللاكتوفيرين","بروتين الحليب"],["FOS (فركتو أوليغوساكاريد)","بريبيوتيك"]],use:"قرصان يوميًا مع كوب كبير من الماء."},
+"immune-gummy":{tag:"حلوى مطاطية قابلة للمضغ تضمّ 10 فيتامينات والزنك، بتركيبة نباتية.",ben:["تسهم في الأداء الطبيعي للجهاز المناعي","خيار عملي لمن لا يفضّل ابتلاع الأقراص","تساعد على الحدّ من الإرهاق"],comp:[["10 فيتامينات (منها A وC وD وE وفيتامينات B)","المناعة والطاقة"],["الزنك","المناعة"],["تركيبة نباتية","خالية من الجيلاتين الحيواني"]],use:"تُتّبع الجرعة الموصى بها على الملصق. تُحفظ بعيدًا عن متناول الأطفال الصغار."},
+"551":{tag:"غشاء قشر البيض مع مستخلص الكركم، لدعم صحة المفاصل.",ben:["يدعم راحة المفاصل ومرونتها","يساعد على استعادة سهولة الحركة بعد المجهود","يُعرف الكركم بخصائصه المضادة للأكسدة"],comp:[["غشاء قشر البيض (NEM)","كولاجين وإيلاستين وغلوكوزامين طبيعية"],["مستخلص الكركم","مضادّ للأكسدة"],["مستخلص الخرّوب","وفق الملصق الفرنسي"]],use:"3 كبسولات يوميًا دفعة واحدة. يحتوي على البيض، لذا لا يُنصح به في حال الحساسية تجاهه."},
+"264":{tag:"حمض الهيالورونيك مع الزنجبيل والكركم، في كبسولات.",ben:["يسهم حمض الهيالورونيك في تزليق المفاصل","يساعد على الحفاظ على ترطيب البشرة ومرونتها","يدعم الزنجبيل والكركم راحة المفاصل"],comp:[["حمض الهيالورونيك","المفاصل والبشرة"],["زيت الزنجبيل","نبات"],["الكركم","نبات"]],use:"كبسولة واحدة يوميًا مع إحدى الوجبات."},
+"289":{tag:"كبسولات مساندة لبرامج التحكم في الوزن.",ben:["تساعد ألياف التين الشوكي على الحدّ من امتصاص الدهون","يساعد مستخلص الفاصوليا البيضاء على الحدّ من امتصاص السكريات","يسهم الكروم في الحفاظ على المستوى الطبيعي لسكر الدم","يُستخدم ضمن نظام غذائي متوازن ونشاط بدني منتظم"],comp:[["ألياف التين الشوكي (Opuntia)","الدهون"],["مستخلص الفاصوليا البيضاء","السكريات"],["الكروم","سكر الدم"]],use:"كبسولتان قبل أكبر وجبتين في اليوم. يُرجى استشارة الطبيب لمرضى السكري."},
+"200":{tag:"منقوع من أزهار الألوفيرا والتوابل، خالٍ من الكافيين.",ben:["مشروب ساخن مهدّئ، مثالي في المساء","يساعد على الاسترخاء وراحة الجهاز الهضمي","خالٍ من الكافيين، ومناسب لجميع أفراد الأسرة"],comp:[["أزهار الألوفيرا","نبات"],["القرفة والزنجبيل والهيل والقرنفل","توابل"],["قشر البرتقال","نكهة"],["البابونج","نبات مهدّئ"]],use:"يُنقع كيس واحد في كوب من الماء الساخن لمدة 3 إلى 5 دقائق، ويُقدَّم ساخنًا أو باردًا."},
+"205":{tag:"جل بالألوفيرا ومركّب MSM للعضلات والمفاصل.",ben:["يمنح إحساسًا بالانتعاش والراحة للعضلات والمفاصل","عملي بعد ممارسة الرياضة أو الوقوف لساعات طويلة","ترطّب الألوفيرا البشرة"],comp:[["جل الألوفيرا","المكوّن الأساسي"],["MSM (ميثيل سلفونيل ميثان)","كبريت عضوي"],["مستخلصات نباتية","مهدّئة"]],use:"يُدلَّك على المنطقة المعنية كلما دعت الحاجة، مع تجنّب ملامسة العينين."},
+"067":{tag:"مزيل عرق بالألوفيرا على شكل قلم، خالٍ من أملاح الألومنيوم.",ben:["يحمي من الروائح طوال اليوم","خالٍ من أملاح الألومنيوم والكحول، ولطيف على البشرة","لا يترك بقعًا على الملابس"],comp:[["جل الألوفيرا","مهدّئ"],["عامل مضادّ للروائح","خالٍ من الألومنيوم"]],use:"يُوضع على إبطين نظيفين وجافّين."},
+"liquid-soap":{tag:"صابون سائل بالألوفيرا لليدين والجسم، سعة 473 مل.",ben:["ينظّف بلطف دون أن يسبّب جفاف البشرة","تركيبة تحافظ على رطوبة البشرة","عوامل تنظيف من أصل طبيعي"],comp:[["الألوفيرا","ترطيب"],["عوامل تنظيف من أصل طبيعي","مشتقة من جوز الهند"]],use:"يُوضع على اليدين أو الجسم المبلّل، ويُفرك حتى تتكوّن رغوة، ثم يُشطف."},
+"body-wash":{tag:"جل استحمام رغوي بالألوفيرا، سعة 236 مل.",ben:["ينظّف البشرة مع الحفاظ على ترطيبها","يمنح إحساسًا منعشًا","عوامل تنظيف من أصل طبيعي"],comp:[["الألوفيرا","ترطيب"],["عوامل تنظيف من أصل طبيعي","تنظيف لطيف"]],use:"يُوضع على البشرة المبلّلة، ويُفرك حتى تتكوّن رغوة، ثم يُشطف."},
+"malosi":{tag:"عطر رجالي راقٍ من مجموعة فوريفر.",ben:["عطر أنيق يدوم طويلًا للاستخدام اليومي والمناسبات الخاصة","قارورة عملية يسهل حملها"],comp:[["تركيبة عطرية","ماء عطر (أو دو بارفان)"],["الكحول والماء","المكوّن الأساسي"]],use:"يُرشّ على الرقبة والمعصمين، مع تجنّب ملامسة العينين."},
+"207":{tag:"عسل طبيعي 100٪ في عبوة سكب سعة 500 غ.",ben:["مصدر طبيعي وسريع للطاقة","يلطّف الحلق، ويُضفي مذاقًا مميزًا على المشروبات العشبية الساخنة","بديل طبيعي للسكر في المشروبات والحلويات"],comp:[["عسل طبيعي","100٪"]],use:"ملعقة إلى ملعقتين يوميًا، صافيًا أو في مشروب دافئ. لا يُعطى للرضّع دون السنة الأولى من العمر."},
+"072":{tag:"أقراص من توت الليسيوم (الغوجي) وعرق السوس.",ben:["توت الغوجي غني بمضادات الأكسدة","يُستخدم تقليديًا في آسيا لتعزيز الحيوية وصحة البصر","يُعرف عرق السوس بدوره في تلطيف الحلق وراحة الهضم"],comp:[["مستخلص توت الليسيوم (الغوجي)","مضادات أكسدة"],["مستخلص جذر عرق السوس","نبات"]],use:"قرص إلى قرصين يوميًا. لا يُنصح به في حالات ارتفاع ضغط الدم (بسبب عرق السوس) أو الحمل أو الرضاعة."},
+"071":{tag:"كبسولات غارسينيا كامبوجيا والكروم، مساندة للتحكم في الوزن.",ben:["تُستخدم غارسينيا كامبوجيا (الغنية بحمض HCA) للمساعدة على التحكم في الشهية","يسهم الكروم في الحفاظ على المستوى الطبيعي لسكر الدم","عنصر أساسي في برنامجَي C9 وF15"],comp:[["مستخلص غارسينيا كامبوجيا","حمض الهيدروكسي ستريك (HCA)"],["الكروم","سكر الدم"]],use:"كبسولة واحدة قبل 30 دقيقة من كل وجبة من الوجبات الرئيسية الثلاث. يُرجى استشارة الطبيب لمرضى السكري وفي حالتَي الحمل والرضاعة."},
+"068":{tag:"أقراص من براعم الشعير والقمح اليانعة والفصّة والفلفل الحار (الكايين).",ben:["يوفّر «خضروات» مركّزة عند نقصها في النظام الغذائي","براعم الشعير والقمح غنية بالكلوروفيل ومضادات الأكسدة","يدعم مستوى الطاقة اليومي"],comp:[["براعم الشعير اليانعة","نبات أخضر"],["براعم القمح اليانعة","نبات أخضر"],["الفصّة (البرسيم الحجازي)","نبات"],["الفلفل الحار (الكايين)","نبات"],["العسل","مادة رابطة"]],use:"قرص إلى قرصين يوميًا مع إحدى الوجبات. يحتوي على القمح (الغلوتين)."},
+"skin-oil":{tag:"زيت للعناية بالوجه في قارورة بقطّارة، سعة 30 مل.",ben:["يغذّي البشرة الجافة ويمنحها النعومة","يساعد البشرة على الاحتفاظ برطوبتها","يمنح البشرة إشراقة ونضارة"],comp:[["مزيج من الزيوت النباتية","تغذية"],["فيتامين E","مضادّ للأكسدة"]],use:"تُدفّأ 2 إلى 3 قطرات بين الأصابع، ثم تُوضع على الوجه النظيف مساءً."},
+"shampoo":{tag:"شامبو لطيف بالألوفيرا وزيت الجوجوبا لجميع أنواع الشعر، سعة 296 مل.",ben:["ينظّف الشعر وفروة الرأس بلطف","تهدّئ الألوفيرا فروة الرأس","يغذّي زيت الجوجوبا الشعر ويمنحه لمعانًا"],comp:[["الألوفيرا","مهدّئ"],["زيت الجوجوبا","تغذية"],["عوامل تنظيف لطيفة","تنظيف"]],use:"يُوضع على الشعر المبلّل ويُدلَّك ثم يُشطف، ويمكن تكرار ذلك عند الحاجة."},
+"c9":{name:"C9: برنامج 9 أيام",tag:"الخطوة الأولى في برنامج F.I.T.: تسعة أيام نحو شعور أكبر بالخفّة.",ben:["برنامج موجَّه لمدة 9 أيام للبدء في إنقاص الوزن","يساعد على ترسيخ عادات غذائية سليمة","يجمع بين الألوفيرا والألياف ومشروب بروتيني"],comp:[["Forever Aloe Vera Gel","عبوتان سعة 1 لتر"],["Forever Lite Ultra","كيس واحد"],["Forever Garcinia Plus","كبسولات"],["Forever Therm","أقراص"],["Forever Fiber","9 أكياس"],["رجّاجة ودليل استخدام","مرفقان"]],use:"يُتّبع الدليل يومًا بيوم، مع شرب لترين من الماء يوميًا على الأقل. يُرجى استشارة الطبيب في حالات الحمل أو الرضاعة أو المرض."},
+"f15":{name:"F15: برنامج 15 يومًا",tag:"المرحلة التالية لبرنامج C9: خمسة عشر يومًا لمواصلة إنقاص الوزن وتحسين اللياقة.",ben:["برنامج لمدة 15 يومًا يجمع بين وجبات متوازنة ونشاط بدني","يساعد على التحكم في الشهية والحفاظ على الكتلة العضلية","يمكن تكراره حتى بلوغ الهدف المنشود"],comp:[["Forever Aloe Vera Gel","عبوتان سعة 1 لتر"],["Forever Ultra (مشروب بروتيني)","كيس واحد"],["Forever Garcinia Plus","30 كبسولة"],["Forever Therm","30 قرصًا"],["Forever Fiber","15 كيسًا"],["رجّاجة ودليل استخدام","مرفقان"]],use:"يُتّبع الدليل: المشروبات البروتينية، والوجبات المتوازنة، وتمارين اليوم، مع شرب لترين من الماء يوميًا على الأقل."},
+"vital5":{name:"Vital5: برنامج 30 يومًا",tag:"خمسة منتجات أساسية لشهر كامل من العافية.",ben:["يدعم الطاقة والهضم والدفاعات الطبيعية","يوفّر أوميغا 3 والبروبيوتيك والفيتامينات والمعادن","يدعم ARGI+ الدورة الدموية والقدرة على التحمّل"],comp:[["مشروب الألوفيرا (Aloe Berry Nectar في الصورة)","4 عبوات سعة 1 لتر"],["ARGI+","30 عودًا"],["Forever Arctic Sea","أوميغا 3"],["Forever Active Pro-B","بروبيوتيك"],["Forever Daily","فيتامينات متعددة"]],use:"يُتناول كل منتج وفق جرعته الموصى بها، يوميًا لمدة 30 يومًا."},
+"dx4":{name:"DX4: برنامج 4 أيام",tag:"نظام توازن الجسم: أربعة أيام لمراجعة عاداتكم والانطلاق من جديد.",ben:["برنامج قصير لمدة 4 أيام لإعادة التوازن إلى العادات الغذائية","تدعم الألوفيرا الهضم وترطيب الجسم","يساعد البروتين النباتي على الإحساس بالشبع","تمهيد مثالي قبل برنامج C9 أو F15"],comp:[["Forever Aloe Vera Gel","عبوات صغيرة سعة 330 مل"],["Forever Plant Protein","بروتين نباتي"],["Forever LemonBlast","أعواد تُذاب في الماء"],["Forever Sensatiable","أقراص"],["DX4 Herbal Supplement","مكمّل عشبي"],["دليل البرنامج","مرفق"]],use:"يُتّبع الدليل يومًا بيوم لمدة 4 أيام، مع شرب لترين من الماء يوميًا على الأقل. يُرجى استشارة الطبيب في حالات الحمل أو الرضاعة أو المرض أو عند تناول أي علاج."},
+"440":{tag:"مشروب طاقة خالٍ من السكر ومدعّم بالفيتامينات، علبة سعة 250 مل.",ben:["يمنح دفعة سريعة من الطاقة خلال المجهود أو في الأيام الطويلة","خالٍ من السكر والسعرات الحرارية","تساعد فيتامينات B على الحدّ من الإرهاق"],comp:[["الكافيين (الغوارانا والمتّة)","طاقة"],["التورين","حمض أميني"],["فيتامينات B","طاقة"],["الألوفيرا","المكوّن الأساسي"],["محلّيات","خالٍ من السكر"]],use:"علبة واحدة عند الحاجة، ويُفضّل تناولها باردة. يحتوي على الكافيين، لذا لا يُنصح به للأطفال والحوامل والأشخاص الحساسين للكافيين."},
+"040":{tag:"بخاخ ملطّف بالألوفيرا والعكبر والمستخلصات النباتية، سعة 473 مل.",ben:["يلطّف البشرة بعد حروق الشمس أو الحروق الطفيفة أو الخدوش أو اللدغات","يرطّب البشرة ويمنحها الانتعاش، بما في ذلك فروة الرأس","منتج عملي ضمن صيدلية الأسرة المنزلية"],comp:[["جل الألوفيرا المثبّت","المكوّن الأساسي"],["عكبر النحل","حماية"],["الألانتوين","مهدّئ"],["مستخلصات نباتية (منها البابونج)","مهدّئة"]],use:"يُرشّ مباشرة على المنطقة المعنية كلما دعت الحاجة، مع تجنّب ملامسة العينين."}
+};
+
+let LANG="fr";
+try{const q=new URLSearchParams(location.search).get("lang")||localStorage.getItem("noufaloe-lang");if(UI[q])LANG=q}catch(e){}
+const U=()=>UI[LANG];
+const vN=k=>LANG==="fr"?VIT[k].name:VIT_T[LANG][k][0];
+const vS=k=>LANG==="fr"?VIT[k].name.replace("Vitamine ","Vit. ").replace("Vitamines ","Vit. ").replace(" (acide folique)",""):VIT_T[LANG][k][1];
+const vR=k=>LANG==="fr"?VIT[k].role:VIT_T[LANG][k][2];
+const vF=k=>LANG==="fr"?VIT[k].src:VIT_T[LANG][k][3];
+const vChip=k=>LANG!=="fr"?VIT_T[LANG][k][1]:(k==="Om3"?"Oméga-3":k==="Prot"?"Protéines":k==="Fib"?"Fibres":k==="Pro"?"Probiotiques":k==="Ca"?"Calcium":k==="Mg"?"Magnésium":k==="Zn"?"Zinc":"Vit. "+k);
+const L=p=>{if(LANG==="fr")return p;const t=(PT[LANG]||{})[p.key];return t?Object.assign({},p,t):p};
+const catName=c=>U().cats[c]||c;
+const ref=p=>(p.code?U().ref+" "+p.code+" · ":"")+catName(p.cat);
+const CATS=["Tous","Programmes","Boissons","Nutrition","Produits de la ruche","Soins"];
+
+/* ---------- Illustrations (dessins génériques des emballages) ---------- */
+function esc(s){return s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+function shortName(n){return n.replace(/^Forever /,"").replace(/^Aloe /,"Aloe ")}
+function label(p,x,y,w,size){
+  const words=shortName(p.name).split(" ");const lines=[];let cur="";
+  words.forEach(wd=>{if((cur+" "+wd).trim().length>11&&cur){lines.push(cur);cur=wd}else cur=(cur+" "+wd).trim()});
+  if(cur)lines.push(cur);
+  return lines.slice(0,3).map((l,i)=>`<text x="${x}" y="${y+i*(size+3)}" text-anchor="middle" font-family="Nunito Sans, Arial, sans-serif" font-weight="800" font-size="${size}" fill="${p.c2}">${esc(l)}</text>`).join("");
+}
+function leaf(x,y,s,col){return `<path transform="translate(${x} ${y}) scale(${s})" d="M0 20 C-2 12 -8 6 -12 2 C-6 4 -2 8 0 13 C2 6 3 0 0 -8 C6 -1 6 8 1 15 C4 10 8 7 12 5 C8 11 3 15 0 20Z" fill="${col}"/>`}
+function art(p,i){
+  if(p.img)return `<img class="photo" src="${p.img[i||0]}" alt="${esc(p.name)}" loading="lazy">`;
+  const s=p.shape, c=p.c1, t=p.c2, ink="#111008";
+  let g="";
+  if(s==="jug"){
+    g=`<rect x="70" y="20" width="36" height="22" rx="4" fill="${ink}"/>
+       <path d="M62 44 H114 L128 70 V200 a10 10 0 0 1 -10 10 H58 a10 10 0 0 1 -10 -10 V70Z" fill="${c}" stroke="${ink}" stroke-width="3"/>
+       <path d="M128 78 h10 a8 8 0 0 1 8 8 v44 a8 8 0 0 1 -8 8 h-10" fill="none" stroke="${ink}" stroke-width="5"/>
+       <rect x="56" y="96" width="64" height="78" rx="6" fill="${ink}" opacity=".18"/>
+       ${leaf(88,78,1,t)}${label(p,88,120,60,11)}
+       <path d="M58 60 H74 V200 H58Z" fill="#fff" opacity=".18"/>`;
+  } else if(s==="bottle"){
+    g=`<rect x="58" y="36" width="60" height="26" rx="5" fill="${ink}"/>
+       <rect x="46" y="60" width="84" height="150" rx="14" fill="${c}" stroke="${ink}" stroke-width="3"/>
+       <rect x="46" y="96" width="84" height="80" fill="${ink}" opacity=".16"/>
+       ${leaf(88,78,.9,t)}${label(p,88,126,70,11)}
+       <rect x="54" y="68" width="10" height="134" rx="5" fill="#fff" opacity=".22"/>`;
+  } else if(s==="tube"){
+    g=`<path d="M62 22 H114 L122 170 H54Z" fill="${c}" stroke="${ink}" stroke-width="3"/>
+       <rect x="52" y="170" width="72" height="36" rx="6" fill="${ink}"/>
+       <rect x="62" y="22" width="52" height="8" fill="${ink}" opacity=".35"/>
+       ${leaf(88,48,.9,t)}${label(p,88,98,56,11)}
+       <path d="M68 34 L72 164 H64 L60 34Z" fill="#fff" opacity=".22"/>`;
+  } else if(s==="box"){
+    g=`<path d="M40 60 L88 40 L136 60 V196 L88 214 L40 196Z" fill="${c}" stroke="${ink}" stroke-width="3"/>
+       <path d="M88 40 V214" stroke="${ink}" stroke-width="2" opacity=".5"/>
+       <path d="M88 76 L136 60 V196 L88 214Z" fill="${ink}" opacity=".15"/>
+       ${leaf(64,80,.8,t)}${label(p,64,126,44,9)}
+       <rect x="98" y="100" width="28" height="60" rx="3" fill="${t}" opacity=".85"/>`;
+  } else if(s==="tub"){
+    g=`<rect x="44" y="44" width="88" height="24" rx="6" fill="${ink}"/>
+       <path d="M48 68 H128 L122 206 H54Z" fill="${c}" stroke="${ink}" stroke-width="3"/>
+       <rect x="52" y="104" width="72" height="62" fill="${ink}" opacity=".2"/>
+       ${leaf(88,82,.9,t)}${label(p,88,130,64,11)}`;
+  } else if(s==="stick"){
+    g=`<rect x="70" y="30" width="36" height="60" rx="8" fill="${ink}"/>
+       <rect x="66" y="86" width="44" height="124" rx="8" fill="${c}" stroke="${ink}" stroke-width="3"/>
+       ${leaf(88,104,.8,t)}${label(p,88,152,40,10)}`;
+  }
+  return `<svg viewBox="0 0 176 230" role="img" aria-label="Illustration : ${esc(p.name)}">
+    <ellipse cx="88" cy="216" rx="58" ry="8" fill="#111008" opacity=".18"/>${g}</svg>`;
+}
+
+/* ---------- État ---------- */
+const state={cat:"Tous",q:"",vit:null};
+const $=id=>document.getElementById(id);
+const norm=s=>s.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase();
+
+function renderFilters(){
+  $("cats").innerHTML=CATS.map(c=>`<button class="chip" aria-pressed="${state.cat===c}" data-cat="${c}">${catName(c)}</button>`).join("");
+  const row=$("vitfilter");
+  row.innerHTML='<span class="lbl">'+U().contains+'</span>'+VIT_ORDER.map(k=>`<button class="vchip" aria-pressed="${state.vit===k}" data-vit="${k}" title="${vN(k)}">${vChip(k)}</button>`).join("");
+}
+function matches(p){
+  if(state.cat!=="Tous"&&p.cat!==state.cat)return false;
+  if(state.vit&&!p.vit.includes(state.vit))return false;
+  if(state.q){
+    const l=L(p);
+    const hay=norm([p.name,l.name,p.code,p.cat,catName(p.cat),p.tag,l.tag,...p.ben,...l.ben,...p.comp.map(x=>x.join(" ")),...l.comp.map(x=>x.join(" ")),...p.vit.map(k=>VIT[k].name+" "+vN(k))].join(" "));
+    return norm(state.q).split(/\s+/).every(w=>hay.includes(w));
+  }
+  return true;
+}
+function renderGrid(){
+  const list=P.filter(matches);
+  $("count").textContent=U().count(list.length,state.vit?vN(state.vit):"");
+  $("grid").innerHTML=list.length?list.map(p0=>{const p=L(p0);return `
+    <button class="card" data-code="${p.key}">
+      <div class="pic${p.img?" has-photo":""}"><span class="fbadge"><img src="img/logo-forever-v2.png" alt="Logo Forever"><span>${U().badge}</span></span>${art(p)}</div>
+      <div class="txt">
+        <span class="code">${ref(p)}</span>
+        <h3>${esc(p.name)}</h3>
+        <p>${esc(p.tag)}</p>
+        <div class="tags">${p.vit.slice(0,6).map(k=>`<span class="tag">${vS(k)}</span>`).join("")}</div>
+      </div>
+    </button>`}).join(""):`<p class="empty">${U().empty}</p>`;
+}
+function openSheet(code){
+  const p0=P.find(x=>x.key===code); if(!p0)return; const p=L(p0); state.open=code;
+  $("d-pic").innerHTML=art(p)+(p.img&&p.img.length>1?`<div class="thumbs">${p.img.map((s,i)=>`<button data-i="${i}" aria-label="Photo ${i+1}" aria-pressed="${i===0}"><img src="${s}" alt=""></button>`).join("")}</div>`:"");
+  $("d-pic").querySelectorAll(".thumbs button").forEach(b=>b.onclick=()=>{
+    $("d-pic").querySelector(".photo").src=p.img[+b.dataset.i];
+    $("d-pic").querySelectorAll(".thumbs button").forEach(x=>x.setAttribute("aria-pressed",x===b));
+  });
+  $("sheet").querySelector(".hero").classList.toggle("has-photo",!!p.img);
+  $("d-code").textContent=ref(p);
+  $("d-name").textContent=p.name;
+  $("d-tag").textContent=p.tag;
+  $("d-ben").innerHTML=p.ben.map(b=>`<li>${esc(b)}</li>`).join("");
+  const inc=(p.inc||[]).map(k=>P.find(x=>x.key===k)).filter(Boolean).map(L);
+  $("d-inc-sec").hidden=!inc.length;
+  $("d-inc").innerHTML=inc.map(q=>`<button class="inc" data-code="${q.key}"><span class="ipic">${art(q)}</span><span class="itxt"><span class="code">${ref(q)}</span><b>${esc(q.name)}</b><small>${esc(q.tag)}</small></span></button>`).join("");
+  $("d-comp").innerHTML=p.comp.map(([a,b])=>`<div><span>${esc(a)}</span><span>${esc(b)}</span></div>`).join("");
+  $("d-vit").innerHTML=p.vit.length?p.vit.map(k=>`<div class="vit"><b>${vN(k)}</b><small>${vR(k)}</small></div>`).join(""):(p.cat==="Soins"
+    ?`<div class="vit"><b>${U().skinT}</b><small>${U().skinD}</small></div>`
+    :`<div class="vit"><b>${U().natT}</b><small>${U().natD}</small></div>`);
+  $("d-use").innerHTML="<b>"+U().use+"</b> "+esc(p.use);
+  $("sheet").hidden=false; document.body.style.overflow="hidden"; $("close").focus();
+}
+function closeSheet(){$("sheet").hidden=true;document.body.style.overflow="";state.open=null}
+function renderVit(){
+  $("vgrid").innerHTML=VIT_ORDER.map(k=>{
+    const v=VIT[k], prods=P.filter(p=>p.vit.includes(k));
+    return `<article class="vcard">
+      <div class="big">${k==="Om3"?"Ω3":k==="Prot"?"Pr":k==="Fib"?"Fi":k==="Pro"?"Pb":k}</div>
+      <h3>${vN(k)}</h3>
+      <p>${vR(k)}</p>
+      <span class="src">${U().food} ${vF(k)}</span>
+      <div class="plinks">${prods.map(p=>`<button data-code="${p.key}">${esc(L(p).name.replace("Forever ",""))}</button>`).join("")}</div>
+    </article>`}).join("");
+}
+function showTab(t){
+  const prod=t==="prod";
+  $("tab-prod").setAttribute("aria-selected",prod);$("tab-vit").setAttribute("aria-selected",!prod);
+  $("view-prod").hidden=!prod;$("view-vit").hidden=prod;
+}
+
+/* ---------- Événements ---------- */
+$("cats").addEventListener("click",e=>{const b=e.target.closest("[data-cat]");if(!b)return;state.cat=b.dataset.cat;renderFilters();renderGrid()});
+$("vitfilter").addEventListener("click",e=>{const b=e.target.closest("[data-vit]");if(!b)return;state.vit=state.vit===b.dataset.vit?null:b.dataset.vit;renderFilters();renderGrid()});
+$("q").addEventListener("input",e=>{state.q=e.target.value.trim();renderGrid()});
+$("grid").addEventListener("click",e=>{const b=e.target.closest("[data-code]");if(b)openSheet(b.dataset.code)});
+$("vgrid").addEventListener("click",e=>{const b=e.target.closest("[data-code]");if(b)openSheet(b.dataset.code)});
+$("close").addEventListener("click",closeSheet);
+$("avatar").addEventListener("click",()=>{$("lightbox").hidden=false});
+$("lightbox").addEventListener("click",()=>{$("lightbox").hidden=true});
+$("d-inc").addEventListener("click",e=>{const b=e.target.closest("[data-code]");if(b){openSheet(b.dataset.code);$("sheet").querySelector(".panel").scrollTop=0}});
+$("sheet").addEventListener("click",e=>{if(e.target.id==="sheet")closeSheet()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){$("lightbox").hidden=true;if(!$("sheet").hidden)closeSheet()}});
+$("tab-prod").addEventListener("click",()=>showTab("prod"));
+$("tab-vit").addEventListener("click",()=>showTab("vit"));
+
+function applyLang(){
+  const u=U(), h=document.documentElement;
+  h.lang=LANG; h.dir=LANG==="ar"?"rtl":"ltr";
+  $("t-sub").textContent=u.sub; $("tab-prod").textContent=u.tabProd; $("tab-vit").textContent=u.tabVit;
+  $("q").placeholder=u.search; $("t-note").innerHTML=u.note;
+  $("t-ftitle").textContent=u.fTitle; $("t-ftext").textContent=u.fText; $("t-fmgr").textContent=u.fMgr;
+  $("t-ben").textContent=u.ben; $("t-inc").textContent=u.inc; $("t-comp").textContent=u.comp; $("t-vit").textContent=u.vit; $("t-badge").textContent=u.badge;
+  $("close").setAttribute("aria-label",u.close); $("avatar").setAttribute("aria-label",u.avatar); $("langs").setAttribute("aria-label",u.langLbl);
+  document.querySelectorAll("#langs button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.lang===LANG));
+  renderFilters();renderGrid();renderVit();
+  if(state.open&&!$("sheet").hidden)openSheet(state.open);
+}
+$("langs").addEventListener("click",e=>{const b=e.target.closest("[data-lang]");if(!b)return;LANG=b.dataset.lang;try{localStorage.setItem("noufaloe-lang",LANG)}catch(err){}applyLang()});
+
+applyLang();
+if(location.hash==="#vitamines")showTab("vit");
+
+/* ---------- Installation comme une vraie application ---------- */
+const IT={
+ fr:{btn:"Installer l'application",t:"Installer Nouf-Aloe",ios:["Touchez le bouton Partager (carré avec une flèche) en bas de Safari.","Choisissez « Sur l'écran d'accueil ».","Touchez « Ajouter » : l'icône Nouf-Aloe apparaît avec vos applications."],other:["Ouvrez le menu du navigateur (⋮ en haut à droite dans Chrome).","Choisissez « Installer l'application » ou « Ajouter à l'écran d'accueil ».","Confirmez : l'icône Nouf-Aloe apparaît avec vos applications."]},
+ en:{btn:"Install the app",t:"Install Nouf-Aloe",ios:["Tap the Share button (square with an arrow) at the bottom of Safari.","Choose “Add to Home Screen”.","Tap “Add”: the Nouf-Aloe icon appears with your apps."],other:["Open the browser menu (⋮ at the top right in Chrome).","Choose “Install app” or “Add to Home screen”.","Confirm: the Nouf-Aloe icon appears with your apps."]},
+ ar:{btn:"ثبّت التطبيق",t:"تثبيت Nouf-Aloe",ios:["اضغط زر المشاركة (مربع بسهم) أسفل Safari.","اختر «إضافة إلى الشاشة الرئيسية».","اضغط «إضافة»: تظهر أيقونة Nouf-Aloe مع تطبيقاتك."],other:["افتح قائمة المتصفح (⋮ أعلى اليمين في Chrome).","اختر «تثبيت التطبيق» أو «إضافة إلى الشاشة الرئيسية».","أكّد: تظهر أيقونة Nouf-Aloe مع تطبيقاتك."]}
+};
+let deferredPrompt=null;
+const isStandalone=()=>matchMedia("(display-mode: standalone)").matches||navigator.standalone===true;
+const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
+function installText(){const t=IT[LANG]||IT.fr;$("t-install").textContent=t.btn}
+function showHelp(){const t=IT[LANG]||IT.fr;$("ih-t").textContent=t.t;$("ih-steps").innerHTML=(isIOS?t.ios:t.other).map(s=>"<li>"+s+"</li>").join("");$("ihelp").hidden=false}
+if(!isStandalone()){$("install").hidden=false}
+window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredPrompt=e;$("install").hidden=false});
+window.addEventListener("appinstalled",()=>{$("install").hidden=true;deferredPrompt=null});
+$("install").addEventListener("click",async()=>{if(deferredPrompt){deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null}else showHelp()});
+$("ih-ok").addEventListener("click",()=>$("ihelp").hidden=true);
+$("ihelp").addEventListener("click",e=>{if(e.target.id==="ihelp")$("ihelp").hidden=true});
+installText();
+$("langs").addEventListener("click",()=>setTimeout(installText,0));
+if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}))}
+</script>
+
+</body></html>
