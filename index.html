@@ -197,6 +197,16 @@ html[dir="rtl"] header.top{background:linear-gradient(270deg,rgba(255,245,218,.9
 .ihelp .box{background:var(--cream);border:3px solid var(--ink);border-radius:18px;padding:20px;max-width:440px;width:100%;display:flex;flex-direction:column;gap:12px}
 .ihelp h3{font-size:1.5rem}
 .ihelp ol{margin:0;padding-inline-start:1.3em;display:flex;flex-direction:column;gap:8px;font-weight:600}
+.stats .box{gap:14px}
+.stats input{font:inherit;font-size:1.1rem;padding:10px 12px;border:2px solid var(--ink);border-radius:12px;background:#fff;width:100%;box-sizing:border-box}
+.stats .err{color:#9b1c1c;font-weight:700;min-height:1.2em;margin:0}
+.stats .kpis{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.stats .kpi{background:var(--bg);border:2px solid var(--ink);border-radius:14px;padding:12px 8px;text-align:center}
+.stats .kpi b{display:block;font-size:1.7rem;line-height:1.1}
+.stats .kpi span{font-size:.8rem;font-weight:700}
+.stats .row{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+.stats .row a{align-self:center;font-weight:700;color:var(--ink)}
+.stats small{font-weight:600;opacity:.75}
 .ihelp button{align-self:flex-end;border:2px solid var(--ink);background:var(--bg);border-radius:999px;padding:7px 18px;font-weight:800;cursor:pointer}
 @media (display-mode: standalone){.install{display:none!important}}
 body{margin:0}
@@ -254,6 +264,13 @@ img{max-width:100%}
   </footer>
 </div>
 
+<div class="ihelp stats" id="stats" hidden><div class="box" role="dialog" aria-modal="true" aria-labelledby="st-t">
+  <h3 id="st-t">Espace Manager</h3>
+  <div id="st-lock"><p style="margin:0 0 8px;font-weight:600">Entrez votre code secret :</p><input id="st-code" type="password" autocomplete="off"><p class="err" id="st-err"></p><div class="row"><button id="st-no">Annuler</button><button id="st-go">Ouvrir</button></div></div>
+  <div id="st-view" hidden><div class="kpis"><div class="kpi"><b id="k-inst">…</b><span>installations</span></div><div class="kpi"><b id="k-open">…</b><span>ouvertures de l'app</span></div><div class="kpi"><b id="k-vis">…</b><span>visites au total</span></div></div>
+  <small id="st-note">Chiffres depuis le 29 septembre 2026. Les suppressions de l'application ne peuvent pas être comptées.</small>
+  <div class="row"><a href="https://noufaloe.goatcounter.com" target="_blank" rel="noopener">Détails par produit ›</a><button id="st-lockbtn">Verrouiller</button><button id="st-close">Fermer</button></div></div>
+</div></div>
 <div class="ihelp" id="ihelp" hidden><div class="box" role="dialog" aria-modal="true" aria-labelledby="ih-t"><h3 id="ih-t"></h3><ol id="ih-steps"></ol><button id="ih-ok">OK</button></div></div>
 <div class="lightbox" id="lightbox" hidden><img src="img/profil-nouf-aloe.png" alt="Nouf-Aloe, produit Forever naturel pur"></div>
 <div class="sheet" id="sheet" hidden>
@@ -1000,6 +1017,30 @@ function gc(path,title){try{if(window.goatcounter&&goatcounter.count){goatcounte
 if(isStandalone()){let done=false;try{done=localStorage.getItem("noufaloe-installe")==="1"}catch(e){}
   if(!done){gc("installation","Nouvelle installation de l'application");try{localStorage.setItem("noufaloe-installe","1")}catch(e){}}
   gc("ouverture-app","Ouverture de l'application installée")}
+/* ---------- Espace Manager caché : toucher 5 fois le titre « Nouf-Aloe » ---------- */
+(function(){
+  const HASH="d7e95101a1c7eae35b073dd285f0ff11ebe8c1ed989bb6713a100688893378aa", KEY="noufaloe-manager";
+  let taps=0,timer=null;
+  const h1=document.querySelector("header.top h1");
+  h1.addEventListener("click",()=>{taps++;clearTimeout(timer);timer=setTimeout(()=>taps=0,2500);if(taps>=5){taps=0;openStats()}});
+  const ok=()=>{try{return localStorage.getItem(KEY)===HASH}catch(e){return false}};
+  async function sha(t){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(t));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}
+  function openStats(){$("stats").hidden=false;if(ok())showView();else{$("st-lock").hidden=false;$("st-view").hidden=true;$("st-err").textContent="";$("st-code").value="";setTimeout(()=>$("st-code").focus(),50)}}
+  async function tryCode(){const v=$("st-code").value.trim().toUpperCase();if(!v)return;
+    if(await sha(v)===HASH){try{localStorage.setItem(KEY,HASH)}catch(e){}showView()}else $("st-err").textContent="Code incorrect."}
+  async function get(p){try{const r=await fetch("https://noufaloe.goatcounter.com/counter/"+encodeURIComponent(p)+".json",{cache:"no-store"});
+      if(r.status===404)return "0";if(!r.ok)return "!";const j=await r.json();return j.count_unique||j.count||"0"}catch(e){return "?"}}
+  async function showView(){$("st-lock").hidden=true;$("st-view").hidden=false;["k-inst","k-open","k-vis"].forEach(i=>$(i).textContent="…");
+    const [a,b,c]=await Promise.all([get("installation"),get("ouverture-app"),get("TOTAL")]);
+    const note=$("st-note");note.textContent="Chiffres depuis le 29 septembre 2026. Les suppressions de l'application ne peuvent pas être comptées.";
+    if([a,b,c].includes("?"))note.textContent="Pas de connexion internet : réessayez quand vous êtes connecté.";
+    else if([a,b,c].includes("!"))note.textContent="Activez l'option « compteur public » dans les réglages GoatCounter pour afficher les chiffres ici.";
+    $("k-inst").textContent=a==="!"||a==="?"?"–":a;$("k-open").textContent=b==="!"||b==="?"?"–":b;$("k-vis").textContent=c==="!"||c==="?"?"–":c}
+  $("st-go").onclick=tryCode;$("st-code").addEventListener("keydown",e=>{if(e.key==="Enter")tryCode()});
+  $("st-no").onclick=$("st-close").onclick=()=>$("stats").hidden=true;
+  $("st-lockbtn").onclick=()=>{try{localStorage.removeItem(KEY)}catch(e){}$("stats").hidden=true};
+  $("stats").addEventListener("click",e=>{if(e.target.id==="stats")$("stats").hidden=true});
+})();
 if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}))}
 </script>
 
