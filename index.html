@@ -899,6 +899,7 @@ function renderGrid(){
 }
 function openSheet(code){
   const p0=P.find(x=>x.key===code); if(!p0)return; const p=L(p0); state.open=code;
+  if(typeof gc==="function")gc("produit-"+code,"Produit : "+p0.name);
   $("d-pic").innerHTML=art(p)+(p.img&&p.img.length>1?`<div class="thumbs">${p.img.map((s,i)=>`<button data-i="${i}" aria-label="Photo ${i+1}" aria-pressed="${i===0}"><img src="${s}" alt=""></button>`).join("")}</div>`:"");
   $("d-pic").querySelectorAll(".thumbs button").forEach(b=>b.onclick=()=>{
     $("d-pic").querySelector(".photo").src=p.img[+b.dataset.i];
@@ -988,6 +989,17 @@ $("ih-ok").addEventListener("click",()=>$("ihelp").hidden=true);
 $("ihelp").addEventListener("click",e=>{if(e.target.id==="ihelp")$("ihelp").hidden=true});
 installText();
 $("langs").addEventListener("click",()=>setTimeout(installText,0));
+/* ---------- Statistiques privées (GoatCounter : noufaloe.goatcounter.com) ---------- */
+const GC_Q=[];
+function gc(path,title){try{if(window.goatcounter&&goatcounter.count){goatcounter.count({path:path,title:title,event:true})}else GC_Q.push([path,title])}catch(e){}}
+(function(){const sc=document.createElement("script");sc.async=true;sc.src="https://gc.zgo.at/count.js";
+  sc.dataset.goatcounter="https://noufaloe.goatcounter.com/count";
+  sc.onload=()=>{setTimeout(()=>{while(GC_Q.length){const [p,t]=GC_Q.shift();gc(p,t)}},300)};
+  document.head.appendChild(sc)})();
+/* Une installation = premier lancement de l'application depuis l'écran d'accueil, compté une seule fois par téléphone */
+if(isStandalone()){let done=false;try{done=localStorage.getItem("noufaloe-installe")==="1"}catch(e){}
+  if(!done){gc("installation","Nouvelle installation de l'application");try{localStorage.setItem("noufaloe-installe","1")}catch(e){}}
+  gc("ouverture-app","Ouverture de l'application installée")}
 if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}))}
 </script>
 
