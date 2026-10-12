@@ -95,6 +95,9 @@ header.top .brand p{color:var(--ink)}
 .thumbs button[aria-pressed="true"]{border-color:var(--ink)}
 .thumbs img{width:100%;height:100%;object-fit:contain}
 .card .txt{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
+.price{align-self:flex-start;display:inline-block;background:var(--ink);color:var(--bg);font-weight:800;font-size:1rem;padding:4px 12px;border-radius:999px;direction:ltr;unicode-bidi:isolate}
+.sheet .price{margin:6px 0 4px;font-size:1.15rem}
+.price[hidden]{display:none}
 .code{font-size:.74rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
 .card h3{font-size:1.35rem;line-height:1.1}
 .card p{margin:0;font-size:.93rem;color:var(--ink-2)}
@@ -280,6 +283,7 @@ img{max-width:100%}
       <div>
         <div class="code" id="d-code"></div>
         <h2 id="d-name"></h2>
+        <div class="price" id="d-price" hidden></div>
         <p class="lead" id="d-tag"></p>
       </div>
       <div class="sec"><h4 id="t-ben">Bienfaits</h4><ul id="d-ben"></ul></div>
@@ -639,6 +643,13 @@ const IMG={
  "374":["img/vitolize-homme.png"],"375":["img/vitolize-femme.png"],"215":["img/multi-maca.png"],"463":["img/forever-therm.png"]
 };
 P.forEach(p=>{p.key=p.id||p.code;p.img=IMG[p.key]||null});
+/* ---------- Prix (FCFA) ---------- */
+const PRIX={"715":22000,"734":22000,"196":32000,"777":22000,"200":15500,"440":5000,
+ "026":13000,"207":15500,"027":28500,"036":28500,"355":20500,"immune-gummy":32000,
+ "376":26000,"048":15000,"065":16000,"439":16000,"610":32000,"206":21500,
+ "354":13000,"072":26000,"264":29000,"551":55000,"473":65500,"375":27500};
+function prix(p){const v=PRIX[p.key];return v?v.toLocaleString("fr-FR").replace(/\u202f|\u00a0/g," ")+" FCFA":""}
+
 /* ---------- Traductions (FR par défaut, EN, AR) ---------- */
 const UI={
  fr:{sub:"Bienfaits, composition et vitamines des produits Forever",tabProd:"Produits",tabVit:"Vitamines",search:"Chercher un produit, un bienfait, un ingrédient…",contains:"Contient :",
@@ -909,6 +920,7 @@ function renderGrid(){
       <div class="txt">
         <span class="code">${ref(p)}</span>
         <h3>${esc(p.name)}</h3>
+        ${prix(p)?`<span class="price">${prix(p)}</span>`:""}
         <p>${esc(p.tag)}</p>
         <div class="tags">${p.vit.slice(0,6).map(k=>`<span class="tag">${vS(k)}</span>`).join("")}</div>
       </div>
@@ -925,6 +937,7 @@ function openSheet(code){
   $("sheet").querySelector(".hero").classList.toggle("has-photo",!!p.img);
   $("d-code").textContent=ref(p);
   $("d-name").textContent=p.name;
+  $("d-price").textContent=prix(p); $("d-price").hidden=!prix(p);
   $("d-tag").textContent=p.tag;
   $("d-ben").innerHTML=p.ben.map(b=>`<li>${esc(b)}</li>`).join("");
   const inc=(p.inc||[]).map(k=>P.find(x=>x.key===k)).filter(Boolean).map(L);
