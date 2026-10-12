@@ -628,7 +628,44 @@ const P = [
   ben:["Soutient le métabolisme et aide à brûler les graisses","Donne de l'énergie pendant la journée","Les vitamines B aident à transformer les aliments en énergie","Idéal avec le programme C9 ou F15"],
   comp:[["Extrait de thé vert","métabolisme"],["Guarana et café vert","caféine naturelle, énergie"],["Extrait de pépins de raisin","antioxydant"],["Vitamine C","antioxydant"],["Vitamines B","énergie"]],
   vit:["B","B12","C"],
-  use:"1 comprimé le matin et 1 à midi, avec un repas. Contient de la caféine : éviter le soir, déconseillé aux enfants, aux femmes enceintes et aux personnes sensibles à la caféine."}
+  use:"1 comprimé le matin et 1 à midi, avec un repas. Contient de la caféine : éviter le soir, déconseillé aux enfants, aux femmes enceintes et aux personnes sensibles à la caféine."},
+ {code:"622",name:"Forever Focus",cat:"Nutrition",shape:"bottle",c1:"#C0392B",c2:"#F4F1E8",
+  tag:"Complément pour la concentration et la clarté d'esprit, 120 capsules.",
+  ben:["Soutient la clarté mentale, la concentration et la mémoire","Aide à lutter contre la sensation de « brouillard » dans la tête","Pratique pour les étudiants, les travailleurs, les sportifs et les personnes âgées actives"],
+  comp:[["Cognizin® (citicoline)","concentration"],["Extrait de ginkgo biloba","circulation vers le cerveau"],["Extraits de plantes","clarté d'esprit"],["Vitamines B","énergie du cerveau"]],
+  vit:["B","B12"],
+  use:"Suivre la dose indiquée sur l'étiquette, avec un repas. Avis médical en cas de grossesse, d'allaitement ou de traitement (surtout les anticoagulants)."},
+ {code:"624",name:"Forever iVision",cat:"Nutrition",shape:"bottle",c1:"#1F4E8C",c2:"#F4F1E8",
+  tag:"Complément pour la santé des yeux face aux écrans, 60 gélules.",
+  ben:["La lutéine et la zéaxanthine aident les yeux à filtrer la lumière bleue des écrans","Soutient une vision normale","La vitamine A et le zinc contribuent au maintien d'une bonne vue"],
+  comp:[["Lutemax 2020® (lutéine et zéaxanthine)","protection des yeux"],["Vitamine A","vision"],["Zinc","vision"],["Caroténoïdes et antioxydants","protection des cellules"]],
+  vit:["A","Zn"],
+  use:"1 gélule par jour avec un repas. Contient du poisson (tilapia)."},
+ {code:"037",name:"Forever Nature-Min",cat:"Nutrition",shape:"bottle",c1:"#6B8E23",c2:"#F4F1E8",
+  tag:"Minéraux et oligo-éléments d'origine marine, en comprimés.",
+  ben:["Apporte 10 minéraux essentiels et des oligo-éléments","Soutient les os et la production d'énergie des cellules","Aide à combler les carences en minéraux"],
+  comp:[["Minéraux de dépôts marins","oligo-éléments"],["Plantes marines","minéraux naturels"],["Calcium, magnésium, zinc, fer","minéraux"]],
+  vit:["Ca","Mg","Zn"],
+  use:"Suivre la dose indiquée sur l'étiquette, avec un repas."},
+ {code:"188",name:"Forever B12 Plus",cat:"Nutrition",shape:"bottle",c1:"#7B3FA0",c2:"#F4F1E8",
+  tag:"Vitamine B12 et acide folique réunis, 60 comprimés.",
+  ben:["Aide à la formation des globules rouges","Soutient le système immunitaire et le système nerveux","L'acide folique est important pendant la grossesse","Utile pour les personnes qui mangent peu de viande"],
+  comp:[["Vitamine B12","globules rouges"],["Acide folique (vitamine B9)","renouvellement des cellules"]],
+  vit:["B12","B9"],
+  use:"1 comprimé par jour avec un repas."},
+ {id:"nutraq10",name:"Forever NutraQ10",cat:"Nutrition",shape:"box",c1:"#E36A1C",c2:"#F4F1E8",
+  tag:"Coenzyme Q10 et vitamines en poudre à mélanger, pour l'énergie des cellules.",
+  ben:["La coenzyme Q10 participe à la production d'énergie dans les cellules","Soutient le cœur et la vitalité","Les vitamines contribuent à réduire la fatigue"],
+  comp:[["Coenzyme Q10","énergie des cellules"],["Vitamines","ajoutées"],["Extraits de fruits","antioxydants"]],
+  vit:["B","C"],
+  use:"Suivre la dose indiquée sur l'emballage, mélangée dans de l'eau ou du gel d'aloès."},
+ {id:"marine-collagen",name:"Forever Marine Collagen",cat:"Nutrition",shape:"box",c1:"#2A9D8F",c2:"#F4F1E8",
+  tag:"Collagène marin à boire, pour la beauté de la peau.",
+  ben:["Le collagène soutient l'élasticité et l'hydratation de la peau","Aide à garder des cheveux et des ongles en bonne santé","La vitamine C contribue à la formation normale du collagène"],
+  comp:[["Collagène marin hydrolysé","peau"],["Vitamine C","formation du collagène"],["Autres nutriments","ajoutés"]],
+  vit:["C"],
+  use:"Suivre la dose indiquée sur l'emballage. Contient du poisson."},
+
 ];
 /* Photos originales fournies par KONOMBO (affichées sans modification) */
 const IMG={
@@ -652,12 +689,12 @@ P.forEach(p=>{p.key=p.id||p.code;p.img=IMG[p.key]||null});
 const PRIX={"715":22000,"734":22000,"196":32000,"777":22000,"200":15500,"440":5000,
  "026":13000,"207":15500,"027":28500,"036":28500,"355":20500,"immune-gummy":32000,
  "376":26000,"048":15000,"065":16000,"439":16000,"610":32000,"206":21500,
- "354":13000,"072":26000,"264":29000,"551":55000,"473":65500,"375":27500};
+ "354":13000,"072":26000,"264":29000,"551":55000,"473":65500,"375":27500,"nutraq10":29000,"622":72500,"marine-collagen":69000,"624":30500,"188":13000,"037":16000};
 const CC={"715":0.100,"734":0.100,"777":0.100,"196":0.146,"200":0.070,"440":0.019,
  "026":0.060,"207":0.070,"027":0.130,"036":0.130,"051":0.077,
  "551":0.250,"206":0.098,"264":0.136,"621":0.154,"610":0.147,"464":0.115,"068":0.051,
  "375":0.127,"355":0.093,"048":0.069,"354":0.060,"072":0.102,"439":0.080,"215":0.107,
- "376":0.120,"473":0.303,"065":0.072,
+ "376":0.120,"473":0.303,"065":0.072,"622":0.334,"624":0.140,"037":0.072,"188":0.062,
  "dx4":0.533,"c9":0.482,"f15":0.586,"vital5":1.029};
 function cc(p){const v=CC[p.key];return v!=null?v.toFixed(3).replace(".",",")+" CC":""}
 function prixBox(p){const a=cc(p),b=prix(p);if(!a&&!b)return"";return `<span class="prices">${a?`<span class="cc">${a}</span>`:""}${b?`<span class="price">${b}</span>`:""}</span>`}
@@ -756,7 +793,13 @@ const PT={en:{
 "374":{name:"Forever Vitolize Men",tag:"Vitality supplement for men, 60 softgels.",ben:["Supports healthy prostate function and urinary comfort","Zinc and selenium contribute to fertility and normal testosterone levels","Vitamins C and E protect cells from oxidative stress","Supports everyday energy and vitality"],comp:[["Saw palmetto","prostate"],["African plum bark (pygeum)","urinary comfort"],["Pumpkin seed oil","prostate"],["Lycopene","antioxidant (tomato)"],["Zinc and selenium","minerals"],["Vitamins C, D, E","added"]],use:"2 softgels a day with a meal. Ask a doctor if you are under treatment or have a prostate condition."},
 "375":{name:"Forever Vitolize Women",tag:"Vitality supplement for women, 120 tablets.",ben:["Supports hormonal balance and comfort during the cycle","Cranberry contributes to urinary comfort","Iron, magnesium and B vitamins help reduce tiredness","Calcium and vitamin D support strong bones"],comp:[["Cranberry","urinary comfort"],["Plant extracts","female balance"],["Vitamins C, D, E, B6, B9, B12","added"],["Calcium, iron, magnesium","minerals"]],use:"Follow the dose on the label, with meals. Ask a doctor if you are pregnant, breastfeeding or under treatment."},
 "215":{tag:"Andean maca and energizing plants, 60 tablets.",ben:["Supports energy, endurance and vitality","Appreciated for supporting libido, in men and women","L-arginine supports blood circulation","Helps you cope better with stress and tiredness"],comp:[["Maca root (Peru)","energy and vitality"],["Tribulus terrestris","vigor"],["Catuaba and muira puama bark","tonic plants"],["L-arginine","circulation"],["Saw palmetto and pygeum","prostate"],["Coenzyme Q10","cell energy"]],use:"2 tablets a day with a large glass of water. Ask a doctor if you have a heart condition or take blood pressure medication."},
-"463":{tag:"Weight-management supplement with green tea and guarana, 60 tablets.",ben:["Supports metabolism and helps burn fat","Gives energy during the day","B vitamins help turn food into energy","Ideal with the C9 or F15 program"],comp:[["Green tea extract","metabolism"],["Guarana and green coffee","natural caffeine, energy"],["Grape seed extract","antioxidant"],["Vitamin C","antioxidant"],["B vitamins","energy"]],use:"1 tablet in the morning and 1 at midday, with a meal. Contains caffeine: avoid in the evening; not for children, pregnant women or people sensitive to caffeine."}
+"463":{tag:"Weight-management supplement with green tea and guarana, 60 tablets.",ben:["Supports metabolism and helps burn fat","Gives energy during the day","B vitamins help turn food into energy","Ideal with the C9 or F15 program"],comp:[["Green tea extract","metabolism"],["Guarana and green coffee","natural caffeine, energy"],["Grape seed extract","antioxidant"],["Vitamin C","antioxidant"],["B vitamins","energy"]],use:"1 tablet in the morning and 1 at midday, with a meal. Contains caffeine: avoid in the evening; not for children, pregnant women or people sensitive to caffeine."},
+"622":{"tag": "Supplement for focus and mental clarity, 120 capsules.", "ben": ["Supports mental clarity, focus and memory", "Helps fight the feeling of 'brain fog'", "Handy for students, workers, athletes and active seniors"], "comp": [["Cognizin® (citicoline)", "focus"], ["Ginkgo biloba extract", "blood flow to the brain"], ["Plant extracts", "mental clarity"], ["B vitamins", "brain energy"]], "use": "Follow the dose on the label, with a meal. Ask a doctor if pregnant, breastfeeding or under treatment (especially blood thinners)."},
+"624":{"tag": "Eye-health supplement for screen users, 60 softgels.", "ben": ["Lutein and zeaxanthin help the eyes filter blue light from screens", "Supports normal vision", "Vitamin A and zinc contribute to maintaining good eyesight"], "comp": [["Lutemax 2020® (lutein and zeaxanthin)", "eye protection"], ["Vitamin A", "vision"], ["Zinc", "vision"], ["Carotenoids and antioxidants", "cell protection"]], "use": "1 softgel a day with a meal. Contains fish (tilapia)."},
+"037":{"tag": "Minerals and trace elements from the sea, in tablets.", "ben": ["Provides 10 essential minerals and trace elements", "Supports bones and cell energy", "Helps fill mineral gaps"], "comp": [["Marine mineral deposits", "trace elements"], ["Sea plants", "natural minerals"], ["Calcium, magnesium, zinc, iron", "minerals"]], "use": "Follow the dose on the label, with a meal."},
+"188":{"tag": "Vitamin B12 and folic acid together, 60 tablets.", "ben": ["Helps form red blood cells", "Supports the immune and nervous systems", "Folic acid is important during pregnancy", "Useful for people who eat little meat"], "comp": [["Vitamin B12", "red blood cells"], ["Folic acid (vitamin B9)", "cell renewal"]], "use": "1 tablet a day with a meal."},
+"nutraq10":{"tag": "Coenzyme Q10 and vitamins as a powder to mix, for cell energy.", "ben": ["Coenzyme Q10 takes part in energy production in the cells", "Supports the heart and vitality", "Vitamins help reduce tiredness"], "comp": [["Coenzyme Q10", "cell energy"], ["Vitamins", "added"], ["Fruit extracts", "antioxidants"]], "use": "Follow the dose on the pack, mixed in water or aloe gel."},
+"marine-collagen":{"tag": "Drinkable marine collagen, for beautiful skin.", "ben": ["Collagen supports skin elasticity and hydration", "Helps keep hair and nails healthy", "Vitamin C contributes to normal collagen formation"], "comp": [["Hydrolyzed marine collagen", "skin"], ["Vitamin C", "collagen formation"], ["Other nutrients", "added"]], "use": "Follow the dose on the pack. Contains fish."}
 }};
 UI.ar={sub:"دليلكم المرجعي لفوائد منتجات فوريفر ومكوّناتها وقيمتها الغذائية",tabProd:"المنتجات",tabVit:"الفيتامينات",search:"ابحثوا باسم المنتج أو الفائدة أو المكوّن…",contains:"يحتوي على:",
   count:(n,v)=>(v?"المنتجات الغنية بـ"+v+": ":"عدد المنتجات المعروضة: ")+n,empty:"لا توجد منتجات مطابقة لبحثكم. يُرجى تجربة كلمة أخرى أو إلغاء أحد عوامل التصفية.",
@@ -835,7 +878,13 @@ PT.ar={
 "374":{name:"فوريفر فيتولايز للرجال",tag:"مكمّل غذائي لحيوية الرجل، 60 كبسولة هلامية.",ben:["يدعم الأداء الطبيعي للبروستاتا وراحة المسالك البولية","يسهم الزنك والسيلينيوم في الخصوبة وفي المستوى الطبيعي للتستوستيرون","يحمي فيتامينا C وE الخلايا من الإجهاد التأكسدي","يدعم الطاقة والحيوية اليومية"],comp:[["البلميط المنشاري","البروستاتا"],["لحاء البرقوق الأفريقي (بيجيوم)","راحة المسالك البولية"],["زيت بذور اليقطين","البروستاتا"],["الليكوبين","مضادّ للأكسدة (الطماطم)"],["الزنك والسيلينيوم","معادن"],["فيتامينات C وD وE","مضافة"]],use:"كبسولتان يوميًا مع وجبة الطعام. يُرجى استشارة الطبيب في حال تناول أدوية أو وجود مشكلة في البروستاتا."},
 "375":{name:"فوريفر فيتولايز للنساء",tag:"مكمّل غذائي لحيوية المرأة، 120 قرصًا.",ben:["يدعم التوازن الهرموني والراحة خلال الدورة الشهرية","يسهم التوت البري في راحة المسالك البولية","يساعد الحديد والمغنيسيوم وفيتامينات B على الحدّ من الإرهاق","يدعم الكالسيوم وفيتامين D صحة العظام"],comp:[["التوت البري","راحة المسالك البولية"],["مستخلصات نباتية","التوازن الأنثوي"],["فيتامينات C وD وE وB6 وB9 وB12","مضافة"],["الكالسيوم والحديد والمغنيسيوم","معادن"]],use:"تُتّبع الجرعة المذكورة على العبوة مع الوجبات. يُرجى استشارة الطبيب في حال الحمل أو الرضاعة أو تناول أدوية."},
 "215":{name:"فوريفر ملتي-ماكا",tag:"ماكا جبال الأنديز مع نباتات منشّطة، 60 قرصًا.",ben:["يدعم الطاقة والقدرة على التحمّل والحيوية","يحظى بالتقدير لدعم الرغبة لدى الرجال والنساء","يدعم إل-أرجينين الدورة الدموية","يساعد على مقاومة التوتر والإرهاق"],comp:[["جذور الماكا (البيرو)","الطاقة والحيوية"],["القطب (تريبولوس)","النشاط"],["لحاء الكاتوابا والموير بوما","نباتات منشّطة"],["إل-أرجينين","الدورة الدموية"],["البلميط المنشاري والبيجيوم","البروستاتا"],["الإنزيم المساعد Q10","طاقة الخلايا"]],use:"قرصان يوميًا مع كوب كبير من الماء. يُرجى استشارة الطبيب في حال الإصابة بأمراض القلب أو تناول أدوية ضغط الدم."},
-"463":{name:"فوريفر ثيرم",tag:"مكمّل للتحكّم في الوزن بالشاي الأخضر والغوارانا، 60 قرصًا.",ben:["يدعم عملية الأيض ويساعد على حرق الدهون","يمنح الطاقة خلال النهار","تساعد فيتامينات B على تحويل الغذاء إلى طاقة","مثالي مع برنامج C9 أو F15"],comp:[["مستخلص الشاي الأخضر","الأيض"],["الغوارانا والقهوة الخضراء","كافيين طبيعي وطاقة"],["مستخلص بذور العنب","مضادّ للأكسدة"],["فيتامين C","مضادّ للأكسدة"],["فيتامينات B","الطاقة"]],use:"قرص واحد صباحًا وآخر عند الظهر مع الوجبة. يحتوي على الكافيين: يُتجنّب مساءً، ولا يُنصح به للأطفال والحوامل والأشخاص الحسّاسين للكافيين."}
+"463":{name:"فوريفر ثيرم",tag:"مكمّل للتحكّم في الوزن بالشاي الأخضر والغوارانا، 60 قرصًا.",ben:["يدعم عملية الأيض ويساعد على حرق الدهون","يمنح الطاقة خلال النهار","تساعد فيتامينات B على تحويل الغذاء إلى طاقة","مثالي مع برنامج C9 أو F15"],comp:[["مستخلص الشاي الأخضر","الأيض"],["الغوارانا والقهوة الخضراء","كافيين طبيعي وطاقة"],["مستخلص بذور العنب","مضادّ للأكسدة"],["فيتامين C","مضادّ للأكسدة"],["فيتامينات B","الطاقة"]],use:"قرص واحد صباحًا وآخر عند الظهر مع الوجبة. يحتوي على الكافيين: يُتجنّب مساءً، ولا يُنصح به للأطفال والحوامل والأشخاص الحسّاسين للكافيين."},
+"622":{"name": "فوريفر فوكس", "tag": "مكمّل للتركيز وصفاء الذهن، 120 كبسولة.", "ben": ["يدعم صفاء الذهن والتركيز والذاكرة", "يساعد على مقاومة الإحساس بتشوّش الذهن", "مناسب للطلاب والعاملين والرياضيين وكبار السن النشطين"], "comp": [["كوجنيزين® (سيتيكولين)", "التركيز"], ["مستخلص الجنكة بيلوبا", "تدفّق الدم إلى الدماغ"], ["مستخلصات نباتية", "صفاء الذهن"], ["فيتامينات B", "طاقة الدماغ"]], "use": "تُتّبع الجرعة المذكورة على العبوة مع الوجبة. يُرجى استشارة الطبيب في حال الحمل أو الرضاعة أو تناول أدوية، خاصة مميّعات الدم."},
+"624":{"name": "فوريفر آي فيجن", "tag": "مكمّل لصحة العينين أمام الشاشات، 60 كبسولة هلامية.", "ben": ["يساعد اللوتين والزياكسانثين العينين على تصفية الضوء الأزرق المنبعث من الشاشات", "يدعم الرؤية الطبيعية", "يسهم فيتامين A والزنك في الحفاظ على سلامة البصر"], "comp": [["لوتيماكس 2020® (لوتين وزياكسانثين)", "حماية العينين"], ["فيتامين A", "الرؤية"], ["الزنك", "الرؤية"], ["كاروتينات ومضادات أكسدة", "حماية الخلايا"]], "use": "كبسولة واحدة يوميًا مع الوجبة. يحتوي على السمك (البلطي)."},
+"037":{"name": "فوريفر نيتشر-مين", "tag": "معادن وعناصر نادرة من مصدر بحري، في أقراص.", "ben": ["يوفّر 10 معادن أساسية وعناصر نادرة", "يدعم العظام وطاقة الخلايا", "يساعد على تعويض نقص المعادن"], "comp": [["رواسب معدنية بحرية", "عناصر نادرة"], ["نباتات بحرية", "معادن طبيعية"], ["الكالسيوم والمغنيسيوم والزنك والحديد", "معادن"]], "use": "تُتّبع الجرعة المذكورة على العبوة مع الوجبة."},
+"188":{"name": "فوريفر B12 بلس", "tag": "فيتامين B12 وحمض الفوليك معًا، 60 قرصًا.", "ben": ["يساعد على تكوين كريات الدم الحمراء", "يدعم الجهاز المناعي والجهاز العصبي", "حمض الفوليك مهم خلال الحمل", "مفيد لمن يتناولون قليلًا من اللحوم"], "comp": [["فيتامين B12", "كريات الدم الحمراء"], ["حمض الفوليك (فيتامين B9)", "تجدّد الخلايا"]], "use": "قرص واحد يوميًا مع الوجبة."},
+"nutraq10":{"name": "فوريفر نوترا Q10", "tag": "الإنزيم المساعد Q10 مع فيتامينات في مسحوق يُذاب، لطاقة الخلايا.", "ben": ["يشارك الإنزيم المساعد Q10 في إنتاج الطاقة داخل الخلايا", "يدعم القلب والحيوية", "تساعد الفيتامينات على الحدّ من الإرهاق"], "comp": [["الإنزيم المساعد Q10", "طاقة الخلايا"], ["فيتامينات", "مضافة"], ["مستخلصات فواكه", "مضادات أكسدة"]], "use": "تُتّبع الجرعة المذكورة على العبوة، مذابة في الماء أو جل الألوفيرا."},
+"marine-collagen":{"name": "فوريفر كولاجين بحري", "tag": "كولاجين بحري للشرب، لجمال البشرة.", "ben": ["يدعم الكولاجين مرونة البشرة وترطيبها", "يساعد على صحة الشعر والأظافر", "يسهم فيتامين C في التكوين الطبيعي للكولاجين"], "comp": [["كولاجين بحري متحلّل", "البشرة"], ["فيتامين C", "تكوين الكولاجين"], ["عناصر غذائية أخرى", "مضافة"]], "use": "تُتّبع الجرعة المذكورة على العبوة. يحتوي على السمك."}
 };
 
 let LANG="fr";
