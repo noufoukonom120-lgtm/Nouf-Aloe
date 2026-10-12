@@ -99,7 +99,10 @@ header.top .brand p{color:var(--ink)}
 html[dir="rtl"] .prices{justify-content:flex-end}
 .cc{display:inline-block;background:var(--bg);color:var(--ink);border:2px solid var(--ink);font-weight:800;font-size:1rem;padding:2px 10px;border-radius:999px}
 .sheet .cc{font-size:1.15rem}
-#d-price .prices{margin:6px 0 4px}
+#d-price{display:flex;flex-direction:column;align-items:flex-start;gap:4px;margin:6px 0 4px}
+.ccl{display:block;margin-top:auto;padding-top:4px;font-size:.9rem;font-weight:700;color:var(--ink-2);text-align:start;direction:ltr;unicode-bidi:isolate}
+html[dir="rtl"] .ccl{text-align:end}
+#d-price .ccl{margin-top:0;padding-top:0;font-size:1rem}
 .price{align-self:flex-start;display:inline-block;background:var(--ink);color:var(--bg);font-weight:800;font-size:1rem;padding:4px 12px;border-radius:999px;direction:ltr;unicode-bidi:isolate}
 .sheet .price{font-size:1.15rem}
 .price[hidden]{display:none}
@@ -697,7 +700,8 @@ const CC={"715":0.100,"734":0.100,"777":0.100,"196":0.146,"200":0.070,"440":0.01
  "376":0.120,"473":0.303,"065":0.072,"622":0.334,"624":0.140,"037":0.072,"188":0.062,
  "dx4":0.533,"c9":0.482,"f15":0.586,"vital5":1.029};
 function cc(p){const v=CC[p.key];return v!=null?v.toFixed(3).replace(".",",")+" CC":""}
-function prixBox(p){const a=cc(p),b=prix(p);if(!a&&!b)return"";return `<span class="prices">${a?`<span class="cc">${a}</span>`:""}${b?`<span class="price">${b}</span>`:""}</span>`}
+function prixBox(p){const b=prix(p);return b?`<span class="price">${b}</span>`:""}
+function ccLine(p){const a=cc(p);return a?`<span class="ccl">${a}</span>`:""}
 function prix(p){const v=PRIX[p.key];return v?v.toLocaleString("fr-FR").replace(/\u202f|\u00a0/g," ")+" FCFA":""}
 
 /* ---------- Traductions (FR par défaut, EN, AR) ---------- */
@@ -985,6 +989,7 @@ function renderGrid(){
         ${prixBox(p)}
         <p>${esc(p.tag)}</p>
         <div class="tags">${p.vit.slice(0,6).map(k=>`<span class="tag">${vS(k)}</span>`).join("")}</div>
+        ${ccLine(p)}
       </div>
     </button>`}).join(""):`<p class="empty">${U().empty}</p>`;
 }
@@ -999,7 +1004,7 @@ function openSheet(code){
   $("sheet").querySelector(".hero").classList.toggle("has-photo",!!p.img);
   $("d-code").textContent=ref(p);
   $("d-name").textContent=p.name;
-  $("d-price").innerHTML=prixBox(p);
+  $("d-price").innerHTML=prixBox(p)+ccLine(p);
   $("d-tag").textContent=p.tag;
   $("d-ben").innerHTML=p.ben.map(b=>`<li>${esc(b)}</li>`).join("");
   const inc=(p.inc||[]).map(k=>P.find(x=>x.key===k)).filter(Boolean).map(L);
