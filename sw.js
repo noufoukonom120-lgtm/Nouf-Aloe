@@ -1,5 +1,5 @@
 // Nouf-Aloe : fonctionne hors connexion après la première ouverture
-const CACHE="nouf-aloe-v11";
+const CACHE="nouf-aloe-v12";
 const FILES=[
  "./",
  "index.html",
@@ -70,6 +70,7 @@ self.addEventListener("fetch",e=>{
   const r=e.request; if(r.method!=="GET")return;
   const u=new URL(r.url);
   if(u.host.endsWith("goatcounter.com")||u.host==="gc.zgo.at")return;
+  if(u.origin===location.origin&&u.pathname.includes("/konombo-aloe/"))return; /* site Konombo Aloe : toujours en ligne, hors cache de l'application */
   if(r.mode==="navigate"){e.respondWith(fetch(r).then(res=>{const c=res.clone();caches.open(CACHE).then(k=>k.put("index.html",c));return res}).catch(()=>caches.match("index.html")));return}
   e.respondWith(caches.match(r).then(hit=>hit||fetch(r).then(res=>{if(res.ok&&(u.origin===location.origin||u.host.endsWith("googleapis.com")||u.host.endsWith("gstatic.com"))){const c=res.clone();caches.open(CACHE).then(k=>k.put(r,c))}return res})))
 });
