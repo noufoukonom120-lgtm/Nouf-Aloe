@@ -380,7 +380,8 @@ footer{margin-top:56px;padding-top:24px;border-top:1px solid var(--line);color:v
   <div class="share">
     <div><h2>Vous aimez ? Partagez sur Facebook</h2><p>Aidez vos proches à découvrir les produits Forever livrés gratuitement à Ouaga.</p></div>
     <div class="fbbtns"><a class="btn-fb" id="fbShare" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M24 12a12 12 0 1 0-13.9 11.9v-8.4H7.1V12h3V9.4c0-3 1.8-4.7 4.5-4.7 1.3 0 2.7.2 2.7.2v2.9h-1.5c-1.5 0-2 .9-2 1.9V12h3.4l-.5 3.5h-2.9v8.4A12 12 0 0 0 24 12z"/></svg>Partager sur Facebook</a>
-    <a class="btn-fb" id="fbFollow" href="https://www.facebook.com/share/r/1cRkwZ3jjg/" target="_blank" rel="noopener" style="background:#fff;color:#1877F2"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M24 12a12 12 0 1 0-13.9 11.9v-8.4H7.1V12h3V9.4c0-3 1.8-4.7 4.5-4.7 1.3 0 2.7.2 2.7.2v2.9h-1.5c-1.5 0-2 .9-2 1.9V12h3.4l-.5 3.5h-2.9v8.4A12 12 0 0 0 24 12z"/></svg>Voir ma vidéo sur Facebook</a></div>
+    <a class="btn-fb" id="fbFollow" href="https://www.facebook.com/share/17mNuPxB1a/" target="_blank" rel="noopener" style="background:#fff;color:#1877F2"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M24 12a12 12 0 1 0-13.9 11.9v-8.4H7.1V12h3V9.4c0-3 1.8-4.7 4.5-4.7 1.3 0 2.7.2 2.7.2v2.9h-1.5c-1.5 0-2 .9-2 1.9V12h3.4l-.5 3.5h-2.9v8.4A12 12 0 0 0 24 12z"/></svg>Suivez-moi sur Facebook</a>
+    <a class="btn-fb" id="fbVideo" href="https://www.facebook.com/share/r/1cRkwZ3jjg/" target="_blank" rel="noopener" style="background:transparent;color:#fff;border:1.5px solid #fff"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M24 12a12 12 0 1 0-13.9 11.9v-8.4H7.1V12h3V9.4c0-3 1.8-4.7 4.5-4.7 1.3 0 2.7.2 2.7.2v2.9h-1.5c-1.5 0-2 .9-2 1.9V12h3.4l-.5 3.5h-2.9v8.4A12 12 0 0 0 24 12z"/></svg>Voir ma vidéo</a></div>
   </div>
 
   <footer>
@@ -713,7 +714,8 @@ renderGoals();
 /* ---------- Partage Facebook ---------- */
 $("fbShare").href = "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(SITE + "?src=facebook");
 $("fbShare").addEventListener("click",()=>track("partage-facebook","Partage sur Facebook"));
-$("fbFollow").addEventListener("click",()=>track("video-facebook","Vidéo Facebook ouverte"));
+$("fbFollow").addEventListener("click",()=>track("suivre-facebook","Clic Suivez-moi sur Facebook"));
+$("fbVideo").addEventListener("click",()=>track("video-facebook","Vidéo Facebook ouverte"));
 
 /* ---------- Visiteurs venus de Facebook ---------- */
 const params = new URLSearchParams(location.search);
