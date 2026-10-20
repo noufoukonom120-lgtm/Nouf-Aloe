@@ -532,6 +532,12 @@ const P = [
   comp:[["Aloe vera","hydratation"],["Agents lavants d'origine naturelle","nettoyage doux"]],
   vit:[],
   use:"Appliquer sur la peau mouillée, faire mousser, rincer."},
+ {id:"body-lotion",name:"Aloe Body Lotion",cat:"Soins",
+  tag:"Lait corporel léger à l'aloès, pénètre vite, 236 ml.",
+  ben:["Retient l'hydratation dans la peau","Aide à renforcer la barrière protectrice de la peau","Texture légère qui pénètre vite, sans effet gras","Idéal après la douche avec l'Aloe Body Wash"],
+  comp:[["Aloe vera","hydratation"],["Huiles et beurres végétaux","nutrition"],["Agents hydratants","barrière de la peau"]],
+  vit:[],
+  use:"Appliquer sur tout le corps, de préférence après la douche, et masser jusqu'à pénétration."},
  {id:"malosi",name:"Forever Malosi",cat:"Soins",
   tag:"Parfum fin pour homme de la collection Forever.",
   ben:["Parfum élégant et durable pour le quotidien ou les grandes occasions","Flacon pratique à emporter"],
@@ -699,7 +705,7 @@ const IMG={
  "354":["img/kids.png"],"071":["img/garcinia-plus.webp"],"068":["img/fields-of-greens.png"],"skin-oil":["img/skin-oil.jpg"],
  "shampoo":["img/aloe-jojoba-shampoo.webp"],"c9":["img/c9.jpg"],"f15":["img/f15-v2.jpg"],"621":["img/supergreens.png"],"vital5":["img/vital5.png"],"dx4":["img/dx4.jpg"],
  "061":["img/aloe-vera-gelly.webp"],"440":["img/fab-x.png"],"040":["img/aloe-first.webp"],
- "374":["img/vitolize-homme.png"],"375":["img/vitolize-femme.png"],"215":["img/multi-maca.png"],"463":["img/forever-therm.png"],"622":["img/focus.webp"],"624":["img/ivision.png"],"037":["img/nature-min.png"],"188":["img/b12-plus.png"],"marine-collagen":["img/marine-collagen.png"],"312":["img/cardio-health.jpg"],"321":["img/fab.png"],"conditioner":["img/aloe-jojoba-conditioner.webp"]
+ "374":["img/vitolize-homme.png"],"375":["img/vitolize-femme.png"],"215":["img/multi-maca.png"],"463":["img/forever-therm.png"],"622":["img/focus.webp"],"624":["img/ivision.png"],"037":["img/nature-min.png"],"188":["img/b12-plus.png"],"marine-collagen":["img/marine-collagen.png"],"312":["img/cardio-health.jpg"],"321":["img/fab.png"],"conditioner":["img/aloe-jojoba-conditioner.webp"],"body-lotion":["img/aloe-body-lotion.webp"]
 };
 P.forEach(p=>{p.key=p.id||p.code;p.img=IMG[p.key]||null});
 /* ---------- Prix (FCFA) ---------- */
@@ -795,6 +801,7 @@ const PT={en:{
 "067":{tag:"Aloe stick deodorant, free of aluminum salts.",ben:["Protects against odor all day","No aluminum salts or alcohol: gentle on skin","Does not stain clothes"],comp:[["Aloe vera gel","soothing"],["Anti-odor agent","aluminum-free"]],use:"Apply to clean, dry underarms."},
 "liquid-soap":{tag:"Aloe liquid soap for hands and body, 473 ml.",ben:["Cleans gently without drying the skin","Formula that locks in moisture","Naturally derived cleansers"],comp:[["Aloe vera","hydration"],["Naturally derived cleansers","coconut-derived"]],use:"Apply to wet hands or body, lather, rinse."},
 "body-wash":{tag:"Foaming aloe body wash, 236 ml.",ben:["Cleans while preserving skin hydration","Leaves a fresh feeling","Naturally derived cleansers"],comp:[["Aloe vera","hydration"],["Naturally derived cleansers","gentle cleansing"]],use:"Apply to wet skin, lather, rinse."},
+"body-lotion":{tag:"Lightweight, fast-absorbing aloe body lotion, 236 ml.",ben:["Locks moisture into the skin","Helps reinforce the skin's protective barrier","Light texture that absorbs fast, non-greasy","Ideal after showering with Aloe Body Wash"],comp:[["Aloe vera","moisture"],["Plant oils and butters","nourishment"],["Moisturizing agents","skin barrier"]],use:"Apply all over the body, ideally after showering, and massage until absorbed."},
 "malosi":{tag:"Fine fragrance for men from the Forever collection.",ben:["Elegant, long-lasting scent for everyday or special occasions","Handy bottle to take along"],comp:[["Fragrance","eau de parfum"],["Alcohol, water","base"]],use:"Spray on the neck and wrists. Avoid the eyes."},
 "207":{tag:"100% natural honey, in a 500 g squeeze bottle.",ben:["Fast, natural source of energy","Soothes the throat, lovely in hot herbal teas","Replaces sugar in drinks and desserts"],comp:[["Natural honey","100%"]],use:"1 to 2 spoons a day, plain or in a warm drink. Do not give to babies under one year."},
 "072":{tag:"Tablets with lycium (goji) berries and licorice.",ben:["Goji berries are rich in antioxidants","Traditionally used in Asia for vitality and vision","Licorice is known for throat and digestive comfort"],comp:[["Lycium (goji) berry extract","antioxidants"],["Licorice root extract","plant"]],use:"1 to 2 tablets a day. Not recommended with high blood pressure (licorice), pregnancy or breastfeeding."},
@@ -882,6 +889,7 @@ PT.ar={
 "067":{tag:"مزيل عرق بالألوفيرا على شكل قلم، خالٍ من أملاح الألومنيوم.",ben:["يحمي من الروائح طوال اليوم","خالٍ من أملاح الألومنيوم والكحول، ولطيف على البشرة","لا يترك بقعًا على الملابس"],comp:[["جل الألوفيرا","مهدّئ"],["عامل مضادّ للروائح","خالٍ من الألومنيوم"]],use:"يُوضع على إبطين نظيفين وجافّين."},
 "liquid-soap":{tag:"صابون سائل بالألوفيرا لليدين والجسم، سعة 473 مل.",ben:["ينظّف بلطف دون أن يسبّب جفاف البشرة","تركيبة تحافظ على رطوبة البشرة","عوامل تنظيف من أصل طبيعي"],comp:[["الألوفيرا","ترطيب"],["عوامل تنظيف من أصل طبيعي","مشتقة من جوز الهند"]],use:"يُوضع على اليدين أو الجسم المبلّل، ويُفرك حتى تتكوّن رغوة، ثم يُشطف."},
 "body-wash":{tag:"جل استحمام رغوي بالألوفيرا، سعة 236 مل.",ben:["ينظّف البشرة مع الحفاظ على ترطيبها","يمنح إحساسًا منعشًا","عوامل تنظيف من أصل طبيعي"],comp:[["الألوفيرا","ترطيب"],["عوامل تنظيف من أصل طبيعي","تنظيف لطيف"]],use:"يُوضع على البشرة المبلّلة، ويُفرك حتى تتكوّن رغوة، ثم يُشطف."},
+"body-lotion":{name:"لوشن الجسم بالألوفيرا",tag:"لوشن خفيف للجسم بالألوفيرا سريع الامتصاص، سعة 236 مل.",ben:["يحبس الرطوبة داخل البشرة","يساعد على تقوية الحاجز الواقي للبشرة","قوام خفيف سريع الامتصاص وغير دهني","مثالي بعد الاستحمام مع جل الاستحمام بالألوفيرا"],comp:[["الألوفيرا","ترطيب"],["زيوت وزبدات نباتية","تغذية"],["عوامل مرطّبة","حاجز البشرة"]],use:"يُوضع على الجسم كله، ويُفضّل بعد الاستحمام، ويُدلَّك حتى يُمتصّ."},
 "malosi":{tag:"عطر رجالي راقٍ من مجموعة فوريفر.",ben:["عطر أنيق يدوم طويلًا للاستخدام اليومي والمناسبات الخاصة","قارورة عملية يسهل حملها"],comp:[["تركيبة عطرية","ماء عطر (أو دو بارفان)"],["الكحول والماء","المكوّن الأساسي"]],use:"يُرشّ على الرقبة والمعصمين، مع تجنّب ملامسة العينين."},
 "207":{tag:"عسل طبيعي 100٪ في عبوة سكب سعة 500 غ.",ben:["مصدر طبيعي وسريع للطاقة","يلطّف الحلق، ويُضفي مذاقًا مميزًا على المشروبات العشبية الساخنة","بديل طبيعي للسكر في المشروبات والحلويات"],comp:[["عسل طبيعي","100٪"]],use:"ملعقة إلى ملعقتين يوميًا، صافيًا أو في مشروب دافئ. لا يُعطى للرضّع دون السنة الأولى من العمر."},
 "072":{tag:"أقراص من توت الليسيوم (الغوجي) وعرق السوس.",ben:["توت الغوجي غني بمضادات الأكسدة","يُستخدم تقليديًا في آسيا لتعزيز الحيوية وصحة البصر","يُعرف عرق السوس بدوره في تلطيف الحلق وراحة الهضم"],comp:[["مستخلص توت الليسيوم (الغوجي)","مضادات أكسدة"],["مستخلص جذر عرق السوس","نبات"]],use:"قرص إلى قرصين يوميًا. لا يُنصح به في حالات ارتفاع ضغط الدم (بسبب عرق السوس) أو الحمل أو الرضاعة."},
