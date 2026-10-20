@@ -1,5 +1,5 @@
 // Nouf-Aloe : fonctionne hors connexion après la première ouverture
-const CACHE="nouf-aloe-v20";
+const CACHE="nouf-aloe-v21";
 const FILES=[
  "./",
  "index.html",
