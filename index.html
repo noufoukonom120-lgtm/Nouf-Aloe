@@ -659,7 +659,7 @@ const P = [
   vit:["B12","B9"],
   use:"1 comprimé par jour avec un repas."},
  {id:"nutraq10",name:"Forever NutraQ10",cat:"Nutrition",shape:"box",c1:"#E36A1C",c2:"#F4F1E8",
-  tag:"Coenzyme Q10 et vitamines en poudre à mélanger, pour l'énergie des cellules.",
+  tag:"Coenzyme Q10 et vitamines en poudre à mélanger, 30 sachets de 3,5 g.",
   ben:["La coenzyme Q10 participe à la production d'énergie dans les cellules","Soutient le cœur et la vitalité","Les vitamines contribuent à réduire la fatigue"],
   comp:[["Coenzyme Q10","énergie des cellules"],["Vitamines","ajoutées"],["Extraits de fruits","antioxydants"]],
   vit:["B","C"],
@@ -687,7 +687,7 @@ const IMG={
  "354":["img/kids.png"],"071":["img/garcinia-plus.webp"],"068":["img/fields-of-greens.png"],"skin-oil":["img/skin-oil.jpg"],
  "shampoo":["img/aloe-jojoba-shampoo.webp"],"c9":["img/c9.jpg"],"f15":["img/f15-v2.jpg"],"621":["img/supergreens.png"],"vital5":["img/vital5.png"],"dx4":["img/dx4.jpg"],
  "061":["img/aloe-vera-gelly.webp"],"440":["img/fab-x.png"],"040":["img/aloe-first.webp"],
- "374":["img/vitolize-homme.png"],"375":["img/vitolize-femme.png"],"215":["img/multi-maca.png"],"463":["img/forever-therm.png"],"622":["img/focus.webp"],"624":["img/ivision.png"],"037":["img/nature-min.png"],"188":["img/b12-plus.png"],"marine-collagen":["img/marine-collagen.png"]
+ "374":["img/vitolize-homme.png"],"375":["img/vitolize-femme.png"],"215":["img/multi-maca.png"],"463":["img/forever-therm.png"],"622":["img/focus.webp"],"624":["img/ivision.png"],"037":["img/nature-min.png"],"188":["img/b12-plus.png"],"marine-collagen":["img/marine-collagen.png"],"nutraq10":["img/nutraq10.webp"]
 };
 P.forEach(p=>{p.key=p.id||p.code;p.img=IMG[p.key]||null});
 /* ---------- Prix (FCFA) ---------- */
@@ -804,7 +804,7 @@ const PT={en:{
 "624":{"tag": "Eye-health supplement for screen users, 60 softgels.", "ben": ["Lutein and zeaxanthin help the eyes filter blue light from screens", "Supports normal vision", "Vitamin A and zinc contribute to maintaining good eyesight"], "comp": [["Lutemax 2020® (lutein and zeaxanthin)", "eye protection"], ["Vitamin A", "vision"], ["Zinc", "vision"], ["Carotenoids and antioxidants", "cell protection"]], "use": "1 softgel a day with a meal. Contains fish (tilapia)."},
 "037":{"tag": "Minerals and trace elements from the sea, 180 tablets.", "ben": ["Provides 10 essential minerals and trace elements", "Supports bones and cell energy", "Helps fill mineral gaps"], "comp": [["Marine mineral deposits", "trace elements"], ["Sea plants", "natural minerals"], ["Calcium, magnesium, zinc, iron", "minerals"]], "use": "Follow the dose on the label, with a meal."},
 "188":{"tag": "Vitamin B12 and folic acid together, 60 tablets.", "ben": ["Helps form red blood cells", "Supports the immune and nervous systems", "Folic acid is important during pregnancy", "Useful for people who eat little meat"], "comp": [["Vitamin B12", "red blood cells"], ["Folic acid (vitamin B9)", "cell renewal"]], "use": "1 tablet a day with a meal."},
-"nutraq10":{"tag": "Coenzyme Q10 and vitamins as a powder to mix, for cell energy.", "ben": ["Coenzyme Q10 takes part in energy production in the cells", "Supports the heart and vitality", "Vitamins help reduce tiredness"], "comp": [["Coenzyme Q10", "cell energy"], ["Vitamins", "added"], ["Fruit extracts", "antioxidants"]], "use": "Follow the dose on the pack, mixed in water or aloe gel."},
+"nutraq10":{"tag": "Coenzyme Q10 and vitamins as a powder to mix, 30 packets of 3.5 g.", "ben": ["Coenzyme Q10 takes part in energy production in the cells", "Supports the heart and vitality", "Vitamins help reduce tiredness"], "comp": [["Coenzyme Q10", "cell energy"], ["Vitamins", "added"], ["Fruit extracts", "antioxidants"]], "use": "Follow the dose on the pack, mixed in water or aloe gel."},
 "marine-collagen":{"tag": "Drinkable marine collagen, for beautiful skin.", "ben": ["Collagen supports skin elasticity and hydration", "Helps keep hair and nails healthy", "Vitamin C contributes to normal collagen formation"], "comp": [["Hydrolyzed marine collagen", "skin"], ["Vitamin C", "collagen formation"], ["Biotin", "hair and skin"], ["Zinc", "skin, hair and nails"], ["Fruit juice concentrate", "taste"]], "use": "Follow the dose on the pack. Contains fish."}
 }};
 UI.ar={sub:"دليلكم المرجعي لفوائد منتجات فوريفر ومكوّناتها وقيمتها الغذائية",tabProd:"المنتجات",tabVit:"الفيتامينات",search:"ابحثوا باسم المنتج أو الفائدة أو المكوّن…",contains:"يحتوي على:",
@@ -889,7 +889,7 @@ PT.ar={
 "624":{"name": "فوريفر آي فيجن", "tag": "مكمّل لصحة العينين أمام الشاشات، 60 كبسولة هلامية.", "ben": ["يساعد اللوتين والزياكسانثين العينين على تصفية الضوء الأزرق المنبعث من الشاشات", "يدعم الرؤية الطبيعية", "يسهم فيتامين A والزنك في الحفاظ على سلامة البصر"], "comp": [["لوتيماكس 2020® (لوتين وزياكسانثين)", "حماية العينين"], ["فيتامين A", "الرؤية"], ["الزنك", "الرؤية"], ["كاروتينات ومضادات أكسدة", "حماية الخلايا"]], "use": "كبسولة واحدة يوميًا مع الوجبة. يحتوي على السمك (البلطي)."},
 "037":{"name": "فوريفر نيتشر-مين", "tag": "معادن وعناصر نادرة من مصدر بحري، 180 قرصًا.", "ben": ["يوفّر 10 معادن أساسية وعناصر نادرة", "يدعم العظام وطاقة الخلايا", "يساعد على تعويض نقص المعادن"], "comp": [["رواسب معدنية بحرية", "عناصر نادرة"], ["نباتات بحرية", "معادن طبيعية"], ["الكالسيوم والمغنيسيوم والزنك والحديد", "معادن"]], "use": "تُتّبع الجرعة المذكورة على العبوة مع الوجبة."},
 "188":{"name": "فوريفر B12 بلس", "tag": "فيتامين B12 وحمض الفوليك معًا، 60 قرصًا.", "ben": ["يساعد على تكوين كريات الدم الحمراء", "يدعم الجهاز المناعي والجهاز العصبي", "حمض الفوليك مهم خلال الحمل", "مفيد لمن يتناولون قليلًا من اللحوم"], "comp": [["فيتامين B12", "كريات الدم الحمراء"], ["حمض الفوليك (فيتامين B9)", "تجدّد الخلايا"]], "use": "قرص واحد يوميًا مع الوجبة."},
-"nutraq10":{"name": "فوريفر نوترا Q10", "tag": "الإنزيم المساعد Q10 مع فيتامينات في مسحوق يُذاب، لطاقة الخلايا.", "ben": ["يشارك الإنزيم المساعد Q10 في إنتاج الطاقة داخل الخلايا", "يدعم القلب والحيوية", "تساعد الفيتامينات على الحدّ من الإرهاق"], "comp": [["الإنزيم المساعد Q10", "طاقة الخلايا"], ["فيتامينات", "مضافة"], ["مستخلصات فواكه", "مضادات أكسدة"]], "use": "تُتّبع الجرعة المذكورة على العبوة، مذابة في الماء أو جل الألوفيرا."},
+"nutraq10":{"name": "فوريفر نوترا Q10", "tag": "الإنزيم المساعد Q10 مع فيتامينات في مسحوق يُذاب، 30 كيسًا من 3.5 غ.", "ben": ["يشارك الإنزيم المساعد Q10 في إنتاج الطاقة داخل الخلايا", "يدعم القلب والحيوية", "تساعد الفيتامينات على الحدّ من الإرهاق"], "comp": [["الإنزيم المساعد Q10", "طاقة الخلايا"], ["فيتامينات", "مضافة"], ["مستخلصات فواكه", "مضادات أكسدة"]], "use": "تُتّبع الجرعة المذكورة على العبوة، مذابة في الماء أو جل الألوفيرا."},
 "marine-collagen":{"name": "فوريفر كولاجين بحري", "tag": "كولاجين بحري للشرب، لجمال البشرة.", "ben": ["يدعم الكولاجين مرونة البشرة وترطيبها", "يساعد على صحة الشعر والأظافر", "يسهم فيتامين C في التكوين الطبيعي للكولاجين"], "comp": [["كولاجين بحري متحلّل", "البشرة"], ["فيتامين C", "تكوين الكولاجين"], ["البيوتين", "الشعر والبشرة"], ["الزنك", "البشرة والشعر والأظافر"], ["مركّز عصير الفواكه", "النكهة"]], "use": "تُتّبع الجرعة المذكورة على العبوة. يحتوي على السمك."}
 };
 
