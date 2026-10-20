@@ -658,12 +658,12 @@ const P = [
   comp:[["Vitamine B12","globules rouges"],["Acide folique (vitamine B9)","renouvellement des cellules"]],
   vit:["B12","B9"],
   use:"1 comprimé par jour avec un repas."},
- {id:"nutraq10",name:"Forever NutraQ10",cat:"Nutrition",shape:"box",c1:"#E36A1C",c2:"#F4F1E8",
-  tag:"Coenzyme Q10 et vitamines en poudre à mélanger, 30 sachets de 3,5 g.",
-  ben:["La coenzyme Q10 participe à la production d'énergie dans les cellules","Soutient le cœur et la vitalité","Les vitamines contribuent à réduire la fatigue"],
-  comp:[["Coenzyme Q10","énergie des cellules"],["Vitamines","ajoutées"],["Extraits de fruits","antioxydants"]],
-  vit:["B","C"],
-  use:"Suivre la dose indiquée sur l'emballage, mélangée dans de l'eau ou du gel d'aloès."},
+ {code:"312",name:"Forever Cardio Health",cat:"Nutrition",shape:"box",c1:"#B3263A",c2:"#F4F1E8",
+  tag:"Coenzyme Q10, plantes et vitamines en sachets, pour le cœur et la circulation.",
+  ben:["Soutient la santé du cœur et des vaisseaux sanguins","La coenzyme Q10 participe à la production d'énergie dans les cellules","Les vitamines B6, B12 et l'acide folique contribuent au bon fonctionnement du cœur","Les antioxydants (vitamines C et E, pépins de raisin) protègent les cellules"],
+  comp:[["Coenzyme Q10","énergie des cellules"],["Lécithine de soja","circulation"],["Huile de feuille d'olivier","cœur"],["Extrait de pépins de raisin","antioxydant"],["Curcuma et boswellia","plantes"],["Vitamines B6, B12, B9, C, E","ajoutées"],["Magnésium et chrome","minéraux"]],
+  vit:["B","B12","B9","C","E","Mg"],
+  use:"1 sachet par jour, mélangé dans un verre (environ 120 ml) de gel d'aloès ou d'une autre boisson, avant ou pendant le repas. Contient du soja. Avis médical en cas de traitement pour le cœur ou la tension."},
  {id:"marine-collagen",name:"Forever Marine Collagen",cat:"Nutrition",shape:"box",c1:"#2A9D8F",c2:"#F4F1E8",
   tag:"Collagène marin à boire, pour la beauté de la peau.",
   ben:["Le collagène soutient l'élasticité et l'hydratation de la peau","Aide à garder des cheveux et des ongles en bonne santé","La vitamine C contribue à la formation normale du collagène"],
@@ -687,14 +687,14 @@ const IMG={
  "354":["img/kids.png"],"071":["img/garcinia-plus.webp"],"068":["img/fields-of-greens.png"],"skin-oil":["img/skin-oil.jpg"],
  "shampoo":["img/aloe-jojoba-shampoo.webp"],"c9":["img/c9.jpg"],"f15":["img/f15-v2.jpg"],"621":["img/supergreens.png"],"vital5":["img/vital5.png"],"dx4":["img/dx4.jpg"],
  "061":["img/aloe-vera-gelly.webp"],"440":["img/fab-x.png"],"040":["img/aloe-first.webp"],
- "374":["img/vitolize-homme.png"],"375":["img/vitolize-femme.png"],"215":["img/multi-maca.png"],"463":["img/forever-therm.png"],"622":["img/focus.webp"],"624":["img/ivision.png"],"037":["img/nature-min.png"],"188":["img/b12-plus.png"],"marine-collagen":["img/marine-collagen.png"],"nutraq10":["img/nutraq10.webp"]
+ "374":["img/vitolize-homme.png"],"375":["img/vitolize-femme.png"],"215":["img/multi-maca.png"],"463":["img/forever-therm.png"],"622":["img/focus.webp"],"624":["img/ivision.png"],"037":["img/nature-min.png"],"188":["img/b12-plus.png"],"marine-collagen":["img/marine-collagen.png"]
 };
 P.forEach(p=>{p.key=p.id||p.code;p.img=IMG[p.key]||null});
 /* ---------- Prix (FCFA) ---------- */
 const PRIX={"715":22000,"734":22000,"196":32000,"777":22000,"200":15500,"440":5000,
  "026":13000,"207":15500,"027":28500,"036":28500,"355":20500,"immune-gummy":32000,
  "376":26000,"048":15000,"065":16000,"439":16000,"610":32000,"206":21500,
- "354":13000,"072":26000,"264":29000,"551":55000,"473":65500,"375":27500,"nutraq10":29000,"622":72500,"marine-collagen":69000,"624":30500,"188":13000,"037":16000};
+ "354":13000,"072":26000,"264":29000,"551":55000,"473":65500,"375":27500,"312":29000,"622":72500,"marine-collagen":69000,"624":30500,"188":13000,"037":16000};
 const CC={"715":0.100,"734":0.100,"777":0.100,"196":0.146,"200":0.070,"440":0.019,
  "026":0.060,"207":0.070,"027":0.130,"036":0.130,"051":0.077,
  "551":0.250,"206":0.098,"264":0.136,"621":0.154,"610":0.147,"464":0.115,"068":0.051,
@@ -804,7 +804,7 @@ const PT={en:{
 "624":{"tag": "Eye-health supplement for screen users, 60 softgels.", "ben": ["Lutein and zeaxanthin help the eyes filter blue light from screens", "Supports normal vision", "Vitamin A and zinc contribute to maintaining good eyesight"], "comp": [["Lutemax 2020® (lutein and zeaxanthin)", "eye protection"], ["Vitamin A", "vision"], ["Zinc", "vision"], ["Carotenoids and antioxidants", "cell protection"]], "use": "1 softgel a day with a meal. Contains fish (tilapia)."},
 "037":{"tag": "Minerals and trace elements from the sea, 180 tablets.", "ben": ["Provides 10 essential minerals and trace elements", "Supports bones and cell energy", "Helps fill mineral gaps"], "comp": [["Marine mineral deposits", "trace elements"], ["Sea plants", "natural minerals"], ["Calcium, magnesium, zinc, iron", "minerals"]], "use": "Follow the dose on the label, with a meal."},
 "188":{"tag": "Vitamin B12 and folic acid together, 60 tablets.", "ben": ["Helps form red blood cells", "Supports the immune and nervous systems", "Folic acid is important during pregnancy", "Useful for people who eat little meat"], "comp": [["Vitamin B12", "red blood cells"], ["Folic acid (vitamin B9)", "cell renewal"]], "use": "1 tablet a day with a meal."},
-"nutraq10":{"tag": "Coenzyme Q10 and vitamins as a powder to mix, 30 packets of 3.5 g.", "ben": ["Coenzyme Q10 takes part in energy production in the cells", "Supports the heart and vitality", "Vitamins help reduce tiredness"], "comp": [["Coenzyme Q10", "cell energy"], ["Vitamins", "added"], ["Fruit extracts", "antioxidants"]], "use": "Follow the dose on the pack, mixed in water or aloe gel."},
+"312":{"tag": "Coenzyme Q10, plants and vitamins in sachets, for the heart and circulation.", "ben": ["Supports heart and blood vessel health", "Coenzyme Q10 takes part in energy production in the cells", "Vitamins B6, B12 and folic acid contribute to normal heart function", "Antioxidants (vitamins C and E, grape seed) protect the cells"], "comp": [["Coenzyme Q10", "cell energy"], ["Soy lecithin", "circulation"], ["Olive leaf oil", "heart"], ["Grape seed extract", "antioxidant"], ["Turmeric and boswellia", "plants"], ["Vitamins B6, B12, B9, C, E", "added"], ["Magnesium and chromium", "minerals"]], "use": "1 sachet a day, mixed in a glass (about 120 ml) of aloe gel or another drink, before or with a meal. Contains soy. Ask a doctor if you are treated for the heart or blood pressure."},
 "marine-collagen":{"tag": "Drinkable marine collagen, for beautiful skin.", "ben": ["Collagen supports skin elasticity and hydration", "Helps keep hair and nails healthy", "Vitamin C contributes to normal collagen formation"], "comp": [["Hydrolyzed marine collagen", "skin"], ["Vitamin C", "collagen formation"], ["Biotin", "hair and skin"], ["Zinc", "skin, hair and nails"], ["Fruit juice concentrate", "taste"]], "use": "Follow the dose on the pack. Contains fish."}
 }};
 UI.ar={sub:"دليلكم المرجعي لفوائد منتجات فوريفر ومكوّناتها وقيمتها الغذائية",tabProd:"المنتجات",tabVit:"الفيتامينات",search:"ابحثوا باسم المنتج أو الفائدة أو المكوّن…",contains:"يحتوي على:",
@@ -889,7 +889,7 @@ PT.ar={
 "624":{"name": "فوريفر آي فيجن", "tag": "مكمّل لصحة العينين أمام الشاشات، 60 كبسولة هلامية.", "ben": ["يساعد اللوتين والزياكسانثين العينين على تصفية الضوء الأزرق المنبعث من الشاشات", "يدعم الرؤية الطبيعية", "يسهم فيتامين A والزنك في الحفاظ على سلامة البصر"], "comp": [["لوتيماكس 2020® (لوتين وزياكسانثين)", "حماية العينين"], ["فيتامين A", "الرؤية"], ["الزنك", "الرؤية"], ["كاروتينات ومضادات أكسدة", "حماية الخلايا"]], "use": "كبسولة واحدة يوميًا مع الوجبة. يحتوي على السمك (البلطي)."},
 "037":{"name": "فوريفر نيتشر-مين", "tag": "معادن وعناصر نادرة من مصدر بحري، 180 قرصًا.", "ben": ["يوفّر 10 معادن أساسية وعناصر نادرة", "يدعم العظام وطاقة الخلايا", "يساعد على تعويض نقص المعادن"], "comp": [["رواسب معدنية بحرية", "عناصر نادرة"], ["نباتات بحرية", "معادن طبيعية"], ["الكالسيوم والمغنيسيوم والزنك والحديد", "معادن"]], "use": "تُتّبع الجرعة المذكورة على العبوة مع الوجبة."},
 "188":{"name": "فوريفر B12 بلس", "tag": "فيتامين B12 وحمض الفوليك معًا، 60 قرصًا.", "ben": ["يساعد على تكوين كريات الدم الحمراء", "يدعم الجهاز المناعي والجهاز العصبي", "حمض الفوليك مهم خلال الحمل", "مفيد لمن يتناولون قليلًا من اللحوم"], "comp": [["فيتامين B12", "كريات الدم الحمراء"], ["حمض الفوليك (فيتامين B9)", "تجدّد الخلايا"]], "use": "قرص واحد يوميًا مع الوجبة."},
-"nutraq10":{"name": "فوريفر نوترا Q10", "tag": "الإنزيم المساعد Q10 مع فيتامينات في مسحوق يُذاب، 30 كيسًا من 3.5 غ.", "ben": ["يشارك الإنزيم المساعد Q10 في إنتاج الطاقة داخل الخلايا", "يدعم القلب والحيوية", "تساعد الفيتامينات على الحدّ من الإرهاق"], "comp": [["الإنزيم المساعد Q10", "طاقة الخلايا"], ["فيتامينات", "مضافة"], ["مستخلصات فواكه", "مضادات أكسدة"]], "use": "تُتّبع الجرعة المذكورة على العبوة، مذابة في الماء أو جل الألوفيرا."},
+"312":{"name": "فوريفر كارديو هيلث", "tag": "الإنزيم المساعد Q10 ونباتات وفيتامينات في أكياس، لصحة القلب والدورة الدموية.", "ben": ["يدعم صحة القلب والأوعية الدموية", "يشارك الإنزيم المساعد Q10 في إنتاج الطاقة داخل الخلايا", "تسهم فيتامينات B6 وB12 وحمض الفوليك في الأداء الطبيعي للقلب", "تحمي مضادات الأكسدة (فيتامينا C وE وبذور العنب) الخلايا"], "comp": [["الإنزيم المساعد Q10", "طاقة الخلايا"], ["ليسيثين الصويا", "الدورة الدموية"], ["زيت أوراق الزيتون", "القلب"], ["مستخلص بذور العنب", "مضاد للأكسدة"], ["الكركم والبوسويليا", "نباتات"], ["فيتامينات B6 وB12 وB9 وC وE", "مضافة"], ["المغنيسيوم والكروم", "معادن"]], "use": "كيس واحد يوميًا يُذاب في كوب (نحو 120 مل) من جل الألوفيرا أو مشروب آخر، قبل الوجبة أو معها. يحتوي على الصويا. يُرجى استشارة الطبيب في حال العلاج من أمراض القلب أو ضغط الدم."},
 "marine-collagen":{"name": "فوريفر كولاجين بحري", "tag": "كولاجين بحري للشرب، لجمال البشرة.", "ben": ["يدعم الكولاجين مرونة البشرة وترطيبها", "يساعد على صحة الشعر والأظافر", "يسهم فيتامين C في التكوين الطبيعي للكولاجين"], "comp": [["كولاجين بحري متحلّل", "البشرة"], ["فيتامين C", "تكوين الكولاجين"], ["البيوتين", "الشعر والبشرة"], ["الزنك", "البشرة والشعر والأظافر"], ["مركّز عصير الفواكه", "النكهة"]], "use": "تُتّبع الجرعة المذكورة على العبوة. يحتوي على السمك."}
 };
 
