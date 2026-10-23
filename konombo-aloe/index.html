@@ -2,7 +2,7 @@
 <title>Santé Aloe Bien-être</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap">
 <style>
 :root{
   /* Thème clair unique, contraste renforcé pour une lecture nette sur tous les téléphones */
@@ -27,6 +27,7 @@ h1,h2,h3{font-family:var(--display);line-height:1.1;text-wrap:balance;margin:0}
 .top-actions{display:flex;align-items:center;gap:8px}
 .brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:18px;text-decoration:none}
 .brand svg{flex:none}
+.brand .bn{display:block;font-family:"Abril Fatface",Georgia,serif;font-weight:400;font-size:20px;line-height:1.1;letter-spacing:.01em}
 .brand small{display:block;font-family:var(--body);font-weight:500;font-size:12px;color:var(--muted);letter-spacing:.02em}
 
 .btn-wa{display:inline-flex;align-items:center;gap:8px;background:var(--wa);color:var(--wa-ink);text-decoration:none;font-weight:700;border-radius:999px;padding:10px 18px;border:0;cursor:pointer;font:inherit;font-weight:700;transition:transform .15s ease,filter .15s}
@@ -178,7 +179,7 @@ footer{margin-top:56px;padding-top:24px;border-top:1px solid var(--line);color:v
 .d-foot .btn-wa[aria-disabled="true"]{opacity:.45;pointer-events:none}
 .d-foot p{margin:0;font-size:12.5px;color:var(--muted);text-align:center}
 .clear{border:0;background:none;color:var(--muted);font:inherit;font-size:13px;text-decoration:underline;cursor:pointer}
-@media (max-width:480px){.cart-btn .lbl{display:none}.cart-btn{padding:10px 12px}.top .btn-wa{padding:10px 12px}.brand small{display:none}.freebar span{display:none}}
+@media (max-width:480px){.cart-btn .lbl{display:none}.cart-btn{padding:10px 12px}.top .btn-wa{padding:10px 12px}.brand .bn{font-size:17px}.brand small{font-size:11px}.freebar span{display:none}}
 
 /* Bouton et fiche vitamines */
 .vit-btn{align-self:flex-start;margin-bottom:4px;display:inline-flex;align-items:center;gap:5px;background:var(--honey);color:#fff;border:0;border-radius:999px;padding:6px 11px;font:inherit;font-size:12.5px;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.18)}
@@ -278,7 +279,7 @@ footer{margin-top:56px;padding-top:24px;border-top:1px solid var(--line);color:v
   <header class="top">
     <a class="brand" href="#accueil">
       <img class="avatar" src="img/avatar.webp" alt="Konombo" width="42" height="42">
-      <span>Santé Aloe Bien-être<small>Distributeur Forever indépendant · Ouagadougou</small></span>
+      <span><span class="bn">Santé Aloe <span style="white-space:nowrap">Bien-être</span></span><small>Manager Konombo</small></span>
     </a>
     <div class="top-actions">
     <button class="cart-btn" id="cartBtn" type="button" aria-label="Ouvrir le panier"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 8H6.2M10 21h.01M18 21h.01"/></svg><span class="lbl">Panier</span><span class="cart-count" id="cartCount">0</span></button>
