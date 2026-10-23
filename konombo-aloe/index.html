@@ -180,6 +180,21 @@ footer{margin-top:56px;padding-top:24px;border-top:1px solid var(--line);color:v
 .clear{border:0;background:none;color:var(--muted);font:inherit;font-size:13px;text-decoration:underline;cursor:pointer}
 @media (max-width:480px){.cart-btn .lbl{display:none}.cart-btn{padding:10px 12px}.top .btn-wa{padding:10px 12px}.brand small{display:none}.freebar span{display:none}}
 
+/* Bouton et fiche vitamines */
+.vit-btn{align-self:flex-start;margin-bottom:4px;display:inline-flex;align-items:center;gap:5px;background:var(--honey);color:#fff;border:0;border-radius:999px;padding:6px 11px;font:inherit;font-size:12.5px;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+.vit-btn svg{width:15px;height:15px;flex:none}
+.vsheet{position:fixed;left:0;right:0;bottom:0;margin:0 auto;max-width:560px;max-height:86vh;background:var(--bg);color:var(--ink);z-index:41;border-radius:22px 22px 0 0;display:flex;flex-direction:column;box-shadow:0 -10px 40px rgba(0,0,0,.25);padding-bottom:env(safe-area-inset-bottom,0px)}
+.vs-head{display:flex;gap:12px;align-items:center;padding:16px 18px;border-bottom:1px solid var(--line)}
+.vs-head img{width:56px;height:56px;object-fit:contain;border:1px solid var(--line);border-radius:12px;background:#fff;flex:none}
+.vs-head div{flex:1;min-width:0}
+.vs-head small{display:block;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--honey)}
+.vs-head h2{font-size:19px;font-weight:800}
+.vs-body{overflow-y:auto;padding:14px 18px 20px;display:grid;gap:10px}
+.vrow{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:11px 13px}
+.vrow b{display:block;font-size:15px;color:var(--aloe)}
+.vrow span{display:block;font-size:14px;color:var(--ink);margin-top:2px}
+.vs-note{font-size:12px;color:var(--muted);margin:4px 0 0}
+@media (max-width:480px){.vit-btn{padding:5px 9px;font-size:11.5px}}
 /* Floating WhatsApp */
 .float{position:fixed;right:16px;box-shadow:var(--shadow);bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:20;box-shadow:var(--shadow);padding:14px 20px}
 .toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:999px;font-size:14px;font-weight:600;z-index:30}
@@ -408,6 +423,11 @@ footer{margin-top:56px;padding-top:24px;border-top:1px solid var(--line);color:v
 </div></div>
 <div class="toast" id="toast" hidden></div>
 <div class="scrim" id="scrim" hidden></div>
+<div class="scrim" id="vScrim" hidden></div>
+<section class="vsheet" id="vSheet" role="dialog" aria-modal="true" aria-labelledby="vTitle" hidden>
+  <div class="vs-head"><img id="vImg" alt=""><div><small>Vitamines &amp; bienfaits</small><h2 id="vTitle"></h2></div><button class="x" id="vClose" type="button" aria-label="Fermer">×</button></div>
+  <div class="vs-body" id="vBody"></div>
+</section>
 <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="dTitle" hidden>
   <div class="d-head"><h2 id="dTitle">Votre panier</h2><button class="x" id="dClose" type="button" aria-label="Fermer le panier">×</button></div>
   <div class="d-body">
@@ -433,6 +453,74 @@ footer{margin-top:56px;padding-top:24px;border-top:1px solid var(--line);color:v
 
 
 <script>
+/* Vitamines et ingrédients clés de chaque produit, avec leurs bienfaits : [ingrédient, bienfait] */
+const VIT = {
+"Forever Aloe Vera Gel":[["Pulpe d'aloe vera (99,7 %)","Contribue au confort digestif et au bien-être général"],["Vitamine C","Contribue au fonctionnement normal du système immunitaire et réduit la fatigue"],["Polysaccharides de l'aloe","Aident l'organisme à mieux absorber les nutriments"],["Acides aminés","Participent à la construction des protéines du corps"]],
+"Forever Aloe Peaches":[["Pulpe d'aloe vera (84,5 %)","Contribue au confort digestif"],["Purée et concentré de pêche","Apportent un goût fruité et des antioxydants naturels"],["Vitamine C","Soutient les défenses naturelles et réduit la fatigue"]],
+"Forever Freedom":[["Pulpe d'aloe vera","Contribue au bien-être digestif"],["Glucosamine","Participe à la structure du cartilage"],["Chondroïtine","Aide à garder des articulations souples"],["MSM (soufre organique)","Soutient le confort des articulations et des muscles"],["Vitamine C","Contribue à la formation normale du collagène pour le cartilage et les os"]],
+"Forever Aloe Berry Nectar":[["Pulpe d'aloe vera (90,7 %)","Contribue au confort digestif"],["Canneberge","Contribue au confort urinaire"],["Pomme","Apporte des antioxydants et un goût doux"],["Vitamine C","Soutient l'immunité et protège les cellules du stress oxydatif"]],
+"FAB X Forever Active Boost":[["Vitamines B (B6, B12…)","Contribuent à réduire la fatigue et à un métabolisme énergétique normal"],["Vitamine C","Soutient les défenses naturelles"],["Vitamines A et E","Protègent les cellules contre le stress oxydatif"],["Acides aminés","Soutiennent les muscles pendant l'effort"]],
+"Aloe Blossom Herbal Tea":[["Fleurs d'aloe","Apportent une infusion douce et apaisante"],["Cannelle","Favorise une bonne digestion"],["Gingembre","Aide à la digestion et réchauffe"],["Cardamome et clou de girofle","Parfument et aident à la détente"]],
+"Forever Bee Honey":[["Miel pur","Source naturelle d'énergie rapide"],["Enzymes naturelles","Facilitent la digestion du miel"],["Minéraux (potassium, calcium…)","Participent au bon fonctionnement du corps"],["Antioxydants naturels","Aident à protéger les cellules"]],
+"Forever Bee Pollen":[["Pollen d'abeille","Apporte protéines, vitamines et minéraux"],["Vitamines du groupe B","Contribuent à réduire la fatigue"],["Acides aminés","Participent à la vitalité et à la construction musculaire"],["Gelée royale","Soutient l'énergie et le tonus"]],
+"Forever Bee Propolis":[["Propolis d'abeille","Soutient les défenses naturelles"],["Flavonoïdes","Aident à protéger les cellules du stress oxydatif"],["Gelée royale","Apporte tonus et vitalité"],["Miel","Adoucit et apporte de l'énergie"]],
+"Forever Royal Jelly":[["Gelée royale","Soutient le tonus physique et mental"],["Vitamines B (B5, B6)","Contribuent à réduire la fatigue et à la concentration"],["Acides aminés","Participent à la vitalité"],["Minéraux","Soutiennent le bon fonctionnement de l'organisme"]],
+"Forever ImmuBlend":[["Vitamine C","Contribue au fonctionnement normal du système immunitaire"],["Vitamine D","Soutient l'immunité, les os et les muscles"],["Zinc","Aide le système immunitaire et protège les cellules"],["Champignons maitake et shiitake","Soutiennent les défenses naturelles"],["Lactoferrine","Aide l'organisme à se défendre"]],
+"Forever NutraQ10":[["Coenzyme Q10","Aide les cellules à produire de l'énergie"],["Vitamines B (B1, B2, B3, B6, B12)","Contribuent à réduire la fatigue"],["Vitamines C et E","Protègent les cellules contre le stress oxydatif"],["Vitamine D","Soutient les os et l'immunité"]],
+"Forever Immune Gummy":[["Vitamine C","Contribue au fonctionnement normal du système immunitaire"],["Vitamine D","Soutient l'immunité et les os"],["Vitamines B (B6, B12, acide folique)","Contribuent à réduire la fatigue"],["Vitamines A et E","Protègent les cellules et la peau"],["Zinc","Soutient les défenses naturelles"]],
+"Forever Focus":[["L-tyrosine","Aide la concentration en période de stress"],["Citicoline","Soutient la mémoire et la vivacité d'esprit"],["Bacopa et ginkgo","Plantes qui accompagnent les fonctions cognitives"],["Vitamines B (B6, B12)","Contribuent au fonctionnement normal du système nerveux"],["Zinc","Contribue à une fonction cognitive normale"]],
+"Forever Marine Collagen":[["Collagène marin","Aide à garder une peau ferme et hydratée"],["Vitamine C","Contribue à la formation normale du collagène"],["Biotine (vitamine B8)","Contribue au maintien de cheveux et d'une peau normaux"],["Zinc et cuivre","Aident à garder des ongles et des cheveux solides"]],
+"Forever Arctic Sea":[["Oméga-3 EPA et DHA","Contribuent au bon fonctionnement du cœur"],["DHA","Contribue au maintien d'une fonction cérébrale et d'une vision normales"],["Huile de poisson et de calamar","Source naturelle d'oméga-3"],["Vitamine E","Protège les cellules contre le stress oxydatif"]],
+"Forever AloeTurm":[["Aloe vera","Contribue au bien-être général"],["Extrait de curcuma","Plante qui soutient le confort des articulations et la digestion"],["Zinc","Contribue au fonctionnement normal du système immunitaire"]],
+"Forever Garlic-Thyme":[["Ail","Soutient les défenses naturelles et la circulation"],["Thym","Aide à garder des voies respiratoires dégagées"],["Allicine","Composé actif de l'ail aux propriétés protectrices"]],
+"Forever Absorbent-C":[["Vitamine C","Contribue à l'immunité, réduit la fatigue et aide à former le collagène"],["Son d'avoine","Apporte des fibres qui aident l'absorption"],["Miel","Adoucit le goût et apporte de l'énergie"]],
+"Forever Daily":[["55 vitamines, minéraux et nutriments","Couvrent les besoins de chaque jour"],["Vitamines B","Contribuent à réduire la fatigue"],["Vitamines C, D et zinc","Soutiennent les défenses naturelles"],["Fer et magnésium","Participent à l'énergie et au fonctionnement des muscles"],["Mélange de fruits et légumes","Apporte des antioxydants"]],
+"Forever Active Pro-B":[["6 souches de probiotiques","Contribuent à l'équilibre de la flore intestinale"],["8 milliards de bonnes bactéries","Soutiennent le confort digestif"],["Fibres prébiotiques","Nourrissent les bonnes bactéries"]],
+"Forever Nature-Min":[["Calcium","Contribue au maintien d'os et de dents normaux"],["Magnésium","Réduit la fatigue et soutient les muscles"],["Zinc","Soutient l'immunité"],["Fer","Contribue au transport de l'oxygène dans le sang"],["Oligo-éléments marins","Complètent les apports en minéraux"]],
+"Forever Calcium":[["Calcium","Contribue au maintien d'os et de dents normaux"],["Magnésium","Contribue à une fonction musculaire normale"],["Vitamine D","Aide le corps à absorber le calcium"],["Vitamine C","Contribue à la formation du collagène pour les os"],["Zinc, cuivre et manganèse","Contribuent au maintien d'une ossature normale"]],
+"Forever Kids":[["Vitamine A","Contribue à une vision normale"],["Vitamines C et D","Soutiennent l'immunité et la croissance des os"],["Vitamines B","Contribuent à l'énergie et à la concentration"],["Fer et zinc","Soutiennent le développement et les défenses"],["Calcium","Contribue à des os et des dents solides"]],
+"Forever iVision":[["Lutéine et zéaxanthine","Aident à protéger les yeux de la lumière bleue des écrans"],["Vitamine A","Contribue au maintien d'une vision normale"],["Vitamines C et E","Protègent les cellules de l'œil du stress oxydatif"],["Zinc","Contribue au maintien d'une vision normale"],["Myrtille","Soutient le confort visuel"]],
+"Forever Lycium Plus":[["Baies de goji (lycium)","Riches en antioxydants, soutiennent la vitalité"],["Réglisse","Soutient le confort digestif et respiratoire"],["Vitamine C naturelle","Protège les cellules"]],
+"Forever Active HA":[["Acide hyaluronique","Aide à lubrifier les articulations et hydrate la peau"],["Gingembre","Soutient le confort des articulations"],["Curcuma","Aide à garder des articulations souples"]],
+"Forever Move":[["Membrane de coquille d'œuf (NEM)","Soutient le confort et la mobilité des articulations"],["Curcuma (BioCurc)","Aide à la récupération après l'effort"],["Collagène et acide hyaluronique naturels","Participent à la structure du cartilage"]],
+"Forever B12 Plus":[["Vitamine B12","Contribue à réduire la fatigue et au fonctionnement du système nerveux"],["Acide folique (B9)","Contribue à la formation des globules rouges et à la croissance pendant la grossesse"],["B12 + B9 ensemble","Contribuent à une formation normale du sang"]],
+"Argi+":[["L-arginine","Soutient la circulation sanguine et l'endurance"],["Vitamine C","Réduit la fatigue et soutient l'immunité"],["Vitamines B6, B12 et acide folique","Contribuent au métabolisme énergétique"],["Vitamines D et K","Soutiennent les os et la circulation"],["Fruits rouges (grenade, raisin…)","Apportent des antioxydants"]],
+"Vitolize Femmes":[["Canneberge","Contribue au confort urinaire"],["Fruit de la passion","Aide à la détente et à l'équilibre"],["Pomme et grenade","Apportent des antioxydants"],["Vitamines et minéraux","Soutiennent l'équilibre hormonal et le bien-être féminin"]],
+"Vitolize Hommes":[["Palmier nain (saw palmetto)","Soutient le bon fonctionnement de la prostate"],["Lycopène","Antioxydant qui protège les cellules"],["Graines de courge","Soutiennent le confort urinaire"],["Zinc et sélénium","Contribuent à la fertilité et à un taux normal de testostérone"]],
+"Forever Multi-Maca":[["Racine de maca","Soutient l'énergie, l'endurance et la libido"],["Muira puama et damiana","Plantes traditionnelles de la vitalité"],["Zinc","Contribue à la fertilité et à un taux normal de testostérone"]],
+"Forever Lite Ultra Chocolat":[["24 g de protéines par portion","Contribuent au maintien de la masse musculaire"],["Vitamines et minéraux (A, B, C, D, E…)","Font de la boisson un vrai repas équilibré"],["Calcium et magnésium","Soutiennent les os et les muscles"],["Peu de sucres et de graisses","Aide à contrôler les calories"]],
+"Forever Lean":[["Figuier de Barbarie (Neopuntia)","Aide à limiter l'absorption des graisses"],["Extrait de haricot blanc","Aide à limiter l'absorption des sucres"],["Chrome","Contribue au maintien d'un taux normal de sucre dans le sang"]],
+"Clean 9 (C9)":[["Forever Aloe Vera Gel","Aide à nettoyer et soutient la digestion"],["Forever Lite Ultra","Protéines et vitamines pour remplacer un repas"],["Forever Therm","Soutient le métabolisme"],["Forever Garcinia Plus","Aide à contrôler l'appétit"],["Forever Fiber","Favorise la satiété et le transit"]],
+"F15 Débutant":[["Forever Aloe Vera Gel","Soutient la digestion et l'énergie"],["Forever Lite Ultra","Protéines et vitamines pour des repas équilibrés"],["Forever Therm","Soutient le métabolisme"],["Forever Garcinia Plus","Aide à contrôler l'appétit"],["Forever Fiber","Favorise la satiété"]],
+"F15 Intermédiaire":[["Forever Aloe Vera Gel","Soutient la digestion et l'énergie"],["Forever Lite Ultra","Maintient la masse musculaire"],["Forever Therm","Soutient le métabolisme"],["Forever Garcinia Plus","Aide à contrôler l'appétit"],["Forever Fiber","Favorise la satiété"]],
+"Vital5":[["Forever Aloe Vera Gel ou Berry Nectar","Base de la nutrition et du confort digestif"],["Forever Arctic Sea (oméga-3)","Soutient le cœur et le cerveau"],["Forever Daily (multivitamines)","Couvre les besoins quotidiens"],["Forever Active Pro-B (probiotiques)","Équilibre la flore intestinale"],["Argi+ (L-arginine)","Énergie et bonne circulation"]],
+"Forever Therm":[["Thé vert et café vert","Soutiennent le métabolisme"],["Guarana","Apporte de l'énergie"],["Vitamines B (B1, B2, B3, B6, B12)","Contribuent à un métabolisme énergétique normal"],["Vitamine C","Réduit la fatigue"]],
+"Forever Garcinia Plus":[["Garcinia cambogia (HCA)","Aide à contrôler l'appétit et les fringales"],["Chrome","Contribue au maintien d'un taux normal de sucre dans le sang"],["Huile de carthame","Aide l'absorption des actifs"]],
+"Forever Fiber":[["Fibres solubles (4 sortes)","Favorisent la satiété et le transit"],["Fructo-oligosaccharides","Nourrissent les bonnes bactéries de l'intestin"],["Gomme arabique","Fibre douce pour le confort digestif"]],
+"Forever Fiber Fusion":[["Mélange de fibres (8 g)","Favorise la satiété et un transit régulier"],["Fibres prébiotiques","Nourrissent les bonnes bactéries de l'intestin"],["Gelée goût pomme","Facile à prendre, sans eau"]],
+"Aloe Propolis Crème":[["Gel d'aloe vera","Hydrate et apaise la peau"],["Propolis","Protège la peau et aide les petites imperfections"],["Camomille","Calme les peaux sensibles"],["Vitamines A et E","Nourrissent et protègent la peau"]],
+"Aloe Cooling Lotion":[["Gel d'aloe vera","Apaise et hydrate la peau"],["Menthol","Procure une sensation de fraîcheur immédiate"],["Eucalyptus et camphre","Détendent les muscles fatigués"]],
+"Aloe Body Wash":[["Gel d'aloe vera","Hydrate pendant la douche"],["Nettoyants d'origine naturelle","Lavent sans dessécher"],["Huile de coco","Nourrit la peau"]],
+"Aloe Liquid Soap":[["Gel d'aloe vera","Préserve l'hydratation de la peau"],["Glycérine","Retient l'humidité dans la peau"],["Nettoyants doux","Lavent mains et corps en douceur"]],
+"Forever Aloe Scrub":[["Gel d'aloe vera","Apaise la peau pendant le gommage"],["Microsphères de jojoba","Éliminent les cellules mortes en douceur"],["Vitamine E","Protège et adoucit la peau"]],
+"Forever Aloe Vera Gelly":[["Gel d'aloe vera pur","Apaise les coups de soleil et les petites irritations"],["Hydratation sans gras","Pénètre vite et laisse la peau fraîche"]],
+"Aloe Heat Lotion":[["Gel d'aloe vera","Hydrate la peau pendant le massage"],["Menthol et eucalyptus","Procurent une chaleur qui détend les muscles"],["Huiles de sésame et d'amande douce","Facilitent le massage et nourrissent la peau"]],
+"Aloe MSM Gel":[["Gel d'aloe vera","Apaise la peau"],["MSM (soufre organique)","Soutient le confort des muscles et des articulations"],["Plantes (arnica, consoude)","Aident à soulager après l'effort"]],
+"Aloe First":[["Gel d'aloe vera","Apaise et hydrate la peau"],["Propolis","Protège la peau"],["11 extraits de plantes","Calment les petites irritations"]],
+"Aloe Body Lotion":[["Gel d'aloe vera","Hydrate en profondeur"],["Huiles végétales","Renforcent la barrière protectrice de la peau"],["Vitamine E","Protège et adoucit la peau"]],
+"Aloe Avocado Face & Body Soap":[["Beurre d'avocat","Nourrit la peau grâce à ses vitamines A, D et E"],["Gel d'aloe vera","Hydrate pendant le lavage"],["Huile de coco","Nettoie en douceur"]],
+"Replenishing Skin Oil":[["Huiles végétales légères","Nourrissent sans graisser"],["Vitamine E","Protège la peau contre le stress oxydatif"],["Gel d'aloe vera","Hydrate et donne de l'éclat"]],
+"Protecting Day Lotion":[["Filtres solaires SPF 20","Protègent des rayons UVA et UVB"],["Gel d'aloe vera","Hydrate le visage toute la journée"],["Antioxydants (vitamine E)","Protègent la peau de la pollution"]],
+"Renewing Skin Crème":[["Gel d'aloe vera","Hydrate pendant la nuit"],["Peptides","Aident à lisser les ridules"],["Vitamines A et E","Nourrissent et régénèrent la peau"]],
+"Aloe Lips":[["Gel d'aloe vera","Apaise et répare les lèvres"],["Huile de jojoba","Nourrit et adoucit"],["Cire d'abeille","Protège du vent et du soleil"]],
+"R3 Factor":[["Collagène et élastine","Aident à garder une peau ferme"],["Vitamine A (rétinol)","Aide à renouveler la peau et atténuer les rides"],["Vitamine E","Protège la peau du stress oxydatif"],["Gel d'aloe vera","Hydrate en profondeur"]],
+"Aloe Activator":[["Gel d'aloe vera (98 %)","Hydrate et tonifie le visage"],["Allantoïne","Apaise la peau et aide à la régénération"],["Base des masques","Active les masques et soins Forever"]],
+"Forever Malosi":[["Notes boisées et épicées","Parfum masculin élégant"],["Tenue longue durée","Vous accompagne toute la journée"]],
+"Forever Bright Toothgel":[["Gel d'aloe vera","Apaise les gencives"],["Propolis","Aide à protéger la bouche"],["Menthe","Rafraîchit l'haleine"],["Sans fluor","Convient à toute la famille"]],
+"Aloe Ever-Shield":[["Gel d'aloe vera","Apaise la peau des aisselles"],["Sans sels d'aluminium","Doux pour la peau"],["Sans alcool","Ne pique pas, ne tache pas"]],
+"Aloe-Jojoba Conditioner":[["Gel d'aloe vera","Hydrate les cheveux et le cuir chevelu"],["Huile de jojoba","Démêle et rend les cheveux brillants"],["Vitamines B5, C et E","Fortifient et protègent les cheveux"]],
+"Aloe-Jojoba Shampoo":[["Gel d'aloe vera","Apaise le cuir chevelu"],["Huile de jojoba","Nourrit les cheveux"],["Vitamines B5 et E","Fortifient les cheveux"]]
+};
 const WA = "22670851205";
 const waUrl = msg => "https://wa.me/" + WA + "?text=" + encodeURIComponent(msg);
 
@@ -445,7 +533,7 @@ const CATS = {
   visage:{label:"Visage & beauté", tint:"#F1E3EE", c:"#9A4C86"},
   hygiene:{label:"Hygiène", tint:"#E0EEF2", c:"#2D7A8C"}
 };
-const IMG = {"immublend": "img/immublend.webp", "peaches": "img/peaches.webp", "cooling": "img/cooling.webp", "collagen": "img/collagen.webp", "tea": "img/tea.webp", "propolis": "img/propolis.webp", "liteultra": "img/liteultra.webp", "skinoil": "img/skinoil.webp", "conditioner": "img/conditioner.webp", "evershield": "img/evershield.webp", "liquidsoap": "img/liquidsoap.webp", "scrub": "img/scrub.webp", "bodywash": "img/bodywash.webp", "lean": "img/lean.webp", "malosi": "img/malosi.webp", "freedom": "img/freedom.webp", "fabx": "img/fabx.webp", "bright": "img/bright.webp", "probiotic": "img/probiotic.webp", "honey": "img/honey.webp", "pollen": "img/pollen.webp", "aloegel": "img/aloegel.webp", "absorbentc": "img/absorbentc.webp", "berry": "img/berry.webp", "c9": "img/c9.webp", "lips": "img/lips.webp", "msm": "img/msm.webp", "garlic": "img/garlic.webp", "heat": "img/heat.webp", "gelly": "img/gelly.webp", "argi": "img/argi.webp", "vital5": "img/vital5.webp", "aloefirst": "img/aloefirst.webp", "propolisbee": "img/propolisbee.webp", "arctic": "img/arctic.webp", "nutraq10": "img/nutraq10.webp", "immunegummy": "img/immunegummy.webp", "multimaca": "img/multimaca.webp", "daily": "img/daily.webp", "move": "img/move.webp", "fiber": "img/fiber.webp", "shampoo": "img/shampoo.webp", "garcinia": "img/garcinia.webp", "f15": "img/f15.webp", "therm": "img/therm.webp", "avocado": "img/avocado.webp", "ivision": "img/ivision.webp", "naturemin": "img/naturemin.webp", "focus": "img/focus.webp", "vitolizef": "img/vitolizef.webp", "b12": "img/b12.webp", "vitolizeh": "img/vitolizeh.webp", "activeha": "img/activeha.webp", "lycium": "img/lycium.webp", "kids": "img/kids.webp", "activator": "img/activator.webp", "royaljelly": "img/royaljelly.webp", "calcium": "img/calcium.webp"};
+const IMG = {"aloeturm": "img/aloeturm.webp", "bodylotion": "img/bodylotion.webp", "dayloti": "img/dayloti.webp", "fiberfusion": "img/fiberfusion.webp", "r3": "img/r3.webp", "renewing": "img/renewing.webp", "immublend": "img/immublend.webp", "peaches": "img/peaches.webp", "cooling": "img/cooling.webp", "collagen": "img/collagen.webp", "tea": "img/tea.webp", "propolis": "img/propolis.webp", "liteultra": "img/liteultra.webp", "skinoil": "img/skinoil.webp", "conditioner": "img/conditioner.webp", "evershield": "img/evershield.webp", "liquidsoap": "img/liquidsoap.webp", "scrub": "img/scrub.webp", "bodywash": "img/bodywash.webp", "lean": "img/lean.webp", "malosi": "img/malosi.webp", "freedom": "img/freedom.webp", "fabx": "img/fabx.webp", "bright": "img/bright.webp", "probiotic": "img/probiotic.webp", "honey": "img/honey.webp", "pollen": "img/pollen.webp", "aloegel": "img/aloegel.webp", "absorbentc": "img/absorbentc.webp", "berry": "img/berry.webp", "c9": "img/c9.webp", "lips": "img/lips.webp", "msm": "img/msm.webp", "garlic": "img/garlic.webp", "heat": "img/heat.webp", "gelly": "img/gelly.webp", "argi": "img/argi.webp", "vital5": "img/vital5.webp", "aloefirst": "img/aloefirst.webp", "propolisbee": "img/propolisbee.webp", "arctic": "img/arctic.webp", "nutraq10": "img/nutraq10.webp", "immunegummy": "img/immunegummy.webp", "multimaca": "img/multimaca.webp", "daily": "img/daily.webp", "move": "img/move.webp", "fiber": "img/fiber.webp", "shampoo": "img/shampoo.webp", "garcinia": "img/garcinia.webp", "f15": "img/f15.webp", "therm": "img/therm.webp", "avocado": "img/avocado.webp", "ivision": "img/ivision.webp", "naturemin": "img/naturemin.webp", "focus": "img/focus.webp", "vitolizef": "img/vitolizef.webp", "b12": "img/b12.webp", "vitolizeh": "img/vitolizeh.webp", "activeha": "img/activeha.webp", "lycium": "img/lycium.webp", "kids": "img/kids.webp", "activator": "img/activator.webp", "royaljelly": "img/royaljelly.webp", "calcium": "img/calcium.webp"};
 /* Prix en F CFA. Un produit absent de cette liste affiche « Prix sur WhatsApp ». */
 const PRIX = {
   "Forever Aloe Vera Gel":22000,
@@ -460,14 +548,14 @@ const PRIX = {
   "Forever Royal Jelly":28500,
   "Forever Absorbent-C":15000,
   "Forever Garlic-Thyme":16000,
-  "Forever Daily":16000,
+  "Forever Daily":17500,
   "Forever Active Pro-B":32000,
   "Forever Nature-Min":16000,
   "Forever Calcium":21500,
   "Forever Kids":13000,
   "Forever iVision":30500,
   "Forever Lycium Plus":26000,
-  "Forever Active HA":29000,
+  "Forever Active HA":29500,
   "Forever Move":55000,
   "Forever B12 Plus":13000,
   "Argi+":65500,
@@ -477,7 +565,40 @@ const PRIX = {
   "Forever Immune Gummy":32000,
   "Forever Focus":72500,
   "Forever Marine Collagen":69000,
-  "Forever Arctic Sea":26000
+  "Forever Arctic Sea":26000,
+  "Vitolize Hommes":26000,
+  "Forever Multi-Maca":23500,
+  "Forever Lite Ultra Chocolat":26500,
+  "Forever Lean":36500,
+  "Forever Therm":25000,
+  "Forever Garcinia Plus":26000,
+  "Aloe Cooling Lotion":13000,
+  "Aloe Heat Lotion":13000,
+  "Aloe MSM Gel":20500,
+  "Aloe Body Wash":19500,
+  "Aloe Liquid Soap":16500,
+  "Forever Aloe Scrub":13500,
+  "Forever Aloe Vera Gelly":13000,
+  "Aloe First":17500,
+  "Aloe Body Lotion":20000,
+  "Aloe Avocado Face & Body Soap":6500,
+  "Aloe Lips":3500,
+  "R3 Factor":28500,
+  "Protecting Day Lotion":32000,
+  "Forever Bright Toothgel":7000,
+  "Aloe Ever-Shield":7000,
+  "Aloe-Jojoba Conditioner":20500,
+  "Aloe-Jojoba Shampoo":19000,
+  "Replenishing Skin Oil":26500,
+  "Forever Malosi":29000,
+  "Vital5":223000,
+  "Aloe Activator":14000,
+  "F15 Débutant":127000,
+  "F15 Intermédiaire":127000,
+  "Clean 9 (C9)":104500,
+  "Forever Fiber":25000,
+  "Aloe Propolis Crème":16000,
+  "Forever AloeTurm":6000
 };
 const fcfa = n => n.toString().replace(/\B(?=(\d{3})+(?!\d))/g," ") + " F CFA";
 /* [nom, catégorie, forme, clé photo, présentation, [bienfaits]] */
@@ -498,6 +619,7 @@ const P = [
   ["Forever Focus","nutrition","gelules","focus","L-tyrosine, citicoline, plantes, vitamines et zinc.",["Concentration et vigilance","Soutient la mémoire","Idéal pour les études et le travail"]],
   ["Forever Marine Collagen","nutrition","boite","collagen","Collagène marin à boire, avec vitamine C, biotine et zinc.",["Peau plus ferme et hydratée","Cheveux et ongles plus forts","Sachets pratiques à emporter"]],
   ["Forever Arctic Sea","nutrition","gelules","arctic","Oméga-3 EPA et DHA issus d'huiles de poisson et de calamar.",["Soutient la santé du cœur","Bon pour le cerveau et la vue","Aide à l'équilibre du cholestérol"]],
+  ["Forever AloeTurm","nutrition","boite","aloeturm","Pastilles à mâcher à l'aloe, extrait de curcuma et zinc.",["Soutient les défenses naturelles","Apaise la gorge","Pratique à emporter"]],
   ["Forever Garlic-Thyme","nutrition","gelules","garlic","Capsules d'ail et de thym, sans odeur.",["Soutient les défenses naturelles","Bon pour la circulation","Sans l'odeur de l'ail"]],
   ["Forever Absorbent-C","nutrition","gelules","absorbentc","Vitamine C avec son d'avoine et miel.",["Renforce l'immunité","Réduit la fatigue","Aide à la formation du collagène"]],
   ["Forever Daily","nutrition","gelules","daily","Multivitamines et minéraux pour tous les jours.",["Couvre les besoins quotidiens","Soutient l'énergie","Un seul comprimé par jour"]],
@@ -507,7 +629,6 @@ const P = [
   ["Forever Kids","nutrition","gelules","kids","Vitamines à croquer pour les enfants.",["Soutient la croissance","Renforce les défenses","Goût fruité que les enfants aiment"]],
   ["Forever iVision","nutrition","gelules","ivision","Lutéine, zéaxanthine et vitamines pour les yeux.",["Protège les yeux des écrans","Soutient la vision","Aide à réduire la fatigue visuelle"]],
   ["Forever Lycium Plus","nutrition","gelules","lycium","Baies de goji et réglisse.",["Riche en antioxydants","Soutient la vitalité","Bon pour les yeux"]],
-  ["Forever Nature's 18","nutrition","gelules","","Dix-huit fruits et légumes en comprimés à croquer.",["Complète les fruits et légumes","Riche en antioxydants","Idéal pour les repas pressés"]],
   ["Forever Active HA","nutrition","gelules","activeha","Acide hyaluronique, curcuma et gingembre.",["Souplesse des articulations","Hydratation de la peau","Confort au quotidien"]],
   ["Forever Move","nutrition","gelules","move","Membrane de coquille d'œuf et curcuma.",["Mobilité des articulations","Récupération après l'effort","Action rapide"]],
   ["Forever B12 Plus","nutrition","gelules","b12","Vitamine B12 et acide folique.",["Réduit la fatigue","Soutient le système nerveux","Recommandé pendant la grossesse"]],
@@ -516,7 +637,6 @@ const P = [
   ["Vitolize Hommes","nutrition","gelules","vitolizeh","Complément formulé pour les hommes.",["Soutient la prostate","Vitalité masculine","Formule ciblée"]],
   ["Forever Multi-Maca","nutrition","gelules","multimaca","Maca et plantes pour l'énergie.",["Énergie et endurance","Soutient la libido","Tonus au quotidien"]],
   ["Forever Lite Ultra Chocolat","minceur","pot","liteultra","Poudre protéinée pour boisson, 24 g de protéines par portion.",["Remplace un repas facilement","Maintient la masse musculaire","Riche en vitamines et minéraux"]],
-  ["Forever Lite Ultra Vanille","minceur","pot","","Poudre protéinée pour boisson, parfum vanille.",["Remplace un repas facilement","Maintient la masse musculaire","Riche en vitamines et minéraux"]],
   ["Forever Lean","minceur","gelules","lean","Extrait de figuier de Barbarie, haricot blanc et chrome.",["Limite l'absorption des graisses","Aide à contrôler les sucres","Accompagne la perte de poids"]],
   ["Clean 9 (C9)","minceur","boite","c9","Programme de 9 jours pour démarrer une perte de poids.",["Nettoie et détoxifie","Démarre la perte de poids","Programme simple, guidé jour par jour"]],
   ["F15 Débutant","minceur","boite","f15","Programme de 15 jours, niveau débutant.",["Suite idéale après le C9","Habitudes alimentaires saines","Exercices adaptés"]],
@@ -524,7 +644,8 @@ const P = [
   ["Vital5","minceur","boite","vital5","Pack de cinq produits pour la nutrition de base.",["Nutrition complète","Flore intestinale équilibrée","Énergie et immunité"]],
   ["Forever Therm","minceur","gelules","therm","Extraits de plantes et vitamines B et C.",["Soutient le métabolisme","Énergie pendant le régime","Aide à brûler les calories"]],
   ["Forever Garcinia Plus","minceur","gelules","garcinia","Garcinia cambogia et chrome.",["Réduit les fringales","Aide à contrôler l'appétit","Accompagne la perte de poids"]],
-  ["Forever Fiber","minceur","boite","fiber","Fibres solubles en sachets.",["Effet de satiété","Favorise le transit","Se mélange à toute boisson"]],
+  ["Forever Fiber","minceur","boite","fiber","Fibres solubles en sachets, sans gluten.",["Effet de satiété","Favorise le transit","Se mélange à toute boisson"]],
+  ["Forever Fiber Fusion","minceur","boite","fiberfusion","Sticks en gelée goût pomme, 8 g de fibres par sachet.",["Effet de satiété","Favorise le transit","Se mélange à toute boisson"]],
   ["Aloe Propolis Crème","corps","tube","propolis","Crème à l'aloe, propolis et camomille.",["Hydrate et nourrit en profondeur","Apaise les peaux sèches et irritées","Idéale pour les petites imperfections"]],
   ["Aloe Cooling Lotion","corps","tube","cooling","Lotion de massage rafraîchissante à l'eucalyptus et au menthol.",["Effet frais immédiat","Détend les muscles après l'effort","Parfaite pour les jambes lourdes"]],
   ["Aloe Body Wash","corps","tube","bodywash","Gel douche moussant aux nettoyants d'origine naturelle.",["Nettoie en douceur","Préserve l'hydratation de la peau","Sensation de fraîcheur"]],
@@ -534,19 +655,14 @@ const P = [
   ["Aloe Heat Lotion","corps","tube","heat","Lotion de massage chauffante.",["Réchauffe les muscles","Idéale avant le sport","Massage relaxant"]],
   ["Aloe MSM Gel","corps","tube","msm","Gel à l'aloe et au MSM pour massage.",["Soulage muscles et articulations","Pénètre rapidement","Effet apaisant"]],
   ["Aloe First","corps","spray","aloefirst","Spray à l'aloe, propolis et extraits de plantes.",["Apaise la peau","Pratique dans la trousse de secours","Utile après le rasage"]],
-  ["Aloe Lotion","corps","tube","","Lotion hydratante pour le corps.",["Hydratation longue durée","Peau douce","Absorption rapide"]],
+  ["Aloe Body Lotion","corps","tube","bodylotion","Lotion légère pour le corps à l'aloe, pénètre rapidement.",["Hydratation longue durée","Peau douce","Absorption rapide"]],
   ["Aloe Avocado Face & Body Soap","corps","boite","avocado","Savon doux au beurre d'avocat, parfum d'agrumes.",["Nettoie sans dessécher","Nourrit la peau","Visage et corps"]],
-  ["Aloe Sunscreen","corps","tube","","Crème solaire à l'aloe, résistante à l'eau.",["Protège des UV","Résiste à l'eau","Hydrate la peau"]],
-  ["Gentleman's Pride","corps","bouteille","","Baume après-rasage pour homme.",["Apaise après le rasage","Hydrate","Parfum masculin"]],
   ["Replenishing Skin Oil","visage","flacon","skinoil","Huile de soin légère pour le visage.",["Nourrit la peau en profondeur","Renforce l'éclat du teint","Texture légère, non grasse"]],
+  ["Protecting Day Lotion","visage","tube","dayloti","Crème de jour hydratante avec protection solaire SPF 20.",["Hydrate le visage toute la journée","Protège des rayons du soleil","Base idéale avant le maquillage"]],
+  ["Renewing Skin Crème","visage","tube","renewing","Crème de nuit pour le visage, à appliquer le soir.",["Nourrit la peau pendant la nuit","Peau plus douce et lisse","Aide à atténuer les ridules"]],
   ["Aloe Lips","visage","tube","lips","Stick à lèvres à l'aloe, jojoba et cire d'abeille.",["Répare les lèvres gercées","Protège du vent et du soleil","Hydratation durable"]],
-  ["Aloe Moisturizing Lotion","visage","tube","","Lotion hydratante visage et corps.",["Hydrate intensément","Adoucit la peau","Tous types de peau"]],
-  ["Forever Alpha-E Factor","visage","spray","","Sérum aux vitamines A, C et E.",["Protège des radicaux libres","Peau plus souple","Teint uniforme"]],
-  ["R3 Factor","visage","pot","","Crème au collagène et vitamines.",["Régénère la peau","Atténue les rides","Hydrate"]],
+  ["R3 Factor","visage","tube","r3","Crème au collagène et vitamines.",["Régénère la peau","Atténue les rides","Hydrate"]],
   ["Aloe Activator","visage","bouteille","activator","Lotion à l'aloe, base des masques et soins.",["Hydrate le visage","Tonifie la peau","Base des masques"]],
-  ["Smoothing Exfoliator","visage","tube","","Gommage doux pour le visage.",["Affine le grain de peau","Teint éclatant","Doux au quotidien"]],
-  ["Gamme Sonya","visage","pot","","Soins quotidiens du visage à l'aloe.",["Nettoie et hydrate","Équilibre la peau","Routine simple"]],
-  ["Gamme Infinite by Forever","visage","pot","","Soins anti-âge avancés pour le visage.",["Réduit l'apparence des rides","Raffermit la peau","Résultats visibles"]],
   ["Forever Malosi","visage","flacon","malosi","Eau de parfum pour homme, notes boisées.",["Parfum masculin élégant","Bonne tenue toute la journée","Idée cadeau appréciée"]],
   ["Forever Bright Toothgel","hygiene","tube","bright","Dentifrice à l'aloe et propolis, sans fluor, goût menthe.",["Nettoie et blanchit les dents","Protège les gencives","Haleine fraîche"]],
   ["Aloe Ever-Shield","hygiene","stick","evershield","Déodorant stick sans sels d'aluminium ni alcool.",["Protection longue durée","Ne tache pas les vêtements","Doux pour les peaux sensibles"]],
@@ -585,7 +701,7 @@ function render(){
     const n = cart[p.name]||0;
     return `<article class="card">
       <div class="visual${p.img?' photo':''}" style="background:${c.tint}">${vis}</div>
-      <div class="body"><span class="cat" style="color:${c.c}">${c.label}</span><h3>${p.name}</h3><div class="price${p.price?"":" na"}">${p.price?fcfa(p.price):"Prix sur WhatsApp"}</div><p>${p.desc}</p><ul class="bens">${p.ben.map(b=>`<li>${b}</li>`).join("")}</ul>
+      <div class="body">${VIT[p.name]?`<button class="vit-btn" type="button" data-vit="${p.name.replace(/"/g,'&quot;')}"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" d="M10.5 20.5a5 5 0 0 1-7-7l7-7a5 5 0 0 1 7 7zM7 10l7 7"/></svg>Vitamines &amp; bienfaits</button>`:""}<span class="cat" style="color:${c.c}">${c.label}</span><h3>${p.name}</h3><div class="price${p.price?"":" na"}">${p.price?fcfa(p.price):"Prix sur WhatsApp"}</div><p>${p.desc}</p><ul class="bens">${p.ben.map(b=>`<li>${b}</li>`).join("")}</ul>
       <button class="add${n?' in':''}" type="button" data-add="${p.name.replace(/"/g,'&quot;')}">${CART_ICON}${n?`Dans le panier (${n}) · +1`:'Ajouter au panier'}</button>
       <a class="ask" href="${waUrl(msg)}" target="_blank" rel="noopener">Poser une question</a></div>
     </article>`;
@@ -654,7 +770,19 @@ $("cartBtn").addEventListener("click",openCart);
 $("dClose").addEventListener("click",closeCart);
 $("scrim").addEventListener("click",closeCart);
 document.addEventListener("keydown",e=>{ if(e.key==="Escape" && !$("drawer").hidden) closeCart(); });
+function openVit(name){
+  const p=BYNAME[name], rows=VIT[name]||[];
+  $("vTitle").textContent=name;
+  const im=$("vImg"); if(p&&p.img){im.src=p.img;im.hidden=false}else{im.hidden=true}
+  $("vBody").innerHTML=rows.map(([a,b])=>`<div class="vrow"><b>${a}</b><span>${b}</span></div>`).join("")+`<p class="vs-note">Ces produits sont des compléments ou des soins : ils ne remplacent pas une alimentation variée ni un avis médical.</p>`;
+  $("vSheet").hidden=false;$("vScrim").hidden=false;$("vClose").focus();
+}
+function closeVit(){$("vSheet").hidden=true;$("vScrim").hidden=true}
+$("vClose").addEventListener("click",closeVit);
+$("vScrim").addEventListener("click",closeVit);
+document.addEventListener("keydown",e=>{ if(e.key==="Escape" && !$("vSheet").hidden) closeVit(); });
 grid.addEventListener("click",e=>{
+  const vb=e.target.closest("[data-vit]"); if(vb){openVit(vb.dataset.vit);return}
   const b=e.target.closest("[data-add]"); if(!b) return;
   const name=b.dataset.add; setQty(name,(cart[name]||0)+1);
   const cb=$("cartBtn"); cb.classList.remove("bump"); void cb.offsetWidth; cb.classList.add("bump");
