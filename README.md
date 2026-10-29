@@ -9,3 +9,5 @@ Apprendre les produits Forever et le business Forever avec les managers du pays 
 👉 Ouvrir l'application : https://noufoukonom120-lgtm.github.io/Nouf-Aloe/
 
 🌿 Site **Konombo Aloe** (catalogue, panier, commande WhatsApp, tunnel Facebook) : https://noufoukonom120-lgtm.github.io/Nouf-Aloe/konombo-aloe/
+
+🌿 Site **Santé et Bien-être B** (site universel pour l'équipe : chaque membre crée son lien avec son numéro WhatsApp) : https://noufoukonom120-lgtm.github.io/Nouf-Aloe/sante-bien-etre-b/
