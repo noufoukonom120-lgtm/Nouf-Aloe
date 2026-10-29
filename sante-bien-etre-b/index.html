@@ -822,7 +822,7 @@ function openVit(name){
   const p=BYNAME[name], rows=VIT[name]||[];
   $("vTitle").textContent=name;
   const im=$("vImg"); if(p&&p.img){im.src=p.img;im.hidden=false}else{im.hidden=true}
-  $("vBody").innerHTML=rows.map(([a,b])=>`<div class="vrow"><b>${a}</b><span>${b}</span></div>`).join("")+`<p class="vs-note">Ces produits sont des compléments ou des soins : ils ne remplacent pas une alimentation variée ni un avis médical.</p>`;
+  $("vBody").innerHTML=rows.map(([a,b])=>`<div class="vrow"><b>${a}</b><span>${b}</span></div>`).join("");
   $("vSheet").hidden=false;$("vScrim").hidden=false;$("vClose").focus();
 }
 function closeVit(){$("vSheet").hidden=true;$("vScrim").hidden=true}
