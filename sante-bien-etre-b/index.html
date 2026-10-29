@@ -349,7 +349,7 @@ footer{margin-top:56px;padding-top:24px;border-top:1px solid var(--line);color:v
             <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg>
             Parler de l'opportunité
           </a>
-          <a class="btn-ghost" href="#equipe" style="margin-top:10px">Déjà dans l'équipe ? Créez votre lien</a>
+          <a class="btn-ghost" id="joinLink" href="#equipe" style="margin-top:10px">Déjà dans l'équipe ? Créez votre lien</a>
         </div>
         <div class="partner-side">
         <ul>
@@ -515,6 +515,7 @@ const DEF = {wa:"22670851205", nom:""};
 function slug(t){return t.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,40)}
 function unslug(t){return t.split("-").filter(Boolean).map(w=>w[0].toUpperCase()+w.slice(1)).join(" ")}
 function readDist(){
+  if(location.hash==="#inscription"){try{localStorage.removeItem("sante-b-dist")}catch(e){}setTimeout(()=>{const el=document.getElementById("equipe");if(el)el.scrollIntoView()},300);return DEF}
   const m = location.hash.match(/^#d-(\d{8,15})(?:-([a-z0-9-]+))?$/i);
   if(m){const d={wa:m[1],nom:m[2]?unslug(m[2]):"votre conseiller"};try{localStorage.setItem("sante-b-dist",JSON.stringify(d))}catch(e){}return d}
   try{const d=JSON.parse(localStorage.getItem("sante-b-dist")||"null");if(d&&/^\d{8,15}$/.test(d.wa))return d}catch(e){}
@@ -530,6 +531,9 @@ function applyDist(){
   document.getElementById("brandSub").textContent = isDef ? "Produits Forever · Ouagadougou" : "Conseiller : " + NOM;
   document.getElementById("footName").textContent = isDef ? "Santé et Bien-être B" : NOM;
   document.getElementById("footTel").textContent = tel;
+  /* Les clients d'un membre ne voient pas l'inscription de l'équipe */
+  document.getElementById("equipe").hidden = !isDef;
+  document.getElementById("joinLink").hidden = !isDef;
   document.querySelectorAll(".wa-link").forEach(a=>a.href=waUrl(a.dataset.msg));
 }
 
