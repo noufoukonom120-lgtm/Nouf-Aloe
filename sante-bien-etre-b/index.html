@@ -123,6 +123,10 @@ section{margin-top:56px}
 
 /* Témoignages (vidéos verticales) */
 .hero-testi video{aspect-ratio:9/16;object-fit:cover;max-height:70vh;margin-inline:auto}
+/* Sans lien de conseiller : aucun numéro, aucun bouton WhatsApp */
+.need-link{display:none}
+.no-wa .need-link{display:block;font-weight:600}
+.no-wa .wa-link,.no-wa .wa-only,.no-wa .card .ask{display:none!important}
 /* Steps */
 .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;counter-reset:s}
 .step{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:22px;counter-increment:s}
@@ -283,7 +287,8 @@ footer{margin-top:56px;padding-top:24px;border-top:1px solid var(--line);color:v
           </a>
           <a class="btn-ghost" href="#catalogue">Voir le catalogue</a>
         </div>
-        <div class="num">WhatsApp Business : <strong id="phone">+226 70 85 12 05</strong><button class="copy" id="copyBtn" type="button">Copier</button></div>
+        <p class="need-link">Pour commander, ouvrez le lien envoyé par votre conseiller Forever.</p>
+        <div class="num wa-only">WhatsApp : <strong id="phone"></strong><button class="copy" id="copyBtn" type="button">Copier</button></div>
       </div>
       <div class="hero-art"><img src="img/plan-aloe.webp" alt="Plants d'aloe vera au champ, Santé et Bien-être, Forever Living Products" width="1448" height="1086"><div class="hero-video"><video controls preload="metadata" playsinline poster="../konombo-aloe/videos/aloe-vera.jpg?v=2"><source src="../konombo-aloe/videos/aloe-vera.mp4?v=2" type="video/mp4"></video><span>▶ Pourquoi choisir l'aloe vera Forever ? · 1 min 40</span></div><div class="hero-video hero-testi"><video controls preload="metadata" playsinline poster="videos/temoignage-aloe-gel.jpg"><source src="videos/temoignage-aloe-gel.mp4" type="video/mp4"></video><span>▶ Témoignage : Forever Aloe Vera Gel · 2 min 22</span></div></div>
     </div>
@@ -369,7 +374,6 @@ footer{margin-top:56px;padding-top:24px;border-top:1px solid var(--line);color:v
           <p>Vous êtes distributeur dans l'équipe ? Entrez votre nom et votre numéro WhatsApp. Vous recevez un lien vers ce site à votre nom : quand vos clients l'ouvrent, toutes les commandes et questions arrivent sur <strong>votre</strong> WhatsApp.</p>
           <ol class="team-steps">
             <li>Remplissez le formulaire (aucun compte n'est nécessaire)</li>
-            <li>Envoyez votre inscription sur WhatsApp</li>
             <li>Copiez votre lien</li>
             <li>Partagez-le à vos clients (statut, groupes, Facebook…)</li>
           </ol>
@@ -387,7 +391,6 @@ footer{margin-top:56px;padding-top:24px;border-top:1px solid var(--line);color:v
             <span class="t-lbl">Votre lien personnel</span>
             <code id="tLink"></code>
             <div class="t-acts">
-              <a class="btn-wa" id="tReg" href="#" target="_blank" rel="noopener">1. Envoyer mon inscription</a>
               <button class="add" type="button" id="tCopy">Copier le lien</button>
               <a class="btn-wa" id="tShare" href="#" target="_blank" rel="noopener">Partager mon lien à mes clients</a>
               <a class="ask" id="tTest" href="#">Voir le site avec mon numéro</a>
@@ -399,7 +402,7 @@ footer{margin-top:56px;padding-top:24px;border-top:1px solid var(--line);color:v
   </main>
 
   <footer>
-    <div><strong id="footName">Santé et Bien-être B</strong> · distributeur indépendant Forever Living Products · Ouagadougou, Burkina Faso · WhatsApp <span id="footTel">+226 70 85 12 05</span></div>
+    <div><strong id="footName">Santé et Bien-être B</strong> · distributeur indépendant Forever Living Products · Ouagadougou, Burkina Faso<span class="wa-only"> · WhatsApp <span id="footTel"></span></span></div>
     <div>Ce site est tenu par un distributeur indépendant et n'est pas le site officiel de Forever Living Products. Les compléments alimentaires ne remplacent pas une alimentation variée et équilibrée ni un avis médical.</div>
   </footer>
 </div>
@@ -430,10 +433,11 @@ footer{margin-top:56px;padding-top:24px;border-top:1px solid var(--line);color:v
     <div class="sum"><div><span>Articles</span><b id="sumCount">0</b></div><div><span>Sous-total</span><b id="sumSub">0 F CFA</b></div><div><span>Livraison</span><span class="free">GRATUITE</span></div><div class="total"><span>Total à payer</span><b id="sumTotal">0 F CFA</b></div><div class="note" id="sumNote" hidden></div></div>
   </div>
   <div class="d-foot">
-    <a class="btn-wa" id="sendOrder" href="#" target="_blank" rel="noopener" aria-disabled="true">
+    <a class="btn-wa wa-only" id="sendOrder" href="#" target="_blank" rel="noopener" aria-disabled="true">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg>
       Envoyer la commande sur WhatsApp</a>
-    <p>WhatsApp s'ouvre avec votre commande déjà écrite. Il suffit d'appuyer sur Envoyer. Numéro : +226 70 85 12 05</p>
+    <p class="wa-only">WhatsApp s'ouvre avec votre commande déjà écrite. Il suffit d'appuyer sur Envoyer.</p>
+    <p class="need-link">Pour envoyer votre commande, ouvrez le lien envoyé par votre conseiller Forever.</p>
     <button class="clear" id="clearCart" type="button">Vider le panier</button>
   </div>
 </aside>
@@ -511,7 +515,7 @@ const VIT = {
 
 /* ---------- Distributeur : chaque membre de l'équipe a son lien ---------- */
 const SITE_URL = "https://noufoukonom120-lgtm.github.io/Nouf-Aloe/sante-bien-etre-b/";
-const DEF = {wa:"22670851205", nom:""};
+const DEF = {wa:"", nom:""};
 function slug(t){return t.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,40)}
 function unslug(t){return t.split("-").filter(Boolean).map(w=>w[0].toUpperCase()+w.slice(1)).join(" ")}
 function readDist(){
@@ -524,9 +528,10 @@ function readDist(){
 let DIST = readDist();
 let WA = DIST.wa, NOM = DIST.nom;
 function fmtTel(n){return "+"+n.replace(/^(\d{3})(\d{2})(\d{2})(\d{2})(\d{2})$/,"$1 $2 $3 $4 $5")}
-const waUrl = msg => "https://wa.me/" + WA + "?text=" + encodeURIComponent(msg.replace(/Bonjour \{NOM\}/g, NOM ? "Bonjour "+NOM : "Bonjour"));
+const waUrl = msg => !WA ? "#" : "https://wa.me/" + WA + "?text=" + encodeURIComponent(msg.replace(/Bonjour \{NOM\}/g, NOM ? "Bonjour "+NOM : "Bonjour"));
 function applyDist(){
-  const tel=fmtTel(WA), isDef = WA===DEF.wa;
+  const isDef = !WA, tel = isDef ? "" : fmtTel(WA);
+  document.body.classList.toggle("no-wa", isDef);
   document.getElementById("phone").textContent = tel;
   document.getElementById("brandSub").textContent = isDef ? "Produits Forever · Ouagadougou" : "Conseiller : " + NOM;
   document.getElementById("footName").textContent = isDef ? "Santé et Bien-être B" : NOM;
@@ -742,7 +747,6 @@ applyDist();
     document.getElementById("tLink").textContent=link;
     document.getElementById("tShare").href="https://wa.me/?text="+encodeURIComponent("Découvrez les produits Forever (aloe vera, compléments, soins) avec livraison gratuite à Ouaga. Commandez directement chez moi ici : "+link);
     document.getElementById("tTest").href="#"+tag;
-    document.getElementById("tReg").href="https://wa.me/"+DEF.wa+"?text="+encodeURIComponent("Bonjour, je m'inscris sur le site Santé et Bien-être B.\n\nNom : "+nom+"\nWhatsApp : +"+d+"\nMon lien : "+link);
     document.getElementById("tOut").hidden=false;
   });
   document.getElementById("tCopy").addEventListener("click",()=>{
