@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Nouf Vidéo HD</title>
+<meta name="description" content="Éclaircissez et rendez plus nettes vos vidéos sombres ou floues, puis convertissez-les en MP4 HD compatible WhatsApp. Tout se fait sur votre téléphone.">
+<meta name="theme-color" content="#0F1A14">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+/* Mise en page : une colonne type « table de montage », sombre pour juger l'image, accent vert aloès, or pour l'action principale */
+:root{
+  color-scheme:dark;
+  --bg:#0F1A14; --panel:#16241C; --panel-2:#1D2F25; --line:#2C4436;
+  --ink:#EEF4EF; --muted:#A9BCAE; --aloe:#3DBE7A; --aloe-ink:#062312;
+  --gold:#F2B340; --gold-ink:#2A1A00; --danger:#FF8A75;
+  --display:"Bricolage Grotesque",system-ui,sans-serif; --body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:calc(env(safe-area-inset-top,0px) + 18px) calc(env(safe-area-inset-bottom,0px) + 40px)}
+.wrap{max-width:720px;margin:0 auto;display:grid;gap:16px}
+h1,h2{font-family:var(--display);margin:0;line-height:1.1;text-wrap:balance}
+[hidden]{display:none!important}
+button,input,select{font:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:8px}
+
+header{display:flex;gap:12px;align-items:center}
+header img{width:48px;height:48px;border-radius:14px;flex:none}
+header h1{font-size:24px;font-weight:800}
+header p{margin:2px 0 0;color:var(--muted);font-size:14px}
+
+.card{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:16px;display:grid;gap:14px;min-width:0}
+.step{display:flex;align-items:center;gap:10px}
+.step b{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--panel-2);color:var(--gold);font-family:var(--display);font-size:15px;flex:none}
+.step h2{font-size:18px;font-weight:800}
+
+.drop{display:grid;place-items:center;text-align:center;gap:8px;border:2px dashed var(--line);border-radius:16px;padding:28px 16px;cursor:pointer;background:var(--panel-2)}
+.drop.over{border-color:var(--aloe)}
+.drop svg{width:44px;height:44px;color:var(--aloe)}
+.drop strong{font-size:17px}
+.drop span{color:var(--muted);font-size:14px}
+.drop input{position:absolute;width:1px;height:1px;opacity:0}
+
+.meta{display:flex;flex-wrap:wrap;gap:6px 14px;color:var(--muted);font-size:14px;font-variant-numeric:tabular-nums}
+.meta b{color:var(--ink);font-weight:600;word-break:break-all}
+
+.stage{position:relative;background:#000;border-radius:14px;overflow:hidden;display:grid;place-items:center;max-height:62vh}
+.stage canvas{display:block;max-width:100%;max-height:62vh;width:auto;height:auto}
+.tag{position:absolute;top:8px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:rgba(0,0,0,.6);color:#fff;padding:4px 8px;border-radius:999px;pointer-events:none}
+.tag.l{left:8px}.tag.r{right:8px;background:var(--aloe);color:var(--aloe-ink)}
+.controls{display:flex;align-items:center;gap:10px}
+.icon-btn{flex:none;width:44px;height:44px;border-radius:50%;border:0;background:var(--panel-2);color:var(--ink);display:grid;place-items:center;cursor:pointer}
+.icon-btn svg{width:20px;height:20px}
+.time{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;flex:none;min-width:82px;text-align:right}
+input[type=range]{width:100%;accent-color:var(--aloe);min-width:0}
+.split{display:grid;gap:4px;font-size:13px;color:var(--muted)}
+
+.sliders{display:grid;gap:12px}
+.sl{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;align-items:center}
+.sl label{font-weight:600;font-size:15px}
+.sl output{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.sl small{grid-column:1/-1;color:var(--muted);font-size:12.5px;margin-top:-2px}
+.sl input{grid-column:1/-1}
+.row{display:flex;flex-wrap:wrap;gap:8px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:999px;padding:11px 16px;font-weight:700;cursor:pointer;text-decoration:none;background:var(--panel-2);color:var(--ink)}
+.btn svg{width:18px;height:18px;flex:none}
+.btn.aloe{background:var(--aloe);color:var(--aloe-ink)}
+.btn.gold{background:var(--gold);color:var(--gold-ink)}
+.btn.big{width:100%;padding:16px;font-size:17px;border-radius:16px}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+
+.formats{display:grid;gap:8px}
+.fmt{display:flex;gap:12px;align-items:flex-start;border:1.5px solid var(--line);border-radius:14px;padding:12px;cursor:pointer;background:var(--panel-2)}
+.fmt:has(input:checked){border-color:var(--aloe);background:#1A3A2A}
+.fmt input{accent-color:var(--aloe);margin-top:4px;flex:none}
+.fmt b{display:block}
+.fmt span{color:var(--muted);font-size:13.5px}
+
+.bar{height:12px;border-radius:999px;background:var(--panel-2);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--aloe),var(--gold));transition:width .2s}
+.pct{font-family:var(--display);font-size:32px;font-weight:800;font-variant-numeric:tabular-nums}
+.hint{margin:0;color:var(--muted);font-size:14px}
+.err{background:#3A1E19;border:1px solid #6B3329;color:#FFD9D1;border-radius:14px;padding:12px 14px;font-size:14.5px}
+.ok-head{display:flex;align-items:center;gap:10px;color:var(--aloe);font-weight:700}
+.ok-head svg{width:26px;height:26px}
+video.result{width:100%;max-height:62vh;background:#000;border-radius:14px;display:block}
+footer{color:var(--muted);font-size:13px;text-align:center;display:grid;gap:4px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:999px;font-weight:600;font-size:14px;z-index:9;max-width:calc(100% - 32px);text-align:center}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img src="icon-192.png" alt="" width="48" height="48">
+    <div>
+      <h1>Nouf Vidéo HD</h1>
+      <p>Vidéo sombre ou floue → MP4 HD pour WhatsApp</p>
+    </div>
+  </header>
+
+  <div class="err" id="unsupported" hidden>Ce navigateur ne peut pas créer de vidéos. Ouvrez cette page dans <b>Google Chrome</b> (mis à jour) sur votre téléphone ou votre ordinateur.</div>
+
+  <!-- 1. Choisir -->
+  <section class="card" id="pickCard">
+    <div class="step"><b>1</b><h2>Choisissez une vidéo</h2></div>
+    <label class="drop" id="drop" for="file">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="15" height="14" rx="3"/><path d="M17 10l5-3v10l-5-3"/></svg>
+      <strong>Toucher ici pour choisir une vidéo</strong>
+      <span>Depuis la galerie, WhatsApp ou vos fichiers · MP4, MOV, WEBM…</span>
+      <input id="file" type="file" accept="video/*,.mp4,.mov,.m4v,.webm,.mkv,.3gp">
+    </label>
+    <div class="meta" id="meta" hidden></div>
+  </section>
+
+  <!-- 2. Améliorer -->
+  <section class="card" id="editCard" hidden>
+    <div class="step"><b>2</b><h2>Améliorez l'image</h2></div>
+    <div class="stage" id="stage">
+      <canvas id="view" aria-label="Aperçu de la vidéo : à gauche l'original, à droite la version améliorée"></canvas>
+      <span class="tag l" id="tagL">Avant</span><span class="tag r">Après</span>
+    </div>
+    <div class="controls">
+      <button class="icon-btn" id="playBtn" type="button" aria-label="Lire"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg></button>
+      <input type="range" id="seek" min="0" max="1000" value="0" step="1" aria-label="Position dans la vidéo">
+      <span class="time" id="time">0:00 / 0:00</span>
+    </div>
+    <label class="split" for="split">Glissez pour comparer avant / après
+      <input type="range" id="split" min="0" max="100" value="50">
+    </label>
+
+    <div class="row">
+      <button class="btn aloe" id="autoBtn" type="button"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.8 5.2L19 9l-5.2 1.8L12 16l-1.8-5.2L5 9l5.2-1.8zM19 14l.9 2.6 2.6.9-2.6.9L19 21l-.9-2.6-2.6-.9 2.6-.9z"/></svg>Correction automatique</button>
+      <button class="btn" id="resetBtn" type="button">Sans correction</button>
+    </div>
+
+    <div class="sliders">
+      <div class="sl"><label for="sGamma">Éclaircir les zones sombres</label><output id="oGamma"></output><input type="range" id="sGamma" min="1" max="2.2" step="0.05" value="1"><small>Pour les vidéos filmées le soir ou à l'intérieur</small></div>
+      <div class="sl"><label for="sBright">Luminosité</label><output id="oBright"></output><input type="range" id="sBright" min="-0.2" max="0.25" step="0.01" value="0"></div>
+      <div class="sl"><label for="sContrast">Contraste</label><output id="oContrast"></output><input type="range" id="sContrast" min="0.7" max="1.6" step="0.02" value="1"></div>
+      <div class="sl"><label for="sSat">Couleurs</label><output id="oSat"></output><input type="range" id="sSat" min="0.5" max="1.7" step="0.02" value="1"></div>
+      <div class="sl"><label for="sSharp">Netteté</label><output id="oSharp"></output><input type="range" id="sSharp" min="0" max="2.5" step="0.05" value="0"><small>Rend les contours plus nets. Une vidéo très floue ne peut pas devenir parfaitement nette.</small></div>
+    </div>
+  </section>
+
+  <!-- 3. Format -->
+  <section class="card" id="fmtCard" hidden>
+    <div class="step"><b>3</b><h2>Format de la vidéo</h2></div>
+    <div class="formats" role="radiogroup" aria-label="Qualité de sortie">
+      <label class="fmt"><input type="radio" name="fmt" value="720" checked><div><b>HD 720p · recommandé</b><span>Idéal pour WhatsApp, Facebook, TikTok. Fichier plus léger, envoi rapide.</span></div></label>
+      <label class="fmt"><input type="radio" name="fmt" value="1080"><div><b>Full HD 1080p</b><span>Meilleure image pour YouTube, présentations, ordinateur. Fichier plus lourd.</span></div></label>
+      <label class="fmt"><input type="radio" name="fmt" value="0"><div><b>Taille d'origine</b><span>Garde la taille de la vidéo (limitée à 1080p pour rester compatible partout).</span></div></label>
+    </div>
+    <p class="hint" id="outInfo"></p>
+    <button class="btn gold big" id="goBtn" type="button"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.8 5.2L19 9l-5.2 1.8L12 16l-1.8-5.2L5 9l5.2-1.8z"/></svg>Améliorer et créer le MP4</button>
+  </section>
+
+  <!-- Progression -->
+  <section class="card" id="progCard" hidden>
+    <div class="step"><b>4</b><h2 id="progTitle">Création de la vidéo…</h2></div>
+    <div class="pct" id="pct">0 %</div>
+    <div class="bar"><i id="barFill"></i></div>
+    <p class="hint" id="eta">Préparation…</p>
+    <p class="hint">Gardez cette page ouverte et l'écran allumé jusqu'à la fin.</p>
+    <button class="btn" id="cancelBtn" type="button">Annuler</button>
+  </section>
+
+  <!-- Résultat -->
+  <section class="card" id="doneCard" hidden>
+    <div class="ok-head"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M7.5 12.5l3 3 6-6.5"/></svg>Votre vidéo MP4 est prête</div>
+    <video class="result" id="result" controls playsinline></video>
+    <div class="meta" id="outMeta"></div>
+    <div class="row">
+      <a class="btn gold" id="saveBtn" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 20h16"/></svg>Enregistrer la vidéo</a>
+      <button class="btn aloe" id="shareBtn" type="button" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>Partager (WhatsApp…)</button>
+      <button class="btn" id="againBtn" type="button">Autre vidéo</button>
+    </div>
+    <p class="hint">MP4 H.264 + son AAC : le format lu par WhatsApp, Facebook, Instagram, TikTok, YouTube, iPhone, Android, Windows et Mac.</p>
+  </section>
+
+  <footer>
+    <span>Vos vidéos restent sur votre appareil : rien n'est envoyé sur internet.</span>
+    <span>Nouf Vidéo HD · Nouf-Aloe</span>
+  </footer>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script type="module">
+const $ = id => document.getElementById(id);
+const toast = (t) => { const el = $("toast"); el.textContent = t; el.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(() => { el.hidden = true; }, 2600); };
+const fmtTime = s => { s = Math.max(0, Math.round(s || 0)); const m = Math.floor(s / 60); return m + ":" + String(s % 60).padStart(2, "0"); };
+const fmtSize = b => b > 1e9 ? (b / 1e9).toFixed(2).replace(".", ",") + " Go" : (b / 1e6).toFixed(1).replace(".", ",") + " Mo";
+
+if (!("VideoEncoder" in window) || !("VideoFrame" in window)) { $("unsupported").hidden = false; }
+
+/* ---------- Rendu WebGL : netteté, éclaircissement, contraste, couleurs ---------- */
+const FRAG = `precision mediump float;
+uniform sampler2D t; uniform vec2 px; uniform float g,br,ct,sa,sh,sp;
+varying vec2 v;
+vec3 fx(vec2 uv){
+  vec3 c=texture2D(t,uv).rgb;
+  if(sh>0.0){
+    vec3 b=(texture2D(t,uv+vec2(px.x,0.)).rgb+texture2D(t,uv-vec2(px.x,0.)).rgb+texture2D(t,uv+vec2(0.,px.y)).rgb+texture2D(t,uv-vec2(0.,px.y)).rgb)*0.25;
+    vec3 d=c-b; c=c+d*sh*smoothstep(0.004,0.02,abs(dot(d,vec3(0.333))));
+  }
+  c=clamp(c,0.,1.);
+  c=pow(c,vec3(1.0/g));
+  c=c+br;
+  c=(c-0.5)*ct+0.5;
+  float l=dot(c,vec3(0.299,0.587,0.114));
+  c=mix(vec3(l),c,sa);
+  return clamp(c,0.,1.);
+}
+void main(){
+  if(v.x<sp){ gl_FragColor=vec4(texture2D(t,v).rgb,1.); return; }
+  vec3 c=fx(v);
+  if(sp>0.0 && v.x<sp+px.x*2.0) c=vec3(1.0);
+  gl_FragColor=vec4(c,1.);
+}`;
+const VERT = `attribute vec2 p; varying vec2 v; void main(){ v=vec2(p.x*0.5+0.5,0.5-p.y*0.5); gl_Position=vec4(p,0.,1.); }`;
+
+class Renderer {
+  constructor(canvas) {
+    const gl = canvas.getContext("webgl", { preserveDrawingBuffer: true, premultipliedAlpha: false, antialias: false });
+    if (!gl) { throw new Error("WebGL indisponible"); }
+    this.gl = gl; this.canvas = canvas;
+    const sh = (type, src) => { const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) { throw new Error(gl.getShaderInfoLog(s)); } return s; };
+    const pr = gl.createProgram();
+    gl.attachShader(pr, sh(gl.VERTEX_SHADER, VERT)); gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, FRAG)); gl.linkProgram(pr); gl.useProgram(pr);
+    const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+    const loc = gl.getAttribLocation(pr, "p"); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+    const tex = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, tex);
+    for (const [k, val] of [[gl.TEXTURE_MIN_FILTER, gl.LINEAR], [gl.TEXTURE_MAG_FILTER, gl.LINEAR], [gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE], [gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE]]) { gl.texParameteri(gl.TEXTURE_2D, k, val); }
+    this.u = {}; for (const n of ["px", "g", "br", "ct", "sa", "sh", "sp"]) { this.u[n] = gl.getUniformLocation(pr, n); }
+  }
+  size(w, h) { if (this.canvas.width !== w || this.canvas.height !== h) { this.canvas.width = w; this.canvas.height = h; } this.gl.viewport(0, 0, w, h); }
+  draw(source, p, split) {
+    const gl = this.gl, u = this.u;
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, source);
+    gl.uniform2f(u.px, 1 / this.canvas.width, 1 / this.canvas.height);
+    gl.uniform1f(u.g, p.gamma); gl.uniform1f(u.br, p.bright); gl.uniform1f(u.ct, p.contrast); gl.uniform1f(u.sa, p.sat); gl.uniform1f(u.sh, p.sharp); gl.uniform1f(u.sp, split);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+  }
+}
+
+/* ---------- État ---------- */
+const NEUTRAL = { gamma: 1, bright: 0, contrast: 1, sat: 1, sharp: 0 };
+const P = { ...NEUTRAL };
+const SL = { gamma: ["sGamma", "oGamma", v => "×" + v.toFixed(2).replace(".", ",")], bright: ["sBright", "oBright", v => (v > 0 ? "+" : "") + Math.round(v * 100)], contrast: ["sContrast", "oContrast", v => Math.round(v * 100) + " %"], sat: ["sSat", "oSat", v => Math.round(v * 100) + " %"], sharp: ["sSharp", "oSharp", v => Math.round(v * 40) + " %"] };
+let file = null, video = null, preview = null, srcW = 0, srcH = 0, conversion = null, outUrl = null, outFile = null;
+
+const syncSliders = () => { for (const [k, [sid, oid, f]] of Object.entries(SL)) { $(sid).value = P[k]; $(oid).textContent = f(P[k]); } };
+for (const [k, [sid, oid, f]] of Object.entries(SL)) {
+  $(sid).addEventListener("input", e => { P[k] = parseFloat(e.target.value); $(oid).textContent = f(P[k]); renderPreview(); });
+}
+syncSliders();
+
+/* ---------- Choix de la vidéo ---------- */
+const drop = $("drop");
+["dragenter", "dragover"].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add("over"); }));
+["dragleave", "drop"].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove("over"); }));
+drop.addEventListener("drop", e => { const f = e.dataTransfer.files[0]; if (f) { load(f); } });
+$("file").addEventListener("change", e => { const f = e.target.files[0]; if (f) { load(f); } e.target.value = ""; });
+
+async function load(f) {
+  file = f;
+  resetResult();
+  if (video) { video.pause(); URL.revokeObjectURL(video.src); }
+  video = document.createElement("video");
+  video.playsInline = true; video.preload = "auto"; video.src = URL.createObjectURL(f);
+  $("meta").hidden = false;
+  $("meta").innerHTML = `<b></b><span>Chargement…</span>`; $("meta").firstChild.textContent = f.name;
+  try {
+    await new Promise((res, rej) => { video.onloadeddata = res; video.onerror = () => rej(new Error("lecture")); });
+  } catch {
+    $("meta").innerHTML = `<span class="err" style="display:block">Cette vidéo ne peut pas être lue par ce navigateur. Essayez une autre vidéo ou ouvrez la page dans Google Chrome.</span>`;
+    $("editCard").hidden = $("fmtCard").hidden = true;
+    return;
+  }
+  srcW = video.videoWidth; srcH = video.videoHeight;
+  $("meta").innerHTML = "";
+  const add = (label, val) => { const s = document.createElement("span"); s.textContent = label + " : "; const b = document.createElement("b"); b.textContent = val; s.append(b); $("meta").append(s); };
+  add("Fichier", f.name); add("Durée", fmtTime(video.duration)); add("Taille", fmtSize(f.size)); add("Image", srcW + " × " + srcH);
+  $("editCard").hidden = $("fmtCard").hidden = false;
+  if (!preview) { preview = new Renderer($("view")); }
+  const pd = previewDims(); preview.size(pd.w, pd.h);
+  video.addEventListener("timeupdate", updateTime);
+  video.addEventListener("seeked", renderPreview);
+  video.addEventListener("ended", () => setPlayIcon(false));
+  video.addEventListener("play", loop);
+  updateTime(); updateOutInfo();
+  await autoCorrect();
+  $("editCard").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+const previewDims = () => { const s = Math.min(1, 1280 / Math.max(srcW, srcH)); return { w: Math.max(2, Math.round(srcW * s)), h: Math.max(2, Math.round(srcH * s)) }; };
+const split = () => parseInt($("split").value, 10) / 100;
+function renderPreview() { if (preview && video && video.readyState >= 2) { preview.draw(video, P, split()); } }
+$("split").addEventListener("input", () => { renderPreview(); $("tagL").hidden = split() < 0.12; });
+
+function loop() {
+  const step = () => { renderPreview(); if (!video.paused && !video.ended) { video.requestVideoFrameCallback ? video.requestVideoFrameCallback(step) : requestAnimationFrame(step); } };
+  step();
+}
+const setPlayIcon = playing => { $("playBtn").innerHTML = playing ? `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>` : `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>`; $("playBtn").setAttribute("aria-label", playing ? "Pause" : "Lire"); };
+$("playBtn").addEventListener("click", () => { if (!video) { return; } if (video.paused) { video.play(); setPlayIcon(true); } else { video.pause(); setPlayIcon(false); } });
+$("seek").addEventListener("input", e => { if (video && video.duration) { video.currentTime = video.duration * e.target.value / 1000; } });
+function updateTime() { if (!video) { return; } $("time").textContent = fmtTime(video.currentTime) + " / " + fmtTime(video.duration); if (video.duration) { $("seek").value = Math.round(video.currentTime / video.duration * 1000); } }
+
+/* ---------- Correction automatique : mesure la lumière sur quelques images ---------- */
+async function autoCorrect() {
+  const c = document.createElement("canvas"); c.width = 64; c.height = 36;
+  const ctx = c.getContext("2d", { willReadFrequently: true });
+  const keep = video.currentTime, n = 6; let sum = 0, sum2 = 0, cnt = 0;
+  for (let i = 0; i < n; i++) {
+    const t = video.duration * (i + 0.5) / n;
+    await new Promise(r => { video.addEventListener("seeked", r, { once: true }); video.currentTime = t; });
+    ctx.drawImage(video, 0, 0, 64, 36);
+    const d = ctx.getImageData(0, 0, 64, 36).data;
+    for (let j = 0; j < d.length; j += 4) { const l = (0.299 * d[j] + 0.587 * d[j + 1] + 0.114 * d[j + 2]) / 255; sum += l; sum2 += l * l; cnt++; }
+  }
+  const mean = sum / cnt, sd = Math.sqrt(Math.max(0, sum2 / cnt - mean * mean));
+  P.gamma = +Math.min(2.1, Math.max(1, 1 + (0.46 - mean) * 3)).toFixed(2);
+  P.bright = mean < 0.3 ? 0.03 : 0;
+  P.contrast = sd < 0.16 ? 1.18 : sd < 0.22 ? 1.08 : 1;
+  P.sat = 1.12;
+  P.sharp = 0.9;
+  syncSliders();
+  await new Promise(r => { video.addEventListener("seeked", r, { once: true }); video.currentTime = keep > 0 ? keep : Math.min(1, video.duration / 3); });
+  renderPreview();
+}
+$("autoBtn").addEventListener("click", async () => { if (video) { await autoCorrect(); toast("Correction automatique appliquée"); } });
+$("resetBtn").addEventListener("click", () => { Object.assign(P, NEUTRAL); syncSliders(); renderPreview(); });
+
+/* ---------- Taille de sortie ---------- */
+const preset = () => parseInt(document.querySelector("input[name=fmt]:checked").value, 10);
+function outDims(w, h) {
+  const short = Math.min(w, h), long = Math.max(w, h);
+  let target = preset() || Math.min(short, 1080);
+  let s = target / short;
+  if (long * s > target * 16 / 9 + 1) { s = (target * 16 / 9) / long; }
+  if (!preset() && s > 1) { s = 1; }
+  const even = x => Math.max(2, Math.round(x / 2) * 2);
+  return { w: even(w * s), h: even(h * s) };
+}
+function updateOutInfo() { if (!srcW) { return; } const d = outDims(srcW, srcH); $("outInfo").textContent = `Vidéo finale : ${d.w} × ${d.h}, MP4 (H.264 + AAC).`; }
+document.querySelectorAll("input[name=fmt]").forEach(r => r.addEventListener("change", updateOutInfo));
+
+/* ---------- Conversion ---------- */
+let MB = null;
+const loadLib = async () => { if (!MB) { MB = await import("./mediabunny-aac.mjs"); } return MB; };
+if ("requestIdleCallback" in window) { requestIdleCallback(() => loadLib().catch(() => {})); }
+
+$("goBtn").addEventListener("click", convert);
+$("cancelBtn").addEventListener("click", async () => { if (conversion) { try { await conversion.cancel(); } catch {} } });
+
+async function convert() {
+  if (!file) { return; }
+  if (video) { video.pause(); setPlayIcon(false); }
+  resetResult();
+  showProgress(true);
+  $("progTitle").textContent = "Création de la vidéo…"; setPct(0); $("eta").textContent = "Préparation…";
+  let wake = null; try { wake = await navigator.wakeLock?.request("screen"); } catch {}
+  const t0 = performance.now();
+  try {
+    const M = await loadLib();
+    if (!(await M.canEncodeAudio("aac"))) { M.registerAacEncoder(); }
+    const input = new M.Input({ source: new M.BlobSource(file), formats: M.ALL_FORMATS });
+    const vt = await input.getPrimaryVideoTrack();
+    if (!vt) { throw new Error("NOVIDEO"); }
+    const d = outDims(vt.displayWidth, vt.displayHeight);
+    if (!(await M.canEncodeVideo("avc", { width: d.w, height: d.h }))) { throw new Error("NOAVC"); }
+    let fps;
+    try { const st = await vt.computePacketStats(120); if (st.averagePacketRate > 31) { fps = 30; } } catch {}
+
+    const c2 = new OffscreenCanvas(d.w, d.h), ctx2 = c2.getContext("2d");
+    const glc = document.createElement("canvas"); const r = new Renderer(glc); r.size(d.w, d.h);
+    const params = { ...P };
+
+    const output = new M.Output({ format: new M.Mp4OutputFormat({ fastStart: "in-memory" }), target: new M.BufferTarget() });
+    conversion = await M.Conversion.init({
+      input, output,
+      video: {
+        codec: "avc", quality: M.QUALITY_HIGH, keyFrameInterval: 2, forceTranscode: true,
+        allowTransformationMetadata: false, frameRate: fps,
+        processedWidth: d.w, processedHeight: d.h,
+        process: sample => {
+          ctx2.fillStyle = "#000"; ctx2.fillRect(0, 0, d.w, d.h);
+          sample.drawWithFit(ctx2, { fit: "contain" });
+          r.draw(c2, params, -1);
+          return glc;
+        },
+      },
+      audio: { codec: "aac" },
+    });
+    if (!conversion.isValid) { throw new Error("INVALID"); }
+    conversion.onProgress = p => {
+      setPct(p);
+      const el = (performance.now() - t0) / 1000;
+      if (p > 0.03) { $("eta").textContent = "Temps restant : environ " + fmtTime(el / p - el); }
+    };
+    await conversion.execute();
+    const hasAudio = conversion.utilizedTracks ? conversion.utilizedTracks.some(t => t.type === "audio") : true;
+    const blob = new Blob([output.target.buffer], { type: "video/mp4" });
+    const base = file.name.replace(/\.[^.]+$/, "") || "video";
+    outFile = new File([blob], base + "-HD.mp4", { type: "video/mp4" });
+    showResult(d, (performance.now() - t0) / 1000, hasAudio);
+  } catch (e) {
+    showProgress(false);
+    if (e && (e.name === "ConversionCanceledError" || /cancel/i.test(e.message || ""))) { toast("Conversion annulée"); }
+    else { showError(e); }
+  } finally {
+    conversion = null;
+    try { await wake?.release(); } catch {}
+  }
+}
+
+function setPct(p) { const v = Math.round(p * 100); $("pct").textContent = v + " %"; $("barFill").style.width = v + "%"; }
+function showProgress(on) { $("progCard").hidden = !on; $("goBtn").disabled = on; if (on) { $("progCard").scrollIntoView({ behavior: "smooth", block: "center" }); } }
+function showError(e) {
+  console.error(e);
+  const m = (e && e.message) || "";
+  const txt = m === "NOAVC" ? "Ce navigateur ne sait pas créer de vidéo H.264. Ouvrez la page dans Google Chrome à jour."
+    : m === "NOVIDEO" ? "Ce fichier ne contient pas d'image vidéo."
+    : m === "INVALID" ? "Ce format de vidéo n'est pas pris en charge. Essayez une autre vidéo."
+    : "La création a échoué. Essayez « HD 720p », fermez les autres applications, puis réessayez.";
+  const box = document.createElement("div"); box.className = "err"; box.textContent = txt;
+  $("fmtCard").append(box); setTimeout(() => box.remove(), 9000);
+}
+function resetResult() { $("doneCard").hidden = true; if (outUrl) { URL.revokeObjectURL(outUrl); outUrl = null; } $("result").removeAttribute("src"); }
+function showResult(d, secs, hasAudio) {
+  showProgress(false);
+  outUrl = URL.createObjectURL(outFile);
+  $("result").src = outUrl;
+  $("saveBtn").href = outUrl; $("saveBtn").download = outFile.name;
+  $("outMeta").innerHTML = "";
+  const add = (label, val) => { const s = document.createElement("span"); s.textContent = label + " : "; const b = document.createElement("b"); b.textContent = val; s.append(b); $("outMeta").append(s); };
+  add("Fichier", outFile.name); add("Image", d.w + " × " + d.h); add("Taille", fmtSize(outFile.size)); add("Son", hasAudio ? "AAC" : "aucun");
+  $("shareBtn").hidden = !(navigator.canShare && navigator.canShare({ files: [outFile] }));
+  $("doneCard").hidden = false;
+  $("doneCard").scrollIntoView({ behavior: "smooth", block: "start" });
+  toast("Vidéo prête en " + fmtTime(secs));
+}
+$("shareBtn").addEventListener("click", async () => { try { await navigator.share({ files: [outFile], title: outFile.name }); } catch {} });
+$("againBtn").addEventListener("click", () => { $("file").click(); });
+</script>
+</body>
+</html>
