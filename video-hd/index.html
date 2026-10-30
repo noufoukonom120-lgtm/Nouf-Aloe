@@ -5,20 +5,20 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Nouf Vidéo HD</title>
 <meta name="description" content="Éclaircissez et rendez plus nettes vos vidéos sombres ou floues, puis convertissez-les en MP4 HD compatible WhatsApp. Tout se fait sur votre téléphone.">
-<meta name="theme-color" content="#0F1A14">
+<meta name="theme-color" content="#FFFFFF">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600;700&family=Anton&family=Montserrat:wght@700;800&family=Playfair+Display:ital,wght@1,700&family=Dancing+Script:wght@700&family=Bebas+Neue&display=swap">
 <style>
-/* Mise en page : une colonne type « table de montage », sombre pour juger l'image, accent vert aloès, or pour l'action principale */
+/* Mise en page : une colonne type « table de montage ». Fond blanc, texte brun foncé, accents dorés (doré foncé pour les actions) */
 :root{
-  color-scheme:dark;
-  --bg:#0F1A14; --panel:#16241C; --panel-2:#1D2F25; --line:#2C4436;
-  --ink:#EEF4EF; --muted:#A9BCAE; --aloe:#3DBE7A; --aloe-ink:#062312;
-  --gold:#F2B340; --gold-ink:#2A1A00; --danger:#FF8A75;
+  color-scheme:light;
+  --bg:#FFFFFF; --panel:#FFFDF8; --panel-2:#F7F0E1; --line:#E6D6B3;
+  --ink:#2A1C0B; --muted:#6E5B40; --aloe:#9A6B12; --aloe-ink:#FFFFFF;
+  --gold:#C9962B; --gold-ink:#FFFFFF; --danger:#B3402C; --sel:#FBF1DA;
   --display:"Bricolage Grotesque",system-ui,sans-serif; --body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
 }
 *{box-sizing:border-box}
@@ -31,18 +31,18 @@ button,input,select{font:inherit}
 :focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:8px}
 
 header{display:flex;gap:12px;align-items:center}
-header img{width:48px;height:48px;border-radius:14px;flex:none}
+header img{width:48px;height:48px;border-radius:14px;flex:none;box-shadow:0 4px 12px rgba(154,107,18,.25)}
 header h1{font-size:24px;font-weight:800}
 header p{margin:2px 0 0;color:var(--muted);font-size:14px}
 
-.card{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:16px;display:grid;gap:14px;min-width:0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:16px;display:grid;gap:14px;min-width:0;box-shadow:0 1px 2px rgba(42,28,11,.05),0 8px 24px rgba(154,107,18,.07)}
 .step{display:flex;align-items:center;gap:10px}
-.step b{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--panel-2);color:var(--gold);font-family:var(--display);font-size:15px;flex:none}
+.step b{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#E2B54E,#9A6B12);color:#fff;font-family:var(--display);font-size:15px;flex:none}
 .step h2{font-size:18px;font-weight:800}
 
 .drop{display:grid;place-items:center;text-align:center;gap:8px;border:2px dashed var(--line);border-radius:16px;padding:28px 16px;cursor:pointer;background:var(--panel-2)}
 .drop.over{border-color:var(--aloe)}
-.drop svg{width:44px;height:44px;color:var(--aloe)}
+.drop svg{width:44px;height:44px;color:var(--gold)}
 .drop strong{font-size:17px}
 .drop span{color:var(--muted);font-size:14px}
 .drop input{position:absolute;width:1px;height:1px;opacity:0}
@@ -53,7 +53,7 @@ header p{margin:2px 0 0;color:var(--muted);font-size:14px}
 .stage{position:relative;background:#000;border-radius:14px;overflow:hidden;display:grid;place-items:center;max-height:62vh}
 .stage canvas{display:block;max-width:100%;max-height:62vh;width:auto;height:auto}
 .tag{position:absolute;top:8px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:rgba(0,0,0,.6);color:#fff;padding:4px 8px;border-radius:999px;pointer-events:none}
-.tag.l{left:8px}.tag.r{right:8px;background:var(--aloe);color:var(--aloe-ink)}
+.tag.l{left:8px}.tag.r{right:8px;background:var(--gold);color:#fff}
 .controls{display:flex;align-items:center;gap:10px}
 .icon-btn{flex:none;width:44px;height:44px;border-radius:50%;border:0;background:var(--panel-2);color:var(--ink);display:grid;place-items:center;cursor:pointer}
 .icon-btn svg{width:20px;height:20px}
@@ -71,13 +71,13 @@ input[type=range]{width:100%;accent-color:var(--aloe);min-width:0}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:999px;padding:11px 16px;font-weight:700;cursor:pointer;text-decoration:none;background:var(--panel-2);color:var(--ink)}
 .btn svg{width:18px;height:18px;flex:none}
 .btn.aloe{background:var(--aloe);color:var(--aloe-ink)}
-.btn.gold{background:var(--gold);color:var(--gold-ink)}
+.btn.gold{background:linear-gradient(135deg,#D9A93E,#9A6B12);color:var(--gold-ink);box-shadow:0 4px 14px rgba(154,107,18,.3)}
 .btn.big{width:100%;padding:16px;font-size:17px;border-radius:16px}
 .btn[disabled]{opacity:.5;cursor:not-allowed}
 
 .formats{display:grid;gap:8px}
 .fmt{display:flex;gap:12px;align-items:flex-start;border:1.5px solid var(--line);border-radius:14px;padding:12px;cursor:pointer;background:var(--panel-2)}
-.fmt:has(input:checked){border-color:var(--aloe);background:#1A3A2A}
+.fmt:has(input:checked){border-color:var(--aloe);background:var(--sel)}
 .fmt input{accent-color:var(--aloe);margin-top:4px;flex:none}
 .fmt b{display:block}
 .fmt span{color:var(--muted);font-size:13.5px}
@@ -91,13 +91,42 @@ input[type=range]{width:100%;accent-color:var(--aloe);min-width:0}
 .seg label{cursor:pointer}
 .seg input{position:absolute;opacity:0;pointer-events:none}
 .seg span{display:block;text-align:center;padding:10px 4px;border-radius:12px;border:1.5px solid var(--line);background:var(--panel-2);font-weight:600;font-size:14px}
-.seg input:checked+span{border-color:var(--aloe);background:#1A3A2A;color:var(--aloe)}
+.seg input:checked+span{border-color:var(--aloe);background:var(--sel);color:var(--aloe)}
 .seg input:focus-visible+span{outline:3px solid var(--gold);outline-offset:2px}
+.layer{position:relative;display:block;line-height:0}
+.layer canvas{display:block}
+.layer #ov{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.texts{display:grid;gap:10px}
+.titem{border:1.5px solid var(--line);border-radius:16px;background:#fff;overflow:hidden}
+.titem.open{border-color:var(--gold)}
+.thead{display:flex;align-items:center;gap:10px;padding:10px 12px;cursor:pointer;background:var(--panel-2)}
+.thead span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600}
+.thead small{color:var(--muted);font-size:12.5px;flex:none}
+.tbody{padding:12px;display:grid;gap:12px}
+.tbody textarea{width:100%;min-height:64px;resize:vertical;border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;font:inherit;font-size:16px;color:var(--ink);background:#fff}
+.tbody textarea:focus{outline:none;border-color:var(--gold)}
+.lbl{font-weight:600;font-size:14px}
+.styles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.styles button{border:1.5px solid var(--line);border-radius:12px;background:#2A1C0B;color:#fff;height:54px;cursor:pointer;font-size:15px;overflow:hidden;padding:0 4px;white-space:nowrap}
+.styles button[aria-pressed="true"]{border-color:var(--gold);box-shadow:0 0 0 2px var(--gold)}
+.swatches{display:flex;flex-wrap:wrap;gap:8px}
+.swatches button{width:34px;height:34px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1.5px var(--line);cursor:pointer}
+.swatches button[aria-pressed="true"]{box-shadow:0 0 0 3px var(--gold)}
+.seg.s3{grid-template-columns:repeat(3,1fr)}
+.times{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.times label{display:grid;gap:4px;font-size:13px;color:var(--muted);font-weight:600}
+.times div{display:flex;gap:6px}
+.times input{width:100%;min-width:0;border:1.5px solid var(--line);border-radius:10px;padding:8px 10px;font:inherit;color:var(--ink);background:#fff}
+.times button{flex:none;border:0;border-radius:10px;background:var(--panel-2);color:var(--ink);font-weight:600;font-size:12.5px;padding:0 8px;cursor:pointer}
+.sub{font-family:var(--display);font-weight:800;font-size:16px;margin:4px 0 0;border-top:1px solid var(--line);padding-top:12px}
+.filebtn{position:relative;overflow:hidden}
+.filebtn input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.danger{color:var(--danger)!important}
 .bar{height:12px;border-radius:999px;background:var(--panel-2);overflow:hidden}
 .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--aloe),var(--gold));transition:width .2s}
 .pct{font-family:var(--display);font-size:32px;font-weight:800;font-variant-numeric:tabular-nums}
 .hint{margin:0;color:var(--muted);font-size:14px}
-.err{background:#3A1E19;border:1px solid #6B3329;color:#FFD9D1;border-radius:14px;padding:12px 14px;font-size:14.5px}
+.err{background:#FDECE8;border:1px solid #F0B9AC;color:#7A2414;border-radius:14px;padding:12px 14px;font-size:14.5px}
 .ok-head{display:flex;align-items:center;gap:10px;color:var(--aloe);font-weight:700}
 .ok-head svg{width:26px;height:26px}
 video.result{width:100%;max-height:62vh;background:#000;border-radius:14px;display:block}
@@ -112,7 +141,7 @@ footer{color:var(--muted);font-size:13px;text-align:center;display:grid;gap:4px}
     <img src="icon-192.png" alt="" width="48" height="48">
     <div>
       <h1>Nouf Vidéo HD</h1>
-      <p>Vidéo sombre ou floue → MP4 HD pour WhatsApp</p>
+      <p>Améliorer, ajouter textes et musique → MP4 HD</p>
     </div>
   </header>
 
@@ -134,7 +163,7 @@ footer{color:var(--muted);font-size:13px;text-align:center;display:grid;gap:4px}
   <section class="card" id="editCard" hidden>
     <div class="step"><b>2</b><h2>Améliorez l'image</h2></div>
     <div class="stage" id="stage">
-      <canvas id="view" aria-label="Aperçu de la vidéo : à gauche l'original, à droite la version améliorée"></canvas>
+      <div class="layer"><canvas id="view" aria-label="Aperçu de la vidéo : à gauche l'original, à droite la version améliorée"></canvas><canvas id="ov" aria-hidden="true"></canvas></div>
       <span class="tag l" id="tagL">Avant</span><span class="tag r">Après</span>
     </div>
     <div class="controls">
@@ -147,7 +176,7 @@ footer{color:var(--muted);font-size:13px;text-align:center;display:grid;gap:4px}
     </label>
 
     <div class="row">
-      <button class="btn aloe" id="autoBtn" type="button"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.8 5.2L19 9l-5.2 1.8L12 16l-1.8-5.2L5 9l5.2-1.8zM19 14l.9 2.6 2.6.9-2.6.9L19 21l-.9-2.6-2.6-.9 2.6-.9z"/></svg>Correction automatique</button>
+      <button class="btn gold" id="autoBtn" type="button"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.8 5.2L19 9l-5.2 1.8L12 16l-1.8-5.2L5 9l5.2-1.8zM19 14l.9 2.6 2.6.9-2.6.9L19 21l-.9-2.6-2.6-.9 2.6-.9z"/></svg>Correction automatique</button>
       <button class="btn" id="resetBtn" type="button">Sans correction</button>
     </div>
 
@@ -160,9 +189,19 @@ footer{color:var(--muted);font-size:13px;text-align:center;display:grid;gap:4px}
     </div>
   </section>
 
+  <!-- Textes -->
+  <section class="card" id="textCard" hidden>
+    <div class="step"><b>3</b><h2>Ajoutez des textes</h2></div>
+    <p class="hint">Titres, prix, numéro WhatsApp, messages… Choisissez la forme, la couleur, la place et le moment où le texte apparaît.</p>
+    <div class="texts" id="texts"></div>
+    <button class="btn gold" id="addText" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Ajouter un texte</button>
+  </section>
+
   <!-- Son -->
   <section class="card" id="audioCard" hidden>
-    <div class="step"><b>3</b><h2>Nettoyez le son</h2></div>
+    <div class="step"><b>4</b><h2>Le son</h2></div>
+    <div id="cleanBox" class="grp" style="gap:14px">
+    <p class="sub" style="border:0;padding:0;margin:0">Nettoyer le son de la vidéo</p>
     <label class="tog"><input type="checkbox" id="aWind" checked><span><b>Supprimer le bruit du vent</b><small>Enlève le grondement et les souffles du vent dans le micro</small></span></label>
     <div class="grp">
       <b>Bruits de fond inutiles</b>
@@ -174,24 +213,48 @@ footer{color:var(--muted);font-size:13px;text-align:center;display:grid;gap:4px}
         <label><input type="radio" name="aNoise" value="3"><span>Fort</span></label>
       </div>
     </div>
-    <label class="tog"><input type="checkbox" id="aLevel" checked><span><b>Volume équilibré</b><small>Rend la voix plus audible si la vidéo est trop faible</small></span></label>
+    <div class="sl"><label for="vVoice">Volume de la voix (son d'origine)</label><output id="oVoice">100 %</output><input type="range" id="vVoice" min="0" max="2" step="0.05" value="1"><small>Mettez à 0 pour couper le son d'origine et ne garder que la musique</small></div>
+    </div>
+    <p class="hint" id="noAudioNote" hidden>Cette vidéo n'a pas de son. Vous pouvez lui ajouter une musique ci-dessous.</p>
+
+    <p class="sub">Musique de fond</p>
+    <div class="row" style="align-items:center">
+      <label class="btn filebtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg><span id="musicLbl">Choisir une musique</span><input type="file" id="musicFile" accept="audio/*,.mp3,.m4a,.aac,.wav,.ogg,.opus,.flac"></label>
+      <button class="btn danger" id="musicDel" type="button" hidden>Retirer</button>
+    </div>
+    <div id="musicOpts" class="grp" style="gap:12px" hidden>
+      <div class="sl"><label for="vMusic">Volume de la musique</label><output id="oMusic">35 %</output><input type="range" id="vMusic" min="0" max="1.2" step="0.05" value="0.35"></div>
+      <label class="tog"><input type="checkbox" id="mDuck" checked><span><b>Baisser la musique quand on parle</b><small>La voix reste bien audible par-dessus la musique</small></span></label>
+      <label class="tog"><input type="checkbox" id="mFade" checked><span><b>Fondu au début et à la fin</b><small>La musique monte et descend doucement</small></span></label>
+      <label class="tog"><input type="checkbox" id="mLoop" checked><span><b>Répéter la musique</b><small>Si la musique est plus courte que la vidéo</small></span></label>
+    </div>
+    <p class="hint">Utilisez une musique que vous avez le droit de publier (musique libre de droits ou la vôtre).</p>
+
+    <p class="sub">Qualité du son</p>
+    <div class="seg s3" role="radiogroup" aria-label="Qualité du son">
+      <label><input type="radio" name="aQual" value="128000"><span>Standard</span></label>
+      <label><input type="radio" name="aQual" value="192000" checked><span>Haute</span></label>
+      <label><input type="radio" name="aQual" value="256000"><span>Studio</span></label>
+    </div>
+    <p class="hint" id="qualInfo">Haute : 192 kb/s, stéréo. Bon équilibre entre qualité et taille.</p>
+    <label class="tog"><input type="checkbox" id="aLevel" checked><span><b>Volume équilibré</b><small>Rend le son plus fort si la vidéo est trop faible, sans saturer</small></span></label>
     <div class="row">
       <button class="btn" id="listenBefore" type="button"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>Écouter l'original</button>
-      <button class="btn aloe" id="listenAfter" type="button"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>Écouter le son nettoyé</button>
+      <button class="btn gold" id="listenAfter" type="button"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>Écouter le résultat</button>
     </div>
-    <p class="hint" id="listenInfo">Écoute de 10 secondes à partir de la position de la vidéo.</p>
+    <p class="hint" id="listenInfo">Écoute de 10 secondes à partir de la position de la vidéo, avec nettoyage et musique.</p>
   </section>
 
   <!-- 3. Format -->
   <section class="card" id="fmtCard" hidden>
-    <div class="step"><b id="fmtNum">4</b><h2>Format de la vidéo</h2></div>
+    <div class="step"><b>5</b><h2>Format de la vidéo</h2></div>
     <div class="formats" role="radiogroup" aria-label="Qualité de sortie">
       <label class="fmt"><input type="radio" name="fmt" value="720" checked><div><b>HD 720p · recommandé</b><span>Idéal pour WhatsApp, Facebook, TikTok. Fichier plus léger, envoi rapide.</span></div></label>
       <label class="fmt"><input type="radio" name="fmt" value="1080"><div><b>Full HD 1080p</b><span>Meilleure image pour YouTube, présentations, ordinateur. Fichier plus lourd.</span></div></label>
       <label class="fmt"><input type="radio" name="fmt" value="0"><div><b>Taille d'origine</b><span>Garde la taille de la vidéo (limitée à 1080p pour rester compatible partout).</span></div></label>
     </div>
     <p class="hint" id="outInfo"></p>
-    <button class="btn gold big" id="goBtn" type="button"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.8 5.2L19 9l-5.2 1.8L12 16l-1.8-5.2L5 9l5.2-1.8z"/></svg>Améliorer et créer le MP4</button>
+    <button class="btn gold big" id="goBtn" type="button"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l1.8 5.2L19 9l-5.2 1.8L12 16l-1.8-5.2L5 9l5.2-1.8z"/></svg>Créer ma vidéo MP4</button>
   </section>
 
   <!-- Progression -->
@@ -211,7 +274,7 @@ footer{color:var(--muted);font-size:13px;text-align:center;display:grid;gap:4px}
     <div class="meta" id="outMeta"></div>
     <div class="row">
       <a class="btn gold" id="saveBtn" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 20h16"/></svg>Enregistrer la vidéo</a>
-      <button class="btn aloe" id="shareBtn" type="button" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>Partager (WhatsApp…)</button>
+      <button class="btn gold" id="shareBtn" type="button" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>Partager (WhatsApp…)</button>
       <button class="btn" id="againBtn" type="button">Autre vidéo</button>
     </div>
     <p class="hint">MP4 H.264 + son AAC : le format lu par WhatsApp, Facebook, Instagram, TikTok, YouTube, iPhone, Android, Windows et Mac.</p>
@@ -315,14 +378,14 @@ async function load(f) {
     await new Promise((res, rej) => { video.onloadeddata = res; video.onerror = () => rej(new Error("lecture")); });
   } catch {
     $("meta").innerHTML = `<span class="err" style="display:block">Cette vidéo ne peut pas être lue par ce navigateur. Essayez une autre vidéo ou ouvrez la page dans Google Chrome.</span>`;
-    $("editCard").hidden = $("fmtCard").hidden = true;
+    $("editCard").hidden = $("fmtCard").hidden = $("textCard").hidden = $("audioCard").hidden = true;
     return;
   }
   srcW = video.videoWidth; srcH = video.videoHeight;
   $("meta").innerHTML = "";
   const add = (label, val) => { const s = document.createElement("span"); s.textContent = label + " : "; const b = document.createElement("b"); b.textContent = val; s.append(b); $("meta").append(s); };
   add("Fichier", f.name); add("Durée", fmtTime(video.duration)); add("Taille", fmtSize(f.size)); add("Image", srcW + " × " + srcH);
-  $("editCard").hidden = $("fmtCard").hidden = false;
+  $("editCard").hidden = $("fmtCard").hidden = $("textCard").hidden = $("audioCard").hidden = false;
   if (!preview) { preview = new Renderer($("view")); }
   const pd = previewDims(); preview.size(pd.w, pd.h);
   video.addEventListener("timeupdate", updateTime);
@@ -330,7 +393,7 @@ async function load(f) {
   video.addEventListener("ended", () => setPlayIcon(false));
   video.addEventListener("play", loop);
   updateTime(); updateOutInfo();
-  $("audioCard").hidden = true; hasAudio = false;
+  hasAudio = false; $("cleanBox").hidden = true; $("noAudioNote").hidden = true;
   detectAudio(f);
   await autoCorrect();
   $("editCard").scrollIntoView({ behavior: "smooth", block: "start" });
@@ -338,7 +401,14 @@ async function load(f) {
 
 const previewDims = () => { const s = Math.min(1, 1280 / Math.max(srcW, srcH)); return { w: Math.max(2, Math.round(srcW * s)), h: Math.max(2, Math.round(srcH * s)) }; };
 const split = () => parseInt($("split").value, 10) / 100;
-function renderPreview() { if (preview && video && video.readyState >= 2) { preview.draw(video, P, split()); } }
+function renderPreview() {
+  if (!(preview && video && video.readyState >= 2)) { return; }
+  preview.draw(video, P, split());
+  const ov = $("ov"), W = preview.canvas.width, H = preview.canvas.height;
+  if (ov.width !== W || ov.height !== H) { ov.width = W; ov.height = H; }
+  const ctx = ov.getContext("2d"); ctx.clearRect(0, 0, W, H);
+  drawTexts(ctx, W, H, video.currentTime, video.duration);
+}
 $("split").addEventListener("input", () => { renderPreview(); $("tagL").hidden = split() < 0.12; });
 
 function loop() {
@@ -349,6 +419,151 @@ const setPlayIcon = playing => { $("playBtn").innerHTML = playing ? `<svg viewBo
 $("playBtn").addEventListener("click", () => { if (!video) { return; } if (video.paused) { video.play(); setPlayIcon(true); } else { video.pause(); setPlayIcon(false); } });
 $("seek").addEventListener("input", e => { if (video && video.duration) { video.currentTime = video.duration * e.target.value / 1000; } });
 function updateTime() { if (!video) { return; } $("time").textContent = fmtTime(video.currentTime) + " / " + fmtTime(video.duration); if (video.duration) { $("seek").value = Math.round(video.currentTime / video.duration * 1000); } }
+
+
+/* ---------- Textes sur la vidéo ---------- */
+const COLORS = [["Blanc", "#FFFFFF"], ["Doré", "#E8B53A"], ["Jaune", "#FFE14D"], ["Orange", "#FF8A1F"], ["Rouge", "#E5483C"], ["Rose", "#FF5FA2"], ["Vert", "#3DBE7A"], ["Bleu", "#3D8BFF"], ["Noir", "#111111"]];
+const STYLES = {
+  classique: { name: "Classique", font: "800 1em Montserrat, sans-serif" },
+  dore: { name: "Titre doré", font: "1em Anton, Impact, sans-serif", upper: true },
+  contour: { name: "Contour", font: "1em Anton, Impact, sans-serif", upper: true },
+  bandeau: { name: "Bandeau", font: "700 1em Montserrat, sans-serif" },
+  bulle: { name: "Bulle", font: "800 1em Montserrat, sans-serif" },
+  neon: { name: "Néon", font: "1em 'Bebas Neue', Impact, sans-serif", upper: true },
+  elegant: { name: "Élégant", font: "italic 700 1em 'Playfair Display', Georgia, serif" },
+  manuscrit: { name: "Manuscrit", font: "700 1em 'Dancing Script', cursive" },
+};
+const TEXTS = [];
+let openText = -1;
+const fontAt = (st, px) => STYLES[st].font.replace("1em", px + "px");
+const loadFonts = () => Promise.all(Object.values(STYLES).map(v => document.fonts.load(v.font.replace("1em", "40px"), "Aàé€")).concat()).catch(() => {});
+loadFonts().then(() => renderPreview());
+
+function wrapLines(ctx, text, maxW) {
+  const out = [];
+  for (const para of text.split("\n")) {
+    const words = para.split(/\s+/).filter(Boolean); let line = "";
+    if (!words.length) { out.push(""); continue; }
+    for (const w of words) { const t = line ? line + " " + w : w; if (ctx.measureText(t).width > maxW && line) { out.push(line); line = w; } else { line = t; } }
+    out.push(line);
+  }
+  return out;
+}
+function drawTexts(ctx, W, H, t, dur, list = TEXTS) {
+  for (const T of list) {
+    const txt = (T.text || "").trim(); if (!txt) { continue; }
+    const st = STYLES[T.style], start = T.start || 0, end = T.end == null ? (dur || 1e9) : T.end;
+    if (t < start || t > end) { continue; }
+    const A = 0.4; let a = 1, dy = 0, sc = 1;
+    if (T.anim !== "aucune") {
+      const k = Math.min(1, (t - start) / A, (end - t) / A);
+      if (T.anim === "fondu") { a = k; }
+      if (T.anim === "glisse") { a = k; dy = (1 - k) * H * 0.05; }
+      if (T.anim === "zoom") { a = k; sc = 0.6 + 0.4 * k; }
+    }
+    if (a <= 0) { continue; }
+    const base = Math.min(W, H), px = Math.round(base * (0.03 + T.size * 0.011));
+    const s2 = st.upper ? txt.toUpperCase() : txt;
+    ctx.save();
+    ctx.globalAlpha = Math.max(0, Math.min(1, a));
+    ctx.font = fontAt(T.style, px); ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    const lines = wrapLines(ctx, s2, W * 0.86), lh = px * 1.18, bh = lines.length * lh;
+    const cy = (T.pos === "haut" ? H * 0.06 + bh / 2 + px * 0.4 : T.pos === "bas" ? H * 0.92 - bh / 2 - px * 0.4 : H / 2) + dy;
+    ctx.translate(W / 2, cy); ctx.scale(sc, sc); ctx.translate(-W / 2, -cy);
+    const col = T.color, dark = col === "#111111";
+    const wMax = Math.max(...lines.map(l => ctx.measureText(l).width));
+    if (T.style === "bandeau") {
+      ctx.fillStyle = "rgba(0,0,0,0.62)"; ctx.fillRect(0, cy - bh / 2 - px * 0.35, W, bh + px * 0.7);
+    }
+    if (T.style === "bulle") {
+      const pw = wMax + px * 1.1, ph = bh + px * 0.6, x = W / 2 - pw / 2, y = cy - ph / 2, r = Math.min(ph / 2, px);
+      ctx.fillStyle = col; ctx.beginPath(); ctx.roundRect ? ctx.roundRect(x, y, pw, ph, r) : ctx.rect(x, y, pw, ph); ctx.fill();
+    }
+    lines.forEach((ln, i) => {
+      const y = cy - bh / 2 + lh * (i + 0.5);
+      if (T.style === "classique" || T.style === "elegant" || T.style === "manuscrit") {
+        ctx.shadowColor = dark ? "rgba(255,255,255,.7)" : "rgba(0,0,0,.75)"; ctx.shadowBlur = px * 0.25; ctx.shadowOffsetY = px * 0.06;
+        ctx.fillStyle = col; ctx.fillText(ln, W / 2, y);
+      } else if (T.style === "dore") {
+        ctx.lineJoin = "round"; ctx.lineWidth = px * 0.16; ctx.strokeStyle = "#3A2306"; ctx.strokeText(ln, W / 2, y);
+        const g = ctx.createLinearGradient(0, y - px / 2, 0, y + px / 2);
+        if (col === "#FFFFFF" || col === "#E8B53A") { g.addColorStop(0, "#FFF2B8"); g.addColorStop(0.45, "#F2C14E"); g.addColorStop(0.55, "#C98E1C"); g.addColorStop(1, "#8A5A0B"); }
+        else { g.addColorStop(0, "#FFFFFF"); g.addColorStop(0.5, col); g.addColorStop(1, col); }
+        ctx.fillStyle = g; ctx.fillText(ln, W / 2, y);
+      } else if (T.style === "contour") {
+        ctx.lineJoin = "round"; ctx.lineWidth = px * 0.18; ctx.strokeStyle = dark ? "#FFFFFF" : "#000000"; ctx.strokeText(ln, W / 2, y);
+        ctx.fillStyle = col; ctx.fillText(ln, W / 2, y);
+      } else if (T.style === "bandeau") {
+        ctx.fillStyle = dark ? "#FFFFFF" : col; ctx.fillText(ln, W / 2, y);
+      } else if (T.style === "bulle") {
+        const lum = parseInt(col.slice(1, 3), 16) * 0.3 + parseInt(col.slice(3, 5), 16) * 0.59 + parseInt(col.slice(5, 7), 16) * 0.11;
+        ctx.fillStyle = lum > 150 ? "#1A1206" : "#FFFFFF"; ctx.fillText(ln, W / 2, y);
+      } else if (T.style === "neon") {
+        ctx.shadowColor = col; ctx.shadowBlur = px * 0.6; ctx.fillStyle = col; ctx.fillText(ln, W / 2, y);
+        ctx.shadowBlur = px * 0.2; ctx.fillStyle = "#FFFFFF"; ctx.globalAlpha *= 0.85; ctx.fillText(ln, W / 2, y); ctx.globalAlpha = Math.max(0, Math.min(1, a));
+      }
+    });
+    ctx.restore();
+  }
+}
+
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+function renderTextList() {
+  const box = $("texts"); box.innerHTML = "";
+  TEXTS.forEach((T, i) => {
+    const el = document.createElement("div"); el.className = "titem" + (i === openText ? " open" : "");
+    const span = (T.end == null ? "jusqu'à la fin" : fmtTime(T.end));
+    el.innerHTML = `<div class="thead" data-i="${i}"><span></span><small>${esc(STYLES[T.style].name)} · ${fmtTime(T.start)}–${span}</small></div>`;
+    el.querySelector(".thead span").textContent = (T.text || "").trim() || "(texte vide)";
+    if (i === openText) {
+      const b = document.createElement("div"); b.className = "tbody";
+      b.innerHTML = `
+        <textarea aria-label="Texte" data-k="text" placeholder="Écrivez votre texte ici">${esc(T.text)}</textarea>
+        <span class="lbl">Forme du texte</span>
+        <div class="styles">${Object.entries(STYLES).map(([k, v]) => `<button type="button" data-style="${k}" aria-pressed="${T.style === k}" style="font:${v.font.replace("1em", "13px")}${k === "dore" ? ";color:#F2C14E" : k === "neon" ? ";color:#7CF3FF;text-shadow:0 0 6px #7CF3FF" : ""}">${esc(v.name)}</button>`).join("")}</div>
+        <span class="lbl">Couleur</span>
+        <div class="swatches">${COLORS.map(([n, c]) => `<button type="button" data-color="${c}" aria-label="${n}" title="${n}" aria-pressed="${T.color === c}" style="background:${c}"></button>`).join("")}</div>
+        <div class="sl"><label>Taille</label><output>${T.size}</output><input type="range" min="1" max="10" step="1" value="${T.size}" data-k="size" aria-label="Taille du texte"></div>
+        <span class="lbl">Place</span>
+        <div class="seg s3">${[["haut", "En haut"], ["milieu", "Au milieu"], ["bas", "En bas"]].map(([v, l]) => `<label><input type="radio" name="pos${i}" value="${v}" data-k="pos" ${T.pos === v ? "checked" : ""}><span>${l}</span></label>`).join("")}</div>
+        <span class="lbl">Apparition</span>
+        <div class="seg">${[["aucune", "Simple"], ["fondu", "Fondu"], ["glisse", "Glissé"], ["zoom", "Zoom"]].map(([v, l]) => `<label><input type="radio" name="anim${i}" value="${v}" data-k="anim" ${T.anim === v ? "checked" : ""}><span>${l}</span></label>`).join("")}</div>
+        <span class="lbl">Quand afficher le texte (en secondes)</span>
+        <div class="times">
+          <label>Début<div><input type="number" min="0" step="0.1" data-k="start" value="${T.start}"><button type="button" data-now="start">Ici</button></div></label>
+          <label>Fin<div><input type="number" min="0" step="0.1" data-k="end" value="${T.end == null ? "" : T.end}" placeholder="fin"><button type="button" data-now="end">Ici</button></div></label>
+        </div>
+        <div class="row"><button class="btn" type="button" data-act="close">Valider</button><button class="btn danger" type="button" data-act="del">Supprimer ce texte</button></div>`;
+      el.append(b);
+    }
+    box.append(el);
+  });
+}
+$("texts").addEventListener("click", e => {
+  const h = e.target.closest(".thead"); if (h) { const i = +h.dataset.i; openText = openText === i ? -1 : i; renderTextList(); return; }
+  const T = TEXTS[openText]; if (!T) { return; }
+  const st = e.target.closest("[data-style]"); if (st) { T.style = st.dataset.style; renderTextList(); renderPreview(); return; }
+  const co = e.target.closest("[data-color]"); if (co) { T.color = co.dataset.color; renderTextList(); renderPreview(); return; }
+  const nw = e.target.closest("[data-now]"); if (nw && video) { const v = Math.round(video.currentTime * 10) / 10; T[nw.dataset.now] = v; if (T.end != null && T.end < T.start) { T.end = null; } renderTextList(); renderPreview(); return; }
+  const ac = e.target.closest("[data-act]");
+  if (ac && ac.dataset.act === "close") { openText = -1; renderTextList(); }
+  if (ac && ac.dataset.act === "del") { TEXTS.splice(openText, 1); openText = -1; renderTextList(); renderPreview(); }
+});
+$("texts").addEventListener("input", e => {
+  const T = TEXTS[openText], k = e.target.dataset.k; if (!T || !k) { return; }
+  let v = e.target.value;
+  if (k === "size") { v = parseInt(v, 10); e.target.previousElementSibling.textContent = v; }
+  if (k === "start") { v = Math.max(0, parseFloat(v) || 0); }
+  if (k === "end") { v = v === "" ? null : Math.max(0, parseFloat(v) || 0); }
+  T[k] = v;
+  if (k === "text") { const h = e.target.closest(".titem").querySelector(".thead span"); h.textContent = v.trim() || "(texte vide)"; }
+  renderPreview();
+});
+$("addText").addEventListener("click", () => {
+  TEXTS.push({ text: "", style: "dore", color: "#E8B53A", size: 6, pos: TEXTS.length % 2 ? "haut" : "bas", anim: "fondu", start: 0, end: null });
+  openText = TEXTS.length - 1; renderTextList(); renderPreview();
+  const ta = $("texts").querySelector("textarea"); if (ta) { ta.focus(); }
+});
 
 /* ---------- Correction automatique : mesure la lumière sur quelques images ---------- */
 async function autoCorrect() {
@@ -391,7 +606,86 @@ document.querySelectorAll("input[name=fmt]").forEach(r => r.addEventListener("ch
 
 /* ---------- Son ---------- */
 const audioOpts = () => ({ wind: $("aWind").checked, noise: parseInt(document.querySelector("input[name=aNoise]:checked").value, 10), level: $("aLevel").checked });
-const audioWanted = () => { const o = audioOpts(); return o.wind || o.noise > 0 || o.level; };
+const bitrate = () => parseInt(document.querySelector("input[name=aQual]:checked").value, 10);
+const QTXT = { 128000: "Standard : 128 kb/s, stéréo. Fichier le plus léger.", 192000: "Haute : 192 kb/s, stéréo. Bon équilibre entre qualité et taille.", 256000: "Studio : 256 kb/s, stéréo. Meilleur son pour la musique." };
+document.querySelectorAll("input[name=aQual]").forEach(r => r.addEventListener("change", () => { $("qualInfo").textContent = QTXT[bitrate()]; }));
+$("vVoice").addEventListener("input", e => { $("oVoice").textContent = Math.round(e.target.value * 100) + " %"; });
+$("vMusic").addEventListener("input", e => { $("oMusic").textContent = Math.round(e.target.value * 100) + " %"; });
+
+/* Musique de fond */
+let musicFile = null, musicCache = null;
+$("musicFile").addEventListener("change", e => {
+  const f = e.target.files[0]; e.target.value = ""; if (!f) { return; }
+  musicFile = f; musicCache = null;
+  $("musicLbl").textContent = f.name.length > 28 ? f.name.slice(0, 26) + "…" : f.name;
+  $("musicOpts").hidden = false; $("musicDel").hidden = false;
+  toast("Musique ajoutée");
+});
+$("musicDel").addEventListener("click", () => { musicFile = null; musicCache = null; $("musicLbl").textContent = "Choisir une musique"; $("musicOpts").hidden = true; $("musicDel").hidden = true; });
+async function decodeMusic(sr) {
+  if (musicCache && musicCache.sr === sr) { return musicCache; }
+  const buf = await musicFile.arrayBuffer();
+  const ab = await new OfflineAudioContext(2, sr, sr).decodeAudioData(buf);
+  const chans = []; for (let c = 0; c < ab.numberOfChannels; c++) { chans.push(ab.getChannelData(c)); }
+  musicCache = { sr, chans };
+  return musicCache;
+}
+
+/* Mélange : voix (nettoyée) × volume + musique (boucle, fondus, baisse automatique quand on parle) */
+async function mixAudio(A, opts, startT, dur) {
+  const sr = A.sr, L = A.chans[0].length;
+  const vv = hasAudio ? parseFloat($("vVoice").value) : 0;
+  if (vv !== 1) { for (const x of A.chans) { for (let i = 0; i < L; i++) { x[i] *= vv; } } }
+  if (musicFile) {
+    if (A.chans.length === 1) { A.chans.push(A.chans[0].slice()); }
+    const M = await decodeMusic(sr), mL = M.chans[0].length;
+    const mv = parseFloat($("vMusic").value), loop = $("mLoop").checked, fade = $("mFade").checked, duck = $("mDuck").checked && hasAudio && vv > 0;
+    // enveloppe de la voix (blocs de 20 ms)
+    const blk = Math.round(sr * 0.02), nb = Math.ceil(L / blk), env = new Float32Array(nb);
+    if (duck) {
+      for (let b = 0; b < nb; b++) { let s2 = 0; const e = Math.min(L, (b + 1) * blk); for (let i = b * blk; i < e; i++) { const v = A.chans[0][i]; s2 += v * v; } env[b] = Math.sqrt(s2 / Math.max(1, e - b * blk)); }
+      const sorted = Array.from(env).sort((a, z) => a - z); const thr = Math.max(0.012, sorted[Math.floor(nb * 0.9)] * 0.25);
+      let g = 1; for (let b = 0; b < nb; b++) { const tgt = env[b] > thr ? 0.3 : 1; g = tgt < g ? g * 0.6 + tgt * 0.4 : g * 0.97 + tgt * 0.03; env[b] = g; }
+    }
+    for (let c = 0; c < A.chans.length; c++) {
+      const y = A.chans[c], m = M.chans[Math.min(c, M.chans.length - 1)];
+      for (let i = 0; i < L; i++) {
+        const t = startT + i / sr;
+        let k = Math.round(t * sr);
+        if (k < 0) { continue; }
+        if (k >= mL) { if (!loop) { continue; } k %= mL; }
+        let g = mv;
+        if (fade) { g *= Math.max(0, Math.min(1, t / 2, (dur - t) / 2)); }
+        if (duck) { g *= env[Math.min(nb - 1, Math.floor(i / blk))]; }
+        y[i] += m[k] * g;
+      }
+    }
+  }
+  // Niveau final : mise à niveau (option) et protection contre la saturation
+  let peak = 0; for (const x of A.chans) { for (let i = 0; i < L; i++) { if (!Number.isFinite(x[i])) { x[i] = 0; } const a = Math.abs(x[i]); if (a > peak) { peak = a; } } }
+  const target = opts.level ? Math.min(4, 0.89 / Math.max(peak, 1e-4)) : (peak > 0.98 ? 0.98 / peak : 1);
+  if (target !== 1 && peak > 1e-4) { for (const x of A.chans) { for (let i = 0; i < L; i++) { x[i] *= target; } } }
+  return A;
+}
+
+/* Construit le son final (vidéo nettoyée + musique), ou null s'il n'y a aucun son */
+async function buildAudio(M, f, start, end, dur, onProgress = () => {}) {
+  const o = audioOpts();
+  let A = null;
+  if (hasAudio) {
+    A = await decodeAudio(M, f, start, end, p => onProgress(p * 0.35));
+    if (A && A.chans[0].length * A.chans.length > 1.3e8) { return "TOOLONG"; }
+    if (A && (o.wind || o.noise > 0)) { A.chans = await cleanAudio(A.chans, A.sr, { ...o, level: false }, p => onProgress(0.35 + p * 0.5)); }
+  }
+  if (!A && !musicFile) { return null; }
+  if (!A) {
+    const sr = 48000, from = start || 0, to = end ?? dur, L = Math.max(1, Math.ceil((to - from) * sr));
+    A = { sr, t0: from, chans: [new Float32Array(L), new Float32Array(L)] };
+  }
+  await mixAudio(A, o, A.t0, dur);
+  onProgress(1);
+  return A;
+}
 async function detectAudio(f) {
   try {
     const M = await loadLib();
@@ -400,8 +694,7 @@ async function detectAudio(f) {
     if (f !== file) { return; }
     hasAudio = !!at;
   } catch { hasAudio = false; }
-  $("audioCard").hidden = !hasAudio;
-  $("fmtNum").textContent = hasAudio ? "4" : "3";
+  $("cleanBox").hidden = !hasAudio; $("noAudioNote").hidden = hasAudio;
 }
 // Décode le son (tout, ou un extrait) en tableaux Float32 par canal
 async function decodeAudio(M, f, start, end, onProgress) {
@@ -436,20 +729,19 @@ async function listen(clean) {
   try {
     const M = await loadLib();
     const t = video ? Math.max(0, Math.min(video.currentTime, (video.duration || 10) - 10)) : 0;
-    const A = await decodeAudio(M, file, t, t + 10);
-    if (!A) { throw new Error("pas de son"); }
-    let chans = A.chans;
-    if (clean) { chans = await cleanAudio(chans.map(x => x.slice()), A.sr, audioOpts()); }
+    const A = clean ? await buildAudio(M, file, t, t + 10, video ? video.duration : 10) : (hasAudio ? await decodeAudio(M, file, t, t + 10) : null);
+    if (!A || A === "TOOLONG") { throw new Error("pas de son"); }
+    const chans = A.chans;
     actx = actx || new AudioContext();
     await actx.resume();
     const buf = actx.createBuffer(chans.length, chans[0].length, A.sr);
     chans.forEach((x, c) => buf.copyToChannel(x, c));
     const src = actx.createBufferSource(); src.buffer = buf; src.connect(actx.destination); src.start();
     playing = src;
-    $("listenInfo").textContent = (clean ? "Lecture du son nettoyé" : "Lecture de l'original") + " (10 s)…";
-    src.onended = () => { if (playing === src) { playing = null; $("listenInfo").textContent = "Écoute de 10 secondes à partir de la position de la vidéo."; } };
+    $("listenInfo").textContent = (clean ? "Lecture du résultat" : "Lecture de l'original") + " (10 s)…";
+    src.onended = () => { if (playing === src) { playing = null; $("listenInfo").textContent = "Écoute de 10 secondes à partir de la position de la vidéo, avec nettoyage et musique."; } };
   } catch (e) {
-    console.error(e); $("listenInfo").textContent = "Impossible de lire le son de cette vidéo.";
+    console.error(e); $("listenInfo").textContent = clean ? "Impossible de préparer le son. Vérifiez la musique choisie." : "Cette vidéo n'a pas de son.";
   } finally { btn.disabled = false; }
 }
 $("listenBefore").addEventListener("click", () => listen(false));
@@ -461,13 +753,15 @@ const loadLib = async () => { if (!MB) { MB = await import("./mediabunny-aac.mjs
 if ("requestIdleCallback" in window) { requestIdleCallback(() => loadLib().catch(() => {})); }
 
 $("goBtn").addEventListener("click", convert);
-$("cancelBtn").addEventListener("click", async () => { if (conversion) { try { await conversion.cancel(); } catch {} } });
+let canceled = false, activeOutput = null;
+$("cancelBtn").addEventListener("click", async () => { canceled = true; if (conversion) { try { await conversion.cancel(); } catch {} } if (activeOutput) { try { await activeOutput.cancel(); } catch {} } });
 
 async function convert() {
   if (!file) { return; }
   if (video) { video.pause(); setPlayIcon(false); }
   stopListen();
   resetResult();
+  canceled = false;
   showProgress(true);
   $("progTitle").textContent = "Création de la vidéo…"; setPct(0); $("eta").textContent = "Préparation…";
   let wake = null; try { wake = await navigator.wakeLock?.request("screen"); } catch {}
@@ -487,49 +781,46 @@ async function convert() {
     const glc = document.createElement("canvas"); const r = new Renderer(glc); r.size(d.w, d.h);
     const params = { ...P };
 
-    let audioConf = { codec: "aac" };
-    let span = [0, 1];
-    if (hasAudio && audioWanted()) {
-      $("progTitle").textContent = "Nettoyage du son…";
-      const A = await decodeAudio(M, file, undefined, undefined, p => { setPct(p * 0.1); $("eta").textContent = "Lecture du son…"; });
-      if (A && A.chans[0].length * A.chans.length < 1.3e8) {
-        $("eta").textContent = "Suppression du vent et des bruits de fond…";
-        A.chans = await cleanAudio(A.chans, A.sr, audioOpts(), p => setPct(0.1 + p * 0.15));
-        audioConf = {
-          codec: "aac",
-          process: sample => {
-            const n = sample.numberOfFrames, ch = sample.numberOfChannels, sr = sample.sampleRate;
-            if (sr !== A.sr) { return sample; }
-            const start = Math.round((sample.timestamp - A.t0) * sr);
-            const data = new Float32Array(n * ch);
-            for (let c = 0; c < ch; c++) {
-              const src = A.chans[Math.min(c, A.chans.length - 1)];
-              for (let i = 0; i < n; i++) { const k = start + i; data[c * n + i] = k >= 0 && k < src.length ? src[k] : 0; }
-            }
-            return new M.AudioSample({ data, format: "f32-planar", numberOfChannels: ch, sampleRate: sr, timestamp: sample.timestamp });
-          },
-        };
-      } else if (A) { toast("Vidéo trop longue : son gardé sans nettoyage"); }
+    const dur = await vt.computeDuration().catch(() => video ? video.duration : 0);
+    const textsNow = TEXTS.map(T => ({ ...T }));
+    const c3 = document.createElement("canvas"); c3.width = d.w; c3.height = d.h; const ctx3 = c3.getContext("2d");
+    await loadFonts();
+    const hasTexts = textsNow.some(T => (T.text || "").trim());
+
+    // Son final : vidéo nettoyée + musique
+    let A = null, span = [0, 1];
+    if (hasAudio || musicFile) {
+      $("progTitle").textContent = "Préparation du son…";
+      $("eta").textContent = "Nettoyage du son et musique…";
+      A = await buildAudio(M, file, undefined, undefined, dur, p => setPct(p * 0.25));
+      if (A === "TOOLONG") { A = null; toast("Vidéo trop longue : son gardé sans modification"); }
       span = [0.25, 0.75];
       $("progTitle").textContent = "Création de la vidéo…";
     }
     const tv = performance.now();
+    const q = new M.Quality({ bitrate: bitrate() });
 
     const output = new M.Output({ format: new M.Mp4OutputFormat({ fastStart: "in-memory" }), target: new M.BufferTarget() });
-    conversion = await M.Conversion.init({
-      input, output,
-      video: {
-        codec: "avc", quality: M.QUALITY_HIGH, keyFrameInterval: 2, forceTranscode: true,
-        allowTransformationMetadata: false, frameRate: fps,
-        processedWidth: d.w, processedHeight: d.h,
-        process: sample => {
-          ctx2.fillStyle = "#000"; ctx2.fillRect(0, 0, d.w, d.h);
-          sample.drawWithFit(ctx2, { fit: "contain" });
-          r.draw(c2, params, -1);
-          return glc;
-        },
+    activeOutput = output;
+    const videoOpts = {
+      codec: "avc", quality: M.QUALITY_HIGH, keyFrameInterval: 2, forceTranscode: true,
+      allowTransformationMetadata: false, frameRate: fps,
+      processedWidth: d.w, processedHeight: d.h,
+      process: sample => {
+        ctx2.fillStyle = "#000"; ctx2.fillRect(0, 0, d.w, d.h);
+        sample.drawWithFit(ctx2, { fit: "contain" });
+        r.draw(c2, params, -1);
+        if (!hasTexts) { return glc; }
+        ctx3.drawImage(glc, 0, 0);
+        drawTexts(ctx3, d.w, d.h, sample.timestamp, dur, textsNow);
+        return c3;
       },
-      audio: audioConf,
+    };
+    const useOwnAudio = !!A;
+    conversion = await M.Conversion.init({
+      input, output, video: videoOpts,
+      audio: useOwnAudio ? { discard: true } : { codec: "aac", quality: q },
+      composable: useOwnAudio,
     });
     if (!conversion.isValid) { throw new Error("INVALID"); }
     conversion.onProgress = p => {
@@ -537,18 +828,39 @@ async function convert() {
       const el = (performance.now() - tv) / 1000;
       if (p > 0.03) { $("eta").textContent = "Temps restant : environ " + fmtTime(el / p - el); }
     };
-    await conversion.execute();
-    const outAudio = conversion.utilizedTracks ? conversion.utilizedTracks.some(t => t.type === "audio") : true;
+    if (useOwnAudio) {
+      const ch = A.chans.length;
+      const src = new M.AudioSampleSource({ codec: "aac", quality: q });
+      output.addAudioTrack(src);
+      await output.start();
+      const step = A.sr; // 1 seconde
+      for (let o = 0; o < A.chans[0].length; o += step) {
+        if (canceled) { throw new Error("cancel"); }
+        const n = Math.min(step, A.chans[0].length - o), data = new Float32Array(n * ch);
+        for (let c = 0; c < ch; c++) { data.set(A.chans[c].subarray(o, o + n), c * n); }
+        const ts = A.t0 + o / A.sr;
+        const smp = new M.AudioSample({ data, format: "f32-planar", numberOfChannels: ch, sampleRate: A.sr, timestamp: ts });
+        await src.add(smp); smp.close();
+        await conversion.execute({ until: ts + n / A.sr });
+      }
+      src.close();
+      await conversion.execute();
+      if (canceled) { throw new Error("cancel"); }
+      await output.finalize();
+    } else {
+      await conversion.execute();
+    }
+    const outAudio = useOwnAudio || (conversion.utilizedTracks ? conversion.utilizedTracks.some(t => t.type === "audio") : false);
     const blob = new Blob([output.target.buffer], { type: "video/mp4" });
     const base = file.name.replace(/\.[^.]+$/, "") || "video";
     outFile = new File([blob], base + "-HD.mp4", { type: "video/mp4" });
-    showResult(d, (performance.now() - t0) / 1000, outAudio, !!audioConf.process);
+    showResult(d, (performance.now() - t0) / 1000, outAudio, useOwnAudio, hasTexts);
   } catch (e) {
     showProgress(false);
-    if (e && (e.name === "ConversionCanceledError" || /cancel/i.test(e.message || ""))) { toast("Conversion annulée"); }
+    if (canceled || (e && (e.name === "ConversionCanceledError" || /cancel/i.test(e.message || "")))) { toast("Création annulée"); }
     else { showError(e); }
   } finally {
-    conversion = null;
+    conversion = null; activeOutput = null;
     try { await wake?.release(); } catch {}
   }
 }
@@ -566,14 +878,15 @@ function showError(e) {
   $("fmtCard").append(box); setTimeout(() => box.remove(), 9000);
 }
 function resetResult() { $("doneCard").hidden = true; if (outUrl) { URL.revokeObjectURL(outUrl); outUrl = null; } $("result").removeAttribute("src"); }
-function showResult(d, secs, hasAudio, cleaned) {
+function showResult(d, secs, hasAudio, edited, withTexts) {
   showProgress(false);
   outUrl = URL.createObjectURL(outFile);
   $("result").src = outUrl;
   $("saveBtn").href = outUrl; $("saveBtn").download = outFile.name;
   $("outMeta").innerHTML = "";
   const add = (label, val) => { const s = document.createElement("span"); s.textContent = label + " : "; const b = document.createElement("b"); b.textContent = val; s.append(b); $("outMeta").append(s); };
-  add("Fichier", outFile.name); add("Image", d.w + " × " + d.h); add("Taille", fmtSize(outFile.size)); add("Son", hasAudio ? (cleaned ? "AAC, nettoyé" : "AAC") : "aucun");
+  add("Fichier", outFile.name); add("Image", d.w + " × " + d.h); add("Taille", fmtSize(outFile.size)); add("Son", hasAudio ? "AAC qualité " + ({ 128000: "Standard", 192000: "Haute", 256000: "Studio" })[bitrate()] + (edited ? (musicFile ? ", avec musique" : ", nettoyé") : "") : "aucun");
+  if (withTexts) { add("Textes", String(TEXTS.filter(T => (T.text || "").trim()).length)); }
   $("shareBtn").hidden = !(navigator.canShare && navigator.canShare({ files: [outFile] }));
   $("doneCard").hidden = false;
   $("doneCard").scrollIntoView({ behavior: "smooth", block: "start" });
