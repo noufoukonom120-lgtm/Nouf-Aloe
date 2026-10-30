@@ -82,6 +82,17 @@ input[type=range]{width:100%;accent-color:var(--aloe);min-width:0}
 .fmt b{display:block}
 .fmt span{color:var(--muted);font-size:13.5px}
 
+.tog{display:flex;gap:12px;align-items:flex-start;cursor:pointer}
+.tog input{width:22px;height:22px;accent-color:var(--aloe);margin-top:2px;flex:none}
+.tog b,.grp b{display:block;font-weight:600}
+.tog small,.grp small{display:block;color:var(--muted);font-size:13px}
+.grp{display:grid;gap:6px}
+.seg{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:4px}
+.seg label{cursor:pointer}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg span{display:block;text-align:center;padding:10px 4px;border-radius:12px;border:1.5px solid var(--line);background:var(--panel-2);font-weight:600;font-size:14px}
+.seg input:checked+span{border-color:var(--aloe);background:#1A3A2A;color:var(--aloe)}
+.seg input:focus-visible+span{outline:3px solid var(--gold);outline-offset:2px}
 .bar{height:12px;border-radius:999px;background:var(--panel-2);overflow:hidden}
 .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--aloe),var(--gold));transition:width .2s}
 .pct{font-family:var(--display);font-size:32px;font-weight:800;font-variant-numeric:tabular-nums}
@@ -149,9 +160,31 @@ footer{color:var(--muted);font-size:13px;text-align:center;display:grid;gap:4px}
     </div>
   </section>
 
+  <!-- Son -->
+  <section class="card" id="audioCard" hidden>
+    <div class="step"><b>3</b><h2>Nettoyez le son</h2></div>
+    <label class="tog"><input type="checkbox" id="aWind" checked><span><b>Supprimer le bruit du vent</b><small>Enlève le grondement et les souffles du vent dans le micro</small></span></label>
+    <div class="grp">
+      <b>Bruits de fond inutiles</b>
+      <small>Souffle, ventilateur, moteur, bruit de rue, grésillement</small>
+      <div class="seg" role="radiogroup" aria-label="Réduction des bruits de fond">
+        <label><input type="radio" name="aNoise" value="0"><span>Aucun</span></label>
+        <label><input type="radio" name="aNoise" value="1"><span>Léger</span></label>
+        <label><input type="radio" name="aNoise" value="2" checked><span>Moyen</span></label>
+        <label><input type="radio" name="aNoise" value="3"><span>Fort</span></label>
+      </div>
+    </div>
+    <label class="tog"><input type="checkbox" id="aLevel" checked><span><b>Volume équilibré</b><small>Rend la voix plus audible si la vidéo est trop faible</small></span></label>
+    <div class="row">
+      <button class="btn" id="listenBefore" type="button"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>Écouter l'original</button>
+      <button class="btn aloe" id="listenAfter" type="button"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>Écouter le son nettoyé</button>
+    </div>
+    <p class="hint" id="listenInfo">Écoute de 10 secondes à partir de la position de la vidéo.</p>
+  </section>
+
   <!-- 3. Format -->
   <section class="card" id="fmtCard" hidden>
-    <div class="step"><b>3</b><h2>Format de la vidéo</h2></div>
+    <div class="step"><b id="fmtNum">4</b><h2>Format de la vidéo</h2></div>
     <div class="formats" role="radiogroup" aria-label="Qualité de sortie">
       <label class="fmt"><input type="radio" name="fmt" value="720" checked><div><b>HD 720p · recommandé</b><span>Idéal pour WhatsApp, Facebook, TikTok. Fichier plus léger, envoi rapide.</span></div></label>
       <label class="fmt"><input type="radio" name="fmt" value="1080"><div><b>Full HD 1080p</b><span>Meilleure image pour YouTube, présentations, ordinateur. Fichier plus lourd.</span></div></label>
@@ -163,7 +196,7 @@ footer{color:var(--muted);font-size:13px;text-align:center;display:grid;gap:4px}
 
   <!-- Progression -->
   <section class="card" id="progCard" hidden>
-    <div class="step"><b>4</b><h2 id="progTitle">Création de la vidéo…</h2></div>
+    <div class="step"><b>✓</b><h2 id="progTitle">Création de la vidéo…</h2></div>
     <div class="pct" id="pct">0 %</div>
     <div class="bar"><i id="barFill"></i></div>
     <p class="hint" id="eta">Préparation…</p>
@@ -192,6 +225,7 @@ footer{color:var(--muted);font-size:13px;text-align:center;display:grid;gap:4px}
 <div class="toast" id="toast" hidden></div>
 
 <script type="module">
+import { cleanAudio } from "./audio-clean.js";
 const $ = id => document.getElementById(id);
 const toast = (t) => { const el = $("toast"); el.textContent = t; el.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(() => { el.hidden = true; }, 2600); };
 const fmtTime = s => { s = Math.max(0, Math.round(s || 0)); const m = Math.floor(s / 60); return m + ":" + String(s % 60).padStart(2, "0"); };
@@ -254,7 +288,7 @@ class Renderer {
 const NEUTRAL = { gamma: 1, bright: 0, contrast: 1, sat: 1, sharp: 0 };
 const P = { ...NEUTRAL };
 const SL = { gamma: ["sGamma", "oGamma", v => "×" + v.toFixed(2).replace(".", ",")], bright: ["sBright", "oBright", v => (v > 0 ? "+" : "") + Math.round(v * 100)], contrast: ["sContrast", "oContrast", v => Math.round(v * 100) + " %"], sat: ["sSat", "oSat", v => Math.round(v * 100) + " %"], sharp: ["sSharp", "oSharp", v => Math.round(v * 40) + " %"] };
-let file = null, video = null, preview = null, srcW = 0, srcH = 0, conversion = null, outUrl = null, outFile = null;
+let hasAudio = false, file = null, video = null, preview = null, srcW = 0, srcH = 0, conversion = null, outUrl = null, outFile = null;
 
 const syncSliders = () => { for (const [k, [sid, oid, f]] of Object.entries(SL)) { $(sid).value = P[k]; $(oid).textContent = f(P[k]); } };
 for (const [k, [sid, oid, f]] of Object.entries(SL)) {
@@ -296,6 +330,8 @@ async function load(f) {
   video.addEventListener("ended", () => setPlayIcon(false));
   video.addEventListener("play", loop);
   updateTime(); updateOutInfo();
+  $("audioCard").hidden = true; hasAudio = false;
+  detectAudio(f);
   await autoCorrect();
   $("editCard").scrollIntoView({ behavior: "smooth", block: "start" });
 }
@@ -353,6 +389,72 @@ function outDims(w, h) {
 function updateOutInfo() { if (!srcW) { return; } const d = outDims(srcW, srcH); $("outInfo").textContent = `Vidéo finale : ${d.w} × ${d.h}, MP4 (H.264 + AAC).`; }
 document.querySelectorAll("input[name=fmt]").forEach(r => r.addEventListener("change", updateOutInfo));
 
+/* ---------- Son ---------- */
+const audioOpts = () => ({ wind: $("aWind").checked, noise: parseInt(document.querySelector("input[name=aNoise]:checked").value, 10), level: $("aLevel").checked });
+const audioWanted = () => { const o = audioOpts(); return o.wind || o.noise > 0 || o.level; };
+async function detectAudio(f) {
+  try {
+    const M = await loadLib();
+    const inp = new M.Input({ source: new M.BlobSource(f), formats: M.ALL_FORMATS });
+    const at = await inp.getPrimaryAudioTrack();
+    if (f !== file) { return; }
+    hasAudio = !!at;
+  } catch { hasAudio = false; }
+  $("audioCard").hidden = !hasAudio;
+  $("fmtNum").textContent = hasAudio ? "4" : "3";
+}
+// Décode le son (tout, ou un extrait) en tableaux Float32 par canal
+async function decodeAudio(M, f, start, end, onProgress) {
+  const inp = new M.Input({ source: new M.BlobSource(f), formats: M.ALL_FORMATS });
+  const at = await inp.getPrimaryAudioTrack();
+  if (!at) { return null; }
+  const dur = end ?? await at.computeDuration();
+  const sink = new M.AudioSampleSink(at);
+  const parts = []; let sr = 0, ch = 0, t0 = null, total = 0;
+  for await (const s of sink.samples(start, end)) {
+    if (t0 === null) { t0 = s.timestamp; sr = s.sampleRate; ch = s.numberOfChannels; }
+    const n = s.numberOfFrames, planes = [];
+    for (let c = 0; c < ch; c++) { const a = new Float32Array(n); s.copyTo(a, { planeIndex: Math.min(c, s.numberOfChannels - 1), format: "f32-planar" }); planes.push(a); }
+    parts.push(planes); total += n; s.close();
+    if (onProgress && dur) { onProgress(Math.min(1, (s.timestamp - (start || 0)) / (dur - (start || 0)))); }
+  }
+  if (!total) { return null; }
+  const chans = Array.from({ length: ch }, () => new Float32Array(total));
+  let o = 0;
+  for (const planes of parts) { for (let c = 0; c < ch; c++) { chans[c].set(planes[c], o); } o += planes[0].length; }
+  return { sr, t0, chans };
+}
+
+let actx = null, playing = null;
+const stopListen = () => { if (playing) { try { playing.stop(); } catch {} playing = null; } };
+async function listen(clean) {
+  if (!file) { return; }
+  stopListen();
+  if (video) { video.pause(); setPlayIcon(false); }
+  const btn = clean ? $("listenAfter") : $("listenBefore");
+  btn.disabled = true; $("listenInfo").textContent = clean ? "Nettoyage de l'extrait…" : "Chargement de l'extrait…";
+  try {
+    const M = await loadLib();
+    const t = video ? Math.max(0, Math.min(video.currentTime, (video.duration || 10) - 10)) : 0;
+    const A = await decodeAudio(M, file, t, t + 10);
+    if (!A) { throw new Error("pas de son"); }
+    let chans = A.chans;
+    if (clean) { chans = await cleanAudio(chans.map(x => x.slice()), A.sr, audioOpts()); }
+    actx = actx || new AudioContext();
+    await actx.resume();
+    const buf = actx.createBuffer(chans.length, chans[0].length, A.sr);
+    chans.forEach((x, c) => buf.copyToChannel(x, c));
+    const src = actx.createBufferSource(); src.buffer = buf; src.connect(actx.destination); src.start();
+    playing = src;
+    $("listenInfo").textContent = (clean ? "Lecture du son nettoyé" : "Lecture de l'original") + " (10 s)…";
+    src.onended = () => { if (playing === src) { playing = null; $("listenInfo").textContent = "Écoute de 10 secondes à partir de la position de la vidéo."; } };
+  } catch (e) {
+    console.error(e); $("listenInfo").textContent = "Impossible de lire le son de cette vidéo.";
+  } finally { btn.disabled = false; }
+}
+$("listenBefore").addEventListener("click", () => listen(false));
+$("listenAfter").addEventListener("click", () => listen(true));
+
 /* ---------- Conversion ---------- */
 let MB = null;
 const loadLib = async () => { if (!MB) { MB = await import("./mediabunny-aac.mjs"); } return MB; };
@@ -364,6 +466,7 @@ $("cancelBtn").addEventListener("click", async () => { if (conversion) { try { a
 async function convert() {
   if (!file) { return; }
   if (video) { video.pause(); setPlayIcon(false); }
+  stopListen();
   resetResult();
   showProgress(true);
   $("progTitle").textContent = "Création de la vidéo…"; setPct(0); $("eta").textContent = "Préparation…";
@@ -384,6 +487,34 @@ async function convert() {
     const glc = document.createElement("canvas"); const r = new Renderer(glc); r.size(d.w, d.h);
     const params = { ...P };
 
+    let audioConf = { codec: "aac" };
+    let span = [0, 1];
+    if (hasAudio && audioWanted()) {
+      $("progTitle").textContent = "Nettoyage du son…";
+      const A = await decodeAudio(M, file, undefined, undefined, p => { setPct(p * 0.1); $("eta").textContent = "Lecture du son…"; });
+      if (A && A.chans[0].length * A.chans.length < 1.3e8) {
+        $("eta").textContent = "Suppression du vent et des bruits de fond…";
+        A.chans = await cleanAudio(A.chans, A.sr, audioOpts(), p => setPct(0.1 + p * 0.15));
+        audioConf = {
+          codec: "aac",
+          process: sample => {
+            const n = sample.numberOfFrames, ch = sample.numberOfChannels, sr = sample.sampleRate;
+            if (sr !== A.sr) { return sample; }
+            const start = Math.round((sample.timestamp - A.t0) * sr);
+            const data = new Float32Array(n * ch);
+            for (let c = 0; c < ch; c++) {
+              const src = A.chans[Math.min(c, A.chans.length - 1)];
+              for (let i = 0; i < n; i++) { const k = start + i; data[c * n + i] = k >= 0 && k < src.length ? src[k] : 0; }
+            }
+            return new M.AudioSample({ data, format: "f32-planar", numberOfChannels: ch, sampleRate: sr, timestamp: sample.timestamp });
+          },
+        };
+      } else if (A) { toast("Vidéo trop longue : son gardé sans nettoyage"); }
+      span = [0.25, 0.75];
+      $("progTitle").textContent = "Création de la vidéo…";
+    }
+    const tv = performance.now();
+
     const output = new M.Output({ format: new M.Mp4OutputFormat({ fastStart: "in-memory" }), target: new M.BufferTarget() });
     conversion = await M.Conversion.init({
       input, output,
@@ -398,20 +529,20 @@ async function convert() {
           return glc;
         },
       },
-      audio: { codec: "aac" },
+      audio: audioConf,
     });
     if (!conversion.isValid) { throw new Error("INVALID"); }
     conversion.onProgress = p => {
-      setPct(p);
-      const el = (performance.now() - t0) / 1000;
+      setPct(span[0] + p * span[1]);
+      const el = (performance.now() - tv) / 1000;
       if (p > 0.03) { $("eta").textContent = "Temps restant : environ " + fmtTime(el / p - el); }
     };
     await conversion.execute();
-    const hasAudio = conversion.utilizedTracks ? conversion.utilizedTracks.some(t => t.type === "audio") : true;
+    const outAudio = conversion.utilizedTracks ? conversion.utilizedTracks.some(t => t.type === "audio") : true;
     const blob = new Blob([output.target.buffer], { type: "video/mp4" });
     const base = file.name.replace(/\.[^.]+$/, "") || "video";
     outFile = new File([blob], base + "-HD.mp4", { type: "video/mp4" });
-    showResult(d, (performance.now() - t0) / 1000, hasAudio);
+    showResult(d, (performance.now() - t0) / 1000, outAudio, !!audioConf.process);
   } catch (e) {
     showProgress(false);
     if (e && (e.name === "ConversionCanceledError" || /cancel/i.test(e.message || ""))) { toast("Conversion annulée"); }
@@ -435,14 +566,14 @@ function showError(e) {
   $("fmtCard").append(box); setTimeout(() => box.remove(), 9000);
 }
 function resetResult() { $("doneCard").hidden = true; if (outUrl) { URL.revokeObjectURL(outUrl); outUrl = null; } $("result").removeAttribute("src"); }
-function showResult(d, secs, hasAudio) {
+function showResult(d, secs, hasAudio, cleaned) {
   showProgress(false);
   outUrl = URL.createObjectURL(outFile);
   $("result").src = outUrl;
   $("saveBtn").href = outUrl; $("saveBtn").download = outFile.name;
   $("outMeta").innerHTML = "";
   const add = (label, val) => { const s = document.createElement("span"); s.textContent = label + " : "; const b = document.createElement("b"); b.textContent = val; s.append(b); $("outMeta").append(s); };
-  add("Fichier", outFile.name); add("Image", d.w + " × " + d.h); add("Taille", fmtSize(outFile.size)); add("Son", hasAudio ? "AAC" : "aucun");
+  add("Fichier", outFile.name); add("Image", d.w + " × " + d.h); add("Taille", fmtSize(outFile.size)); add("Son", hasAudio ? (cleaned ? "AAC, nettoyé" : "AAC") : "aucun");
   $("shareBtn").hidden = !(navigator.canShare && navigator.canShare({ files: [outFile] }));
   $("doneCard").hidden = false;
   $("doneCard").scrollIntoView({ behavior: "smooth", block: "start" });
