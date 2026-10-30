@@ -13,3 +13,5 @@ Apprendre les produits Forever et le business Forever avec les managers du pays 
 🌿 Site **Santé et Bien-être B** (site universel pour l'équipe : chaque membre crée son lien avec son numéro WhatsApp) : https://noufoukonom120-lgtm.github.io/Nouf-Aloe/sante-bien-etre-b/
 
 🎬 Application **Nouf Vidéo HD** (éclaircit et rend plus nettes les vidéos sombres ou floues, puis les convertit en MP4 HD H.264 + AAC pour WhatsApp) : https://noufoukonom120-lgtm.github.io/Nouf-Aloe/video-hd/
+
+📤 Application **Autodistributeurs** (préparer messages, photos, vidéos et vocaux, les programmer et les envoyer à ses groupes et contacts WhatsApp par lots, via le partage officiel) : https://noufoukonom120-lgtm.github.io/Nouf-Aloe/autodistributeurs/

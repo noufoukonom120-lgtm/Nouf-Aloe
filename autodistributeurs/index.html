@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Autodistributeurs</title>
+<meta name="description" content="Préparez vos messages, photos, vidéos et vocaux, programmez-les et envoyez-les à tous vos groupes et contacts WhatsApp en quelques touches.">
+<meta name="theme-color" content="#0E6B3A">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+/* Application mobile à onglets en bas. Blanc, vert WhatsApp foncé pour les envois, doré pour les accents. */
+:root{
+  color-scheme:light;
+  --bg:#F6F8F6; --card:#FFFFFF; --soft:#EEF4EF; --line:#DCE6DE;
+  --ink:#13211A; --muted:#5B6E62; --green:#0E6B3A; --green-2:#138A4A; --gold:#B8862A; --gold-soft:#FBF1DA; --red:#B3402C;
+  --display:"Bricolage Grotesque",system-ui,sans-serif; --body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --nav:64px;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 calc(var(--nav) + env(safe-area-inset-bottom,0px) + 24px)}
+[hidden]{display:none!important}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:8px}
+h1,h2,h3{font-family:var(--display);margin:0;line-height:1.15;text-wrap:balance}
+.wrap{max-width:680px;margin:0 auto;display:grid;gap:14px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--green);z-index:20}
+
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--green);color:#fff;margin-inline:calc(-1 * max(16px,env(safe-area-inset-left,0px)));padding:12px max(16px,env(safe-area-inset-left,0px));display:flex;align-items:center;gap:10px}
+header.top img{width:36px;height:36px;border-radius:10px;flex:none}
+header.top h1{font-size:20px;font-weight:800;flex:1}
+header.top small{font-size:12px;opacity:.85;display:block;font-family:var(--body);font-weight:500}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;display:grid;gap:12px;min-width:0}
+.card h2{font-size:18px;font-weight:800}
+.hint{margin:0;color:var(--muted);font-size:14px}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:999px;padding:11px 16px;font-weight:700;cursor:pointer;background:var(--soft);color:var(--ink);text-decoration:none;min-height:44px}
+.btn svg{width:18px;height:18px;flex:none}
+.btn.green{background:var(--green);color:#fff}
+.btn.gold{background:var(--gold);color:#fff}
+.btn.red{background:#FDECE8;color:var(--red)}
+.btn.big{width:100%;padding:15px;font-size:17px;border-radius:16px}
+.btn.sm{padding:7px 12px;min-height:36px;font-size:14px}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.empty{text-align:center;color:var(--muted);padding:18px 8px;border:1.5px dashed var(--line);border-radius:14px;font-size:14.5px}
+
+label.f{display:grid;gap:4px;font-size:14px;font-weight:600;color:var(--muted)}
+.f input,.f select,.f textarea{width:100%;min-width:0;border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;background:#fff;color:var(--ink);font-size:16px;font-weight:400}
+.f textarea{min-height:110px;resize:vertical}
+.f input:focus,.f select:focus,.f textarea:focus{outline:none;border-color:var(--green-2)}
+
+.list{display:grid;gap:8px}
+.item{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:14px;background:#fff;min-width:0}
+.item .av{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;flex:none;font-weight:800;color:#fff;background:var(--green-2);font-size:15px}
+.item .av.g{background:var(--gold)}
+.item .av svg{width:20px;height:20px}
+.item .tx{flex:1;min-width:0}
+.item .tx b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.item .tx small{display:block;color:var(--muted);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.item input[type=checkbox]{width:22px;height:22px;accent-color:var(--green);flex:none}
+.x{border:0;background:none;color:var(--muted);width:36px;height:36px;border-radius:50%;cursor:pointer;flex:none;font-size:20px}
+.x:hover{background:var(--soft);color:var(--red)}
+
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;background:var(--soft);padding:4px;border-radius:14px}
+.tabs button{border:0;background:none;border-radius:10px;padding:9px 4px;font-weight:700;font-size:14px;cursor:pointer;color:var(--muted)}
+.tabs button[aria-selected="true"]{background:#fff;color:var(--green);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+
+.media{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:8px}
+.mi{position:relative;aspect-ratio:1;border-radius:12px;overflow:hidden;background:var(--soft);display:grid;place-items:center;border:1px solid var(--line)}
+.mi img,.mi video{width:100%;height:100%;object-fit:cover}
+.mi .ic{display:grid;place-items:center;gap:2px;text-align:center;font-size:11px;color:var(--muted);padding:4px}
+.mi .ic svg{width:28px;height:28px;color:var(--green-2)}
+.mi .x{position:absolute;top:2px;right:2px;width:28px;height:28px;background:rgba(255,255,255,.9);font-size:16px;color:var(--red)}
+.filebtn{position:relative;overflow:hidden}
+.filebtn input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.rec{color:#fff;background:var(--red)}
+.pill{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px;background:var(--soft);color:var(--muted)}
+.pill.due{background:#FDECE8;color:var(--red)}
+.pill.ok{background:#E3F4E8;color:var(--green)}
+.pill.next{background:var(--gold-soft);color:var(--gold)}
+
+.plan{border:1px solid var(--line);border-radius:16px;padding:12px;display:grid;gap:8px;background:#fff}
+.plan.due{border-color:#F0B9AC;background:#FFF8F6}
+.plan h3{font-size:16px}
+.plan .meta{display:flex;flex-wrap:wrap;gap:6px}
+
+.batch{border:1px solid var(--line);border-radius:14px;padding:10px;display:grid;gap:8px;background:#fff}
+.batch.done{background:#F2FAF4;border-color:#BFE3CB}
+.batch .names{font-size:14px;color:var(--ink)}
+.bar{height:10px;border-radius:999px;background:var(--soft);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--green-2);transition:width .2s}
+.preview{background:#E7F5EA;border-radius:14px;padding:10px 12px;font-size:15px;white-space:pre-wrap;word-break:break-word}
+
+nav.bottom{position:fixed;left:0;right:0;bottom:0;z-index:15;background:#fff;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding-bottom:env(safe-area-inset-bottom,0px);padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
+nav.bottom button{border:0;background:none;height:var(--nav);display:grid;place-items:center;align-content:center;gap:2px;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;position:relative}
+nav.bottom button svg{width:24px;height:24px}
+nav.bottom button[aria-current="page"]{color:var(--green)}
+nav.bottom .dot{position:absolute;top:8px;left:calc(50% + 6px);min-width:18px;height:18px;border-radius:999px;background:var(--red);color:#fff;font-size:11px;display:grid;place-items:center;padding:0 5px}
+.sheet-bg{position:fixed;inset:0;background:rgba(10,20,14,.45);z-index:30}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:31;background:#fff;border-radius:20px 20px 0 0;max-height:90vh;overflow-y:auto;padding:16px max(16px,env(safe-area-inset-left,0px)) calc(16px + env(safe-area-inset-bottom,0px));display:grid;gap:12px;max-width:680px;margin:0 auto}
+.sheet h2{font-size:19px}
+.toast{position:fixed;left:50%;bottom:calc(var(--nav) + 16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 16px;border-radius:999px;font-weight:600;font-size:14px;z-index:40;max-width:calc(100% - 32px);text-align:center}
+.tips{margin:0;padding-left:20px;display:grid;gap:6px;font-size:14.5px}
+.banner{background:var(--gold-soft);border:1px solid #EAD3A0;border-radius:14px;padding:10px 12px;font-size:14px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="top">
+  <img src="icon-192.png" alt="" width="36" height="36">
+  <h1>Autodistributeurs<small id="subtitle">Envois WhatsApp organisés</small></h1>
+</header>
+
+<div class="wrap" style="margin-top:14px">
+
+  <!-- ============ ENVOIS ============ -->
+  <section id="v-send" class="view">
+    <div class="wrap">
+      <div class="banner" id="notifBanner" hidden>Activez les alertes pour être prévenu à l'heure de vos envois programmés. <button class="btn sm gold" id="notifBtn" type="button">Activer les alertes</button></div>
+      <div class="card">
+        <h2>À envoyer maintenant</h2>
+        <div class="list" id="dueList"></div>
+      </div>
+      <div class="card">
+        <div class="row" style="justify-content:space-between"><h2>Envois programmés</h2></div>
+        <div class="list" id="planList"></div>
+        <button class="btn green big" id="newPlan" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Nouvel envoi</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MESSAGES ============ -->
+  <section id="v-msg" class="view" hidden>
+    <div class="wrap">
+      <div class="card">
+        <h2>Mes messages prêts</h2>
+        <p class="hint">Préparez à l'avance un texte avec des photos, vidéos, audios ou vocaux. Vous le réutilisez pour tous vos envois.</p>
+        <div class="list" id="packList"></div>
+        <button class="btn green big" id="newPack" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Nouveau message</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DESTINATAIRES ============ -->
+  <section id="v-dest" class="view" hidden>
+    <div class="wrap">
+      <div class="tabs" role="tablist">
+        <button role="tab" aria-selected="true" data-dt="groupe" type="button">Groupes</button>
+        <button role="tab" aria-selected="false" data-dt="contact" type="button">Contacts</button>
+        <button role="tab" aria-selected="false" data-dt="liste" type="button">Listes</button>
+      </div>
+      <div class="card" id="destCard">
+        <div id="destHead"></div>
+        <div class="list" id="destList"></div>
+        <div class="row" id="destActions"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ AIDE ============ -->
+  <section id="v-help" class="view" hidden>
+    <div class="wrap">
+      <div class="card">
+        <h2>Comment ça marche</h2>
+        <ol class="tips">
+          <li><b>Destinataires</b> : ajoutez vos groupes et vos contacts, puis rangez-les dans des <b>listes</b> (ex. « Groupes clients », « Équipe »).</li>
+          <li><b>Messages</b> : préparez votre texte avec photos, vidéos, audios ou un vocal enregistré ici.</li>
+          <li><b>Envois</b> : choisissez le message, la liste et l'heure. Ajoutez un rappel dans votre agenda.</li>
+          <li>À l'heure prévue, ouvrez l'envoi : l'application prépare tout. Touchez <b>« Partager »</b>, choisissez <b>WhatsApp</b>, cochez les groupes du lot (jusqu'à 5 à la fois), puis <b>Envoyer</b>.</li>
+          <li>Pour un contact qui n'a que du texte, l'application ouvre directement sa discussion WhatsApp avec le message déjà écrit.</li>
+        </ol>
+      </div>
+      <div class="card">
+        <h2>Protéger votre numéro WhatsApp</h2>
+        <ul class="tips">
+          <li>Envoyez seulement aux personnes et aux groupes qui veulent vos messages.</li>
+          <li>Demandez à vos contacts d'<b>enregistrer votre numéro</b> : les messages arrivent mieux et vous êtes moins signalé.</li>
+          <li>Évitez d'envoyer le même message à des centaines d'inconnus en peu de temps : WhatsApp peut bloquer le numéro.</li>
+          <li>Pour toucher beaucoup de monde d'un coup, créez une <b>Communauté WhatsApp</b> (un message « Annonces » arrive dans tous vos groupes) ou une <b>Chaîne WhatsApp</b>.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>Vos données</h2>
+        <p class="hint">Tout est enregistré <b>sur ce téléphone</b> uniquement (groupes, contacts, messages, fichiers). Rien n'est envoyé sur internet. Si vous effacez les données du navigateur, elles seront perdues.</p>
+        <div class="row">
+          <button class="btn" id="exportBtn" type="button">Sauvegarder (sans fichiers)</button>
+          <label class="btn filebtn">Restaurer<input type="file" id="importFile" accept="application/json,.json"></label>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<nav class="bottom" aria-label="Navigation">
+  <button type="button" data-v="send" aria-current="page"><span class="dot" id="dueDot" hidden>0</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg>Envois</button>
+  <button type="button" data-v="msg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 15l5-5 4 4 3-3 6 6"/><circle cx="15.5" cy="8.5" r="1.5"/></svg>Messages</button>
+  <button type="button" data-v="dest"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18.5 14.8c1.7.8 2.7 2.4 3 5.2"/></svg>Destinataires</button>
+  <button type="button" data-v="help"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M9.5 9a2.5 2.5 0 1 1 3.6 2.2c-.7.4-1.1.9-1.1 1.8M12 17h.01"/></svg>Aide</button>
+</nav>
+
+<div class="sheet-bg" id="sheetBg" hidden></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" hidden></div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+/* ================= Stockage (IndexedDB : textes + fichiers) ================= */
+const DB_NAME = "autodistributeurs", STORES = ["dests", "lists", "packs", "plans"];
+let db;
+const openDB = () => new Promise((res, rej) => {
+  const r = indexedDB.open(DB_NAME, 1);
+  r.onupgradeneeded = () => { for (const s of STORES) { if (!r.result.objectStoreNames.contains(s)) { r.result.createObjectStore(s, { keyPath: "id" }); } } };
+  r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error);
+});
+const tx = (s, mode = "readonly") => db.transaction(s, mode).objectStore(s);
+const all = s => new Promise((res, rej) => { const q = tx(s).getAll(); q.onsuccess = () => res(q.result); q.onerror = () => rej(q.error); });
+const put = (s, v) => new Promise((res, rej) => { const q = tx(s, "readwrite").put(v); q.onsuccess = () => res(v); q.onerror = () => rej(q.error); });
+const del = (s, id) => new Promise((res, rej) => { const q = tx(s, "readwrite").delete(id); q.onsuccess = () => res(); q.onerror = () => rej(q.error); });
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+
+const S = { dests: [], lists: [], packs: [], plans: [] };
+async function reload() { for (const s of STORES) { S[s] = await all(s); } S.dests.sort((a, b) => a.name.localeCompare(b.name, "fr")); render(); }
+
+/* ================= Outils ================= */
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const toast = t => { const el = $("toast"); el.textContent = t; el.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(() => { el.hidden = true; }, 2600); };
+const initials = n => (n || "?").trim().split(/\s+/).slice(0, 2).map(w => w[0]).join("").toUpperCase();
+const normPhone = p => { let d = String(p || "").replace(/[^\d+]/g, "").replace(/^\+/, "").replace(/^00/, ""); if (/^\d{8}$/.test(d)) { d = "226" + d; } return d; };
+const fmtPhone = d => d ? "+" + d.replace(/^(\d{3})(\d{2})(\d{2})(\d{2})(\d{2})$/, "$1 $2 $3 $4 $5") : "";
+const fmtDate = iso => { const d = new Date(iso); return d.toLocaleDateString("fr-FR", { weekday: "short", day: "numeric", month: "short" }) + " à " + d.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }); };
+const toLocalInput = d => { const p = n => String(n).padStart(2, "0"); return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}T${p(d.getHours())}:${p(d.getMinutes())}`; };
+const REPEAT = { none: "Une seule fois", daily: "Tous les jours", weekly: "Toutes les semaines" };
+const ICON = {
+  audio: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>`,
+  mic: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 17v5"/></svg>`,
+  share: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>`,
+  wa: `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm4.5 12.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2c0 1.3.9 2.5 1 2.7.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3z"/></svg>`,
+};
+
+/* ================= Navigation ================= */
+let view = "send";
+document.querySelectorAll("nav.bottom button").forEach(b => b.addEventListener("click", () => go(b.dataset.v)));
+function go(v) {
+  view = v;
+  document.querySelectorAll(".view").forEach(s => { s.hidden = s.id !== "v-" + v; });
+  document.querySelectorAll("nav.bottom button").forEach(b => { if (b.dataset.v === v) { b.setAttribute("aria-current", "page"); } else { b.removeAttribute("aria-current"); } });
+  scrollTo(0, 0);
+}
+
+/* ================= Feuille (fenêtre du bas) ================= */
+const openSheet = html => { $("sheet").innerHTML = html; $("sheet").hidden = false; $("sheetBg").hidden = false; document.body.style.overflow = "hidden"; };
+const closeSheet = () => { $("sheet").onclick = null; $("sheet").hidden = true; $("sheetBg").hidden = true; document.body.style.overflow = ""; stopRec(); };
+$("sheetBg").addEventListener("click", closeSheet);
+document.addEventListener("keydown", e => { if (e.key === "Escape" && !$("sheet").hidden) { closeSheet(); } });
+
+/* ================= Rendu ================= */
+function render() { renderPlans(); renderPacks(); renderDests(); }
+
+const isDue = p => new Date(p.when).getTime() <= Date.now();
+function planStats(p) { const L = S.lists.find(l => l.id === p.listId); const ids = L ? L.destIds.filter(id => S.dests.some(d => d.id === id)) : []; const done = ids.filter(id => p.done && p.done[id]).length; return { total: ids.length, done }; }
+function planCard(p) {
+  const pk = S.packs.find(x => x.id === p.packId), L = S.lists.find(x => x.id === p.listId), st = planStats(p), due = isDue(p);
+  return `<div class="plan${due ? " due" : ""}">
+    <h3>${esc(pk ? pk.title : "Message supprimé")}</h3>
+    <div class="meta"><span class="pill ${due ? "due" : "next"}">${due ? "À envoyer" : fmtDate(p.when)}</span><span class="pill">${esc(L ? L.name : "Liste supprimée")} · ${st.total}</span><span class="pill">${REPEAT[p.repeat || "none"]}</span>${st.done ? `<span class="pill ok">${st.done}/${st.total} envoyés</span>` : ""}</div>
+    <div class="row">
+      <button class="btn green sm" type="button" data-run="${p.id}">${ICON.share}Commencer l'envoi</button>
+      <a class="btn sm" href="${calLink(p)}" target="_blank" rel="noopener">Rappel agenda</a>
+      <button class="btn sm red" type="button" data-delplan="${p.id}">Supprimer</button>
+    </div></div>`;
+}
+function renderPlans() {
+  const plans = [...S.plans].sort((a, b) => a.when.localeCompare(b.when));
+  const due = plans.filter(isDue), later = plans.filter(p => !isDue(p));
+  $("dueList").innerHTML = due.length ? due.map(planCard).join("") : `<div class="empty">Rien à envoyer pour l'instant.</div>`;
+  $("planList").innerHTML = later.length ? later.map(planCard).join("") : `<div class="empty">Aucun envoi programmé. Touchez « Nouvel envoi ».</div>`;
+  $("dueDot").hidden = !due.length; $("dueDot").textContent = due.length;
+  $("subtitle").textContent = due.length ? due.length + " envoi(s) à faire" : "Envois WhatsApp organisés";
+}
+
+function fileThumb(f, i, removable) {
+  const url = URL.createObjectURL(f.blob); thumbUrls.push(url);
+  const inner = f.type.startsWith("image/") ? `<img src="${url}" alt="">` : f.type.startsWith("video/") ? `<video src="${url}" muted playsinline preload="metadata"></video>` : `<div class="ic">${f.vocal ? ICON.mic : ICON.audio}<span>${esc(f.vocal ? "Vocal" : f.name)}</span></div>`;
+  return `<div class="mi">${inner}${removable ? `<button class="x" type="button" data-rmfile="${i}" aria-label="Retirer">×</button>` : ""}</div>`;
+}
+let thumbUrls = [];
+function renderPacks() {
+  thumbUrls.forEach(u => URL.revokeObjectURL(u)); thumbUrls = [];
+  $("packList").innerHTML = S.packs.length ? S.packs.map(p => {
+    const kinds = { image: 0, video: 0, audio: 0 }; (p.files || []).forEach(f => { kinds[f.type.split("/")[0]] = (kinds[f.type.split("/")[0]] || 0) + 1; });
+    const parts = [kinds.image && kinds.image + " photo(s)", kinds.video && kinds.video + " vidéo(s)", kinds.audio && kinds.audio + " audio(s)"].filter(Boolean).join(" · ");
+    return `<div class="item"><div class="av g">${ICON.share}</div><div class="tx"><b>${esc(p.title)}</b><small>${esc((p.text || "").slice(0, 60) || "Sans texte")}${parts ? " · " + parts : ""}</small></div><button class="btn sm" type="button" data-editpack="${p.id}">Modifier</button></div>`;
+  }).join("") : `<div class="empty">Aucun message. Créez votre premier message prêt à envoyer.</div>`;
+}
+
+let destTab = "groupe";
+document.querySelectorAll("[data-dt]").forEach(b => b.addEventListener("click", () => { destTab = b.dataset.dt; document.querySelectorAll("[data-dt]").forEach(x => x.setAttribute("aria-selected", x === b)); renderDests(); }));
+function renderDests() {
+  if (destTab === "liste") {
+    $("destHead").innerHTML = `<h2>Mes listes</h2><p class="hint">Une liste regroupe plusieurs groupes et contacts. Vous envoyez un message à une liste entière.</p>`;
+    $("destList").innerHTML = S.lists.length ? S.lists.map(l => `<div class="item"><div class="av">${l.destIds.length}</div><div class="tx"><b>${esc(l.name)}</b><small>${esc(l.destIds.map(id => (S.dests.find(d => d.id === id) || {}).name).filter(Boolean).slice(0, 4).join(", ")) || "Vide"}</small></div><button class="btn sm" type="button" data-editlist="${l.id}">Modifier</button></div>`).join("") : `<div class="empty">Aucune liste. Créez-en une pour envoyer à plusieurs groupes d'un coup.</div>`;
+    $("destActions").innerHTML = `<button class="btn green" type="button" id="addList">+ Nouvelle liste</button>`;
+    $("addList").onclick = () => editList(null);
+    return;
+  }
+  const items = S.dests.filter(d => d.type === destTab);
+  $("destHead").innerHTML = destTab === "groupe"
+    ? `<h2>Mes groupes WhatsApp</h2><p class="hint">Écrivez le nom exact de chaque groupe : vous le retrouverez facilement au moment d'envoyer.</p>`
+    : `<h2>Mes contacts</h2><p class="hint">Avec le numéro, l'application ouvre directement la discussion WhatsApp.</p>`;
+  $("destList").innerHTML = items.length ? items.map(d => `<div class="item"><div class="av${d.type === "groupe" ? " g" : ""}">${esc(initials(d.name))}</div><div class="tx"><b>${esc(d.name)}</b><small>${d.type === "contact" ? esc(fmtPhone(d.phone)) || "Sans numéro" : "Groupe"}</small></div><button class="x" type="button" data-deldest="${d.id}" aria-label="Supprimer ${esc(d.name)}">×</button></div>`).join("") : `<div class="empty">${destTab === "groupe" ? "Aucun groupe pour l'instant." : "Aucun contact pour l'instant."}</div>`;
+  $("destActions").innerHTML = `<button class="btn green" type="button" id="addOne">+ Ajouter ${destTab === "groupe" ? "un groupe" : "un contact"}</button><button class="btn" type="button" id="addMany">Ajouter plusieurs d'un coup</button>`;
+  $("addOne").onclick = () => addDest(false); $("addMany").onclick = () => addDest(true);
+}
+
+/* ================= Destinataires ================= */
+function addDest(many) {
+  const g = destTab === "groupe";
+  openSheet(`<h2>${many ? "Ajouter plusieurs " + (g ? "groupes" : "contacts") : g ? "Nouveau groupe" : "Nouveau contact"}</h2>
+    ${many ? `<label class="f">${g ? "Un nom de groupe par ligne" : "Un contact par ligne : Nom ; numéro"}<textarea id="dMany" placeholder="${g ? "Clients Ouaga\nForever Koudougou\nÉquipe Nouvelle Vision" : "Awa ; 70 00 00 00\nIssa ; +226 76 00 00 00"}"></textarea></label>`
+    : `<label class="f">Nom ${g ? "du groupe" : ""}<input id="dName" autocomplete="off" placeholder="${g ? "Ex. Clients Ouaga" : "Ex. Awa Ouédraogo"}"></label>${g ? "" : `<label class="f">Numéro WhatsApp (avec indicatif)<input id="dPhone" type="tel" inputmode="tel" placeholder="Ex. +226 70 00 00 00"></label>`}`}
+    <div class="row"><button class="btn green" type="button" id="dSave">Enregistrer</button><button class="btn" type="button" id="dCancel">Annuler</button></div>`);
+  $("dCancel").onclick = closeSheet;
+  $("dSave").onclick = async () => {
+    const rows = many ? $("dMany").value.split("\n").map(s => s.trim()).filter(Boolean) : [g ? $("dName").value.trim() : $("dName").value.trim() + " ; " + $("dPhone").value.trim()];
+    let n = 0;
+    for (const r of rows) {
+      let name = r, phone = "";
+      if (!g) { const parts = r.split(/[;,\t]/); name = (parts[0] || "").trim(); phone = normPhone(parts.slice(1).join("")); if (!name && phone) { name = fmtPhone(phone); } }
+      if (!name || name === ";") { continue; }
+      await put("dests", { id: uid(), type: destTab, name, phone }); n++;
+    }
+    closeSheet(); await reload(); toast(n ? n + " ajouté(s)" : "Rien à ajouter");
+  };
+  setTimeout(() => ($("dName") || $("dMany")).focus(), 50);
+}
+$("destList").addEventListener("click", async e => {
+  const d = e.target.closest("[data-deldest]");
+  if (d) { await del("dests", d.dataset.deldest); for (const l of S.lists) { if (l.destIds.includes(d.dataset.deldest)) { l.destIds = l.destIds.filter(x => x !== d.dataset.deldest); await put("lists", l); } } await reload(); toast("Supprimé"); }
+  const l = e.target.closest("[data-editlist]"); if (l) { editList(S.lists.find(x => x.id === l.dataset.editlist)); }
+});
+function editList(L) {
+  const cur = L ? { ...L, destIds: [...L.destIds] } : { id: uid(), name: "", destIds: [] };
+  const groups = S.dests.filter(d => d.type === "groupe"), contacts = S.dests.filter(d => d.type === "contact");
+  const row = d => `<label class="item"><input type="checkbox" value="${d.id}" ${cur.destIds.includes(d.id) ? "checked" : ""}><div class="av${d.type === "groupe" ? " g" : ""}">${esc(initials(d.name))}</div><div class="tx"><b>${esc(d.name)}</b><small>${d.type === "contact" ? esc(fmtPhone(d.phone)) : "Groupe"}</small></div></label>`;
+  openSheet(`<h2>${L ? "Modifier la liste" : "Nouvelle liste"}</h2>
+    <label class="f">Nom de la liste<input id="lName" value="${esc(cur.name)}" placeholder="Ex. Tous mes groupes clients"></label>
+    ${S.dests.length ? `<div class="row"><button class="btn sm" type="button" id="lAll">Tout cocher</button><button class="btn sm" type="button" id="lNone">Tout décocher</button></div>
+    <div class="list" id="lBox">${groups.length ? `<b>Groupes</b>${groups.map(row).join("")}` : ""}${contacts.length ? `<b>Contacts</b>${contacts.map(row).join("")}` : ""}</div>` : `<div class="empty">Ajoutez d'abord des groupes ou des contacts.</div>`}
+    <div class="row"><button class="btn green" type="button" id="lSave">Enregistrer</button>${L ? `<button class="btn red" type="button" id="lDel">Supprimer la liste</button>` : ""}<button class="btn" type="button" id="lCancel">Annuler</button></div>`);
+  const boxes = () => [...document.querySelectorAll("#lBox input")];
+  if ($("lAll")) { $("lAll").onclick = () => boxes().forEach(b => { b.checked = true; }); $("lNone").onclick = () => boxes().forEach(b => { b.checked = false; }); }
+  $("lCancel").onclick = closeSheet;
+  if ($("lDel")) { $("lDel").onclick = async () => { await del("lists", cur.id); closeSheet(); await reload(); toast("Liste supprimée"); }; }
+  $("lSave").onclick = async () => {
+    cur.name = $("lName").value.trim() || "Ma liste";
+    cur.destIds = boxes().filter(b => b.checked).map(b => b.value);
+    await put("lists", cur); closeSheet(); await reload(); toast("Liste enregistrée (" + cur.destIds.length + ")");
+  };
+}
+
+/* ================= Messages (paquets) ================= */
+const extFor = type => ({ "audio/mp4": "m4a", "audio/aac": "m4a", "audio/x-m4a": "m4a", "audio/mpeg": "mp3", "audio/ogg": "ogg", "audio/webm": "weba", "audio/wav": "wav", "video/mp4": "mp4", "video/webm": "webm", "video/quicktime": "mov", "image/jpeg": "jpg", "image/png": "png", "image/webp": "webp", "image/gif": "gif" }[type.split(";")[0]] || "bin");
+let editing = null, rec = null;
+$("packList").addEventListener("click", e => { const b = e.target.closest("[data-editpack]"); if (b) { editPack(S.packs.find(p => p.id === b.dataset.editpack)); } });
+$("newPack").addEventListener("click", () => editPack(null));
+function editPack(P) {
+  editing = P ? { ...P, files: [...(P.files || [])] } : { id: uid(), title: "", text: "", files: [] };
+  openSheet(`<h2>${P ? "Modifier le message" : "Nouveau message"}</h2>
+    <label class="f">Titre (pour vous)<input id="pTitle" value="${esc(editing.title)}" placeholder="Ex. Promo Aloe Vera Gel"></label>
+    <label class="f">Texte du message<textarea id="pText" placeholder="Bonjour à tous 🌿 ...">${esc(editing.text)}</textarea></label>
+    <b>Photos, vidéos, audios</b>
+    <div class="media" id="pMedia"></div>
+    <div class="row">
+      <label class="btn filebtn">+ Photos / vidéos<input type="file" id="pImg" accept="image/*,video/*" multiple></label>
+      <label class="btn filebtn">+ Audio<input type="file" id="pAud" accept="audio/*,.mp3,.m4a,.ogg,.opus,.wav,.aac" multiple></label>
+      <button class="btn" type="button" id="pRec">${ICON.mic}Enregistrer un vocal</button>
+    </div>
+    <p class="hint" id="recInfo">Les vocaux enregistrés ici arrivent dans WhatsApp comme un fichier audio.</p>
+    <div class="row"><button class="btn green" type="button" id="pSave">Enregistrer</button>${P ? `<button class="btn red" type="button" id="pDel">Supprimer</button>` : ""}<button class="btn" type="button" id="pCancel">Annuler</button></div>`);
+  drawMedia();
+  const addFiles = list => { for (const f of list) { editing.files.push({ name: f.name, type: f.type || "application/octet-stream", blob: f }); } drawMedia(); };
+  $("pImg").onchange = e => { addFiles(e.target.files); e.target.value = ""; };
+  $("pAud").onchange = e => { addFiles(e.target.files); e.target.value = ""; };
+  $("pRec").onclick = toggleRec;
+  $("pCancel").onclick = closeSheet;
+  if ($("pDel")) { $("pDel").onclick = async () => { await del("packs", editing.id); closeSheet(); await reload(); toast("Message supprimé"); }; }
+  $("pSave").onclick = async () => {
+    stopRec();
+    editing.title = $("pTitle").value.trim() || ($("pText").value.trim().slice(0, 30) || "Message");
+    editing.text = $("pText").value;
+    if (!editing.text.trim() && !editing.files.length) { toast("Ajoutez un texte ou un fichier"); return; }
+    await put("packs", editing); closeSheet(); await reload(); toast("Message enregistré");
+  };
+}
+function drawMedia() {
+  const box = $("pMedia"); if (!box) { return; }
+  box.innerHTML = editing.files.length ? editing.files.map((f, i) => fileThumb(f, i, true)).join("") : `<div class="hint" style="grid-column:1/-1">Aucun fichier.</div>`;
+}
+document.addEventListener("click", e => { const r = e.target.closest("[data-rmfile]"); if (r && editing) { editing.files.splice(+r.dataset.rmfile, 1); drawMedia(); } });
+
+async function toggleRec() {
+  if (rec) { stopRec(); return; }
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true } });
+    const mime = ["audio/mp4", "audio/ogg;codecs=opus", "audio/webm;codecs=opus", "audio/webm"].find(m => window.MediaRecorder && MediaRecorder.isTypeSupported(m)) || "";
+    const mr = new MediaRecorder(stream, mime ? { mimeType: mime } : {});
+    const chunks = []; const t0 = Date.now();
+    mr.ondataavailable = e => { if (e.data.size) { chunks.push(e.data); } };
+    mr.onstop = () => {
+      stream.getTracks().forEach(t => t.stop());
+      const type = (mr.mimeType || mime || "audio/webm").split(";")[0];
+      const blob = new Blob(chunks, { type });
+      if (blob.size && editing) { editing.files.push({ name: "vocal-" + new Date().toISOString().slice(11, 19).replace(/:/g, "") + "." + extFor(type), type, blob, vocal: true }); drawMedia(); }
+      if ($("pRec")) { $("pRec").classList.remove("rec"); $("pRec").innerHTML = ICON.mic + "Enregistrer un vocal"; }
+      if ($("recInfo")) { $("recInfo").textContent = "Vocal ajouté (" + Math.round((Date.now() - t0) / 1000) + " s)."; }
+    };
+    mr.start(); rec = mr;
+    $("pRec").classList.add("rec"); $("pRec").innerHTML = "■ Arrêter l'enregistrement";
+    $("recInfo").textContent = "Enregistrement en cours… parlez près du micro.";
+  } catch (err) { toast("Micro non disponible. Autorisez le micro pour ce site."); }
+}
+function stopRec() { if (rec && rec.state !== "inactive") { rec.stop(); } rec = null; }
+
+/* ================= Programmation ================= */
+$("newPlan").addEventListener("click", () => editPlan());
+function editPlan() {
+  if (!S.packs.length || !S.lists.length) {
+    openSheet(`<h2>Il manque quelque chose</h2><p>${!S.packs.length ? "Créez d'abord un <b>message</b> (onglet Messages)." : ""} ${!S.lists.length ? "Créez d'abord une <b>liste</b> de destinataires (onglet Destinataires → Listes)." : ""}</p><button class="btn green" type="button" id="goFix">${!S.packs.length ? "Créer un message" : "Créer une liste"}</button>`);
+    $("goFix").onclick = () => { closeSheet(); if (!S.packs.length) { go("msg"); editPack(null); } else { go("dest"); destTab = "liste"; document.querySelectorAll("[data-dt]").forEach(x => x.setAttribute("aria-selected", x.dataset.dt === "liste")); renderDests(); editList(null); } };
+    return;
+  }
+  const soon = new Date(Date.now() + 60 * 60 * 1000); soon.setMinutes(0, 0, 0);
+  openSheet(`<h2>Nouvel envoi</h2>
+    <label class="f">Message<select id="nPack">${S.packs.map(p => `<option value="${p.id}">${esc(p.title)}</option>`).join("")}</select></label>
+    <label class="f">Envoyer à la liste<select id="nList">${S.lists.map(l => `<option value="${l.id}">${esc(l.name)} (${l.destIds.length})</option>`).join("")}</select></label>
+    <label class="f">Quand<select id="nWhen"><option value="now">Maintenant</option><option value="later">Plus tard (programmer)</option></select></label>
+    <label class="f" id="nDateBox" hidden>Date et heure<input type="datetime-local" id="nDate" value="${toLocalInput(soon)}"></label>
+    <label class="f">Répéter<select id="nRep">${Object.entries(REPEAT).map(([k, v]) => `<option value="${k}">${v}</option>`).join("")}</select></label>
+    <div class="row"><button class="btn green" type="button" id="nSave">Valider</button><button class="btn" type="button" id="nCancel">Annuler</button></div>`);
+  $("nWhen").onchange = () => { $("nDateBox").hidden = $("nWhen").value !== "later"; };
+  $("nCancel").onclick = closeSheet;
+  $("nSave").onclick = async () => {
+    const when = $("nWhen").value === "now" ? new Date() : new Date($("nDate").value);
+    if (isNaN(when)) { toast("Choisissez une date"); return; }
+    const p = { id: uid(), packId: $("nPack").value, listId: $("nList").value, when: when.toISOString(), repeat: $("nRep").value, done: {} };
+    await put("plans", p); closeSheet(); await reload();
+    if ($("nWhen").value === "now") { runPlan(p.id); } else { toast("Envoi programmé : " + fmtDate(p.when)); maybeAskNotif(); }
+  };
+}
+function calLink(p) {
+  const pk = S.packs.find(x => x.id === p.packId), L = S.lists.find(x => x.id === p.listId);
+  const d = new Date(p.when), e = new Date(d.getTime() + 15 * 60000);
+  const f = x => x.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
+  const rec = p.repeat === "daily" ? "&recur=RRULE:FREQ%3DDAILY" : p.repeat === "weekly" ? "&recur=RRULE:FREQ%3DWEEKLY" : "";
+  return "https://calendar.google.com/calendar/render?action=TEMPLATE&text=" + encodeURIComponent("Autodistributeurs : " + (pk ? pk.title : "envoi")) + "&dates=" + f(d) + "/" + f(e) + "&details=" + encodeURIComponent("Envoyer « " + (pk ? pk.title : "") + " » à la liste « " + (L ? L.name : "") + " ». Ouvrez : " + location.href.split("#")[0]) + rec;
+}
+document.addEventListener("click", async e => {
+  const r = e.target.closest("[data-run]"); if (r) { runPlan(r.dataset.run); return; }
+  const d = e.target.closest("[data-delplan]"); if (d) { await del("plans", d.dataset.delplan); await reload(); toast("Envoi supprimé"); }
+});
+
+/* ================= Envoi ================= */
+const BATCH = 5;
+async function runPlan(id) {
+  const p = S.plans.find(x => x.id === id); if (!p) { return; }
+  const pk = S.packs.find(x => x.id === p.packId), L = S.lists.find(x => x.id === p.listId);
+  if (!pk || !L) { toast("Message ou liste introuvable"); return; }
+  p.done = p.done || {};
+  const dests = L.destIds.map(i => S.dests.find(d => d.id === i)).filter(Boolean);
+  const files = (pk.files || []).map(f => new File([f.blob], f.name && /\.[a-z0-9]{2,4}$/i.test(f.name) ? f.name : "fichier." + extFor(f.type), { type: f.type }));
+  const canFiles = files.length ? !!(navigator.canShare && navigator.canShare({ files })) : true;
+  const direct = d => d.type === "contact" && d.phone && !files.length;
+  const viaShare = dests.filter(d => !direct(d)), viaLink = dests.filter(direct);
+  const batches = []; for (let i = 0; i < viaShare.length; i += BATCH) { batches.push(viaShare.slice(i, i + BATCH)); }
+
+  const draw = () => {
+    const done = dests.filter(d => p.done[d.id]).length;
+    thumbUrls.forEach(u => URL.revokeObjectURL(u)); thumbUrls = [];
+    openSheet(`<h2>Envoi : ${esc(pk.title)}</h2>
+      <div class="bar"><i style="width:${dests.length ? Math.round(done / dests.length * 100) : 0}%"></i></div>
+      <p class="hint"><b>${done}/${dests.length}</b> envoyés · liste « ${esc(L.name)} »</p>
+      ${pk.text ? `<div class="preview">${esc(pk.text)}</div>` : ""}
+      ${files.length ? `<div class="media">${(pk.files || []).map((f, i) => fileThumb(f, i, false)).join("")}</div>` : ""}
+      ${!canFiles ? `<div class="banner">Ce navigateur ne peut pas partager ces fichiers. Ouvrez l'application dans <b>Google Chrome</b> sur votre téléphone.</div>` : ""}
+      ${batches.length ? `<b>Par lots (partage WhatsApp)</b><p class="hint">Touchez « Partager », choisissez <b>WhatsApp</b>, cochez les noms du lot, puis <b>Envoyer</b>.</p>` : ""}
+      ${batches.map((b, i) => { const ok = b.every(d => p.done[d.id]); return `<div class="batch${ok ? " done" : ""}"><div class="names"><b>Lot ${i + 1}</b> : ${b.map(d => esc(d.name)).join(", ")}</div><div class="row">${ok ? `<span class="pill ok">Envoyé</span><button class="btn sm" type="button" data-undo="${i}">Annuler</button>` : `<button class="btn green sm" type="button" data-share="${i}" ${canFiles ? "" : "disabled"}>${ICON.share}Partager le lot ${i + 1}</button><button class="btn sm" type="button" data-mark="${i}">Déjà envoyé</button>`}</div></div>`; }).join("")}
+      ${viaLink.length ? `<b>Contacts (discussion directe)</b>${viaLink.map(d => `<div class="item"><div class="av">${esc(initials(d.name))}</div><div class="tx"><b>${esc(d.name)}</b><small>${esc(fmtPhone(d.phone))}</small></div>${p.done[d.id] ? `<span class="pill ok">Envoyé</span>` : `<a class="btn green sm" href="https://wa.me/${d.phone}?text=${encodeURIComponent(pk.text || "")}" target="_blank" rel="noopener" data-link="${d.id}">${ICON.wa}Ouvrir</a>`}</div>`).join("")}` : ""}
+      <div class="row"><button class="btn gold" type="button" id="finish">${done >= dests.length ? "Terminer" : "Terminer plus tard"}</button><button class="btn" type="button" id="copyTxt">Copier le texte</button></div>`);
+    $("finish").onclick = finish;
+    $("copyTxt").onclick = () => { navigator.clipboard.writeText(pk.text || "").then(() => toast("Texte copié")).catch(() => toast("Copie impossible")); };
+  };
+  const save = async () => { await put("plans", p); renderPlans(); };
+  async function finish() {
+    const done = dests.every(d => p.done[d.id]);
+    if (done) {
+      if (p.repeat && p.repeat !== "none") {
+        const next = new Date(p.when); do { next.setDate(next.getDate() + (p.repeat === "daily" ? 1 : 7)); } while (next.getTime() <= Date.now());
+        p.when = next.toISOString(); p.done = {}; await put("plans", p); toast("Terminé. Prochain envoi : " + fmtDate(p.when));
+      } else { await del("plans", p.id); toast("Envoi terminé 🎉"); }
+    } else { await save(); }
+    closeSheet(); await reload();
+  }
+  $("sheet").onclick = async e => {
+    const sh = e.target.closest("[data-share]");
+    if (sh) {
+      const b = batches[+sh.dataset.share];
+      try {
+        const data = { text: pk.text || "" }; if (files.length) { data.files = files; }
+        if (!navigator.share) { throw new Error("noshare"); }
+        await navigator.share(data);
+        b.forEach(d => { p.done[d.id] = true; }); await save(); draw(); toast("Lot " + (+sh.dataset.share + 1) + " envoyé");
+      } catch (err) {
+        if (err && err.name === "AbortError") { return; }
+        toast("Partage impossible ici. Ouvrez l'application dans Google Chrome.");
+      }
+      return;
+    }
+    const mk = e.target.closest("[data-mark]"); if (mk) { batches[+mk.dataset.mark].forEach(d => { p.done[d.id] = true; }); await save(); draw(); return; }
+    const un = e.target.closest("[data-undo]"); if (un) { batches[+un.dataset.undo].forEach(d => { delete p.done[d.id]; }); await save(); draw(); return; }
+    const ln = e.target.closest("[data-link]"); if (ln) { p.done[ln.dataset.link] = true; setTimeout(async () => { await save(); draw(); }, 400); }
+  };
+  draw();
+}
+
+/* ================= Alertes à l'heure prévue ================= */
+let alerted = new Set();
+function maybeAskNotif() { if ("Notification" in window && Notification.permission === "default") { $("notifBanner").hidden = false; } }
+$("notifBtn").addEventListener("click", async () => { try { const r = await Notification.requestPermission(); $("notifBanner").hidden = true; toast(r === "granted" ? "Alertes activées" : "Alertes refusées"); } catch {} });
+function beep() { try { const a = new AudioContext(), o = a.createOscillator(), g = a.createGain(); o.frequency.value = 880; o.connect(g); g.connect(a.destination); g.gain.setValueAtTime(0.2, a.currentTime); g.gain.exponentialRampToValueAtTime(0.001, a.currentTime + 0.6); o.start(); o.stop(a.currentTime + 0.6); } catch {} }
+function checkDue() {
+  renderPlans();
+  for (const p of S.plans) {
+    if (isDue(p) && !alerted.has(p.id + p.when)) {
+      alerted.add(p.id + p.when);
+      const pk = S.packs.find(x => x.id === p.packId);
+      if (Date.now() - new Date(p.when).getTime() < 10 * 60000) {
+        beep();
+        if ("Notification" in window && Notification.permission === "granted") { try { new Notification("C'est l'heure d'envoyer", { body: pk ? pk.title : "Envoi programmé", icon: "icon-192.png" }); } catch {} }
+      }
+    }
+  }
+}
+setInterval(checkDue, 30000);
+document.addEventListener("visibilitychange", () => { if (!document.hidden) { checkDue(); } });
+
+/* ================= Sauvegarde ================= */
+$("exportBtn").addEventListener("click", () => {
+  const data = { app: "autodistributeurs", v: 1, dests: S.dests, lists: S.lists, packs: S.packs.map(p => ({ ...p, files: [] })), plans: S.plans };
+  const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 1)], { type: "application/json" }));
+  a.download = "autodistributeurs-sauvegarde.json"; a.click(); toast("Sauvegarde téléchargée (sans les fichiers)");
+});
+$("importFile").addEventListener("change", async e => {
+  const f = e.target.files[0]; e.target.value = ""; if (!f) { return; }
+  try {
+    const d = JSON.parse(await f.text()); if (d.app !== "autodistributeurs") { throw new Error(); }
+    for (const s of STORES) { for (const v of d[s] || []) { const old = s === "packs" ? S.packs.find(p => p.id === v.id) : null; if (old) { v.files = old.files; } await put(s, v); } }
+    await reload(); toast("Données restaurées");
+  } catch { toast("Fichier de sauvegarde invalide"); }
+});
+
+/* ================= Démarrage ================= */
+(async () => {
+  try { db = await openDB(); await reload(); checkDue(); if (S.plans.length) { maybeAskNotif(); } }
+  catch { document.body.insertAdjacentHTML("afterbegin", `<div class="banner" style="margin:16px">Ce navigateur ne peut pas enregistrer de données. Ouvrez l'application dans Google Chrome (pas en navigation privée).</div>`); }
+})();
+</script>
+</body>
+</html>
