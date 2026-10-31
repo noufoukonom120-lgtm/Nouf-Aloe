@@ -314,8 +314,82 @@ function renderDests() {
     ? `<h2>Mes groupes WhatsApp</h2><p class="hint">Écrivez le nom exact de chaque groupe : vous le retrouverez facilement au moment d'envoyer.</p>`
     : `<h2>Mes contacts</h2><p class="hint">Avec le numéro, l'application ouvre directement la discussion WhatsApp.</p>`;
   $("destList").innerHTML = items.length ? items.map(d => `<div class="item"><div class="av${d.type === "groupe" ? " g" : ""}">${esc(initials(d.name))}</div><div class="tx"><b>${esc(d.name)}</b><small>${d.type === "contact" ? esc(fmtPhone(d.phone)) || "Sans numéro" : "Groupe"}</small></div><button class="x" type="button" data-deldest="${d.id}" aria-label="Supprimer ${esc(d.name)}">×</button></div>`).join("") : `<div class="empty">${destTab === "groupe" ? "Aucun groupe pour l'instant." : "Aucun contact pour l'instant."}</div>`;
-  $("destActions").innerHTML = `<button class="btn green" type="button" id="addOne">+ Ajouter ${destTab === "groupe" ? "un groupe" : "un contact"}</button><button class="btn" type="button" id="addMany">Ajouter plusieurs d'un coup</button>`;
+  $("destActions").innerHTML = (destTab === "contact" ? `<button class="btn green" type="button" id="pickPhone">📇 Choisir dans mes contacts du téléphone</button><label class="btn filebtn">📂 Importer un fichier de contacts (.vcf)<input type="file" id="vcfIn" accept=".vcf,text/vcard,text/x-vcard"></label>` : "")
+    + `<button class="btn${destTab === "contact" ? "" : " green"}" type="button" id="addOne">+ Ajouter ${destTab === "groupe" ? "un groupe" : "un contact"} à la main</button><button class="btn" type="button" id="addMany">Ajouter plusieurs d'un coup</button>`;
   $("addOne").onclick = () => addDest(false); $("addMany").onclick = () => addDest(true);
+  if ($("pickPhone")) { $("pickPhone").onclick = () => pickPhoneContacts(true); }
+  if ($("vcfIn")) { $("vcfIn").onchange = async e => { const f = e.target.files[0]; e.target.value = ""; if (f) { reviewImport(parseVcf(await f.text())); } }; }
+}
+
+/* ================= Répertoire du téléphone ================= */
+const hasPicker = () => !!(navigator.contacts && navigator.contacts.select);
+async function pickPhoneContacts(multiple) {
+  if (!hasPicker()) {
+    openSheet(`<h2>Répertoire non disponible ici</h2>
+      <p>Ce navigateur ne donne pas accès à vos contacts. Ça fonctionne avec <b>Chrome sur Android</b>.</p>
+      <p class="hint">Si vous avez ouvert le lien depuis WhatsApp ou Facebook : touchez les <b>⋮</b> en haut puis <b>« Ouvrir dans Chrome »</b>.</p>
+      <p class="hint">Autre solution : dans l'application <b>Contacts</b> du téléphone, choisissez <b>Exporter</b> pour créer un fichier <b>.vcf</b>, puis utilisez « Importer un fichier de contacts ».</p>
+      <div class="row"><button class="btn" type="button" id="npOk">OK</button></div>`);
+    $("npOk").onclick = closeSheet;
+    return null;
+  }
+  try {
+    const res = await navigator.contacts.select(["name", "tel"], { multiple });
+    const out = [];
+    for (const c of res) {
+      const name = ((c.name && c.name[0]) || "").trim();
+      const tels = [...new Set((c.tel || []).map(normPhone).filter(Boolean))];
+      if (!tels.length) { continue; }
+      tels.forEach((t, i) => out.push({ name: name || fmtPhone(t), phone: t, extra: i > 0 }));
+    }
+    if (multiple) { reviewImport(out); }
+    return out;
+  } catch (err) { toast("Sélection annulée"); return null; }
+}
+function parseVcf(txt) {
+  const out = [];
+  const unfold = txt.replace(/\r?\n[ \t]/g, "");
+  for (const card of unfold.split(/BEGIN:VCARD/i).slice(1)) {
+    const fn = (card.match(/^FN[^:\n]*:(.*)$/im) || [])[1] || "";
+    let name = fn.replace(/\\,/g, ",").trim();
+    if (!name) { const n = (card.match(/^N(?:;[^:\n]*)?:(.*)$/im) || [])[1] || ""; name = n.split(";").filter(Boolean).reverse().join(" ").trim(); }
+    const tels = [...new Set([...card.matchAll(/^TEL[^:\n]*:(.*)$/gim)].map(m => normPhone(m[1])).filter(Boolean))];
+    tels.forEach((t, i) => out.push({ name: name || fmtPhone(t), phone: t, extra: i > 0 }));
+  }
+  return out;
+}
+function reviewImport(found) {
+  if (!found || !found.length) { toast("Aucun contact avec un numéro"); return; }
+  const known = new Set(S.dests.filter(d => d.type === "contact").map(d => d.phone));
+  const rows = found.map((c, i) => `<label class="item"><input type="checkbox" data-imp="${i}" ${known.has(c.phone) || c.extra ? "" : "checked"}><div class="av">${esc(initials(c.name))}</div><div class="tx"><b>${esc(c.name)}</b><small>${esc(fmtPhone(c.phone))}${known.has(c.phone) ? " · déjà enregistré" : c.extra ? " · autre numéro" : ""}</small></div></label>`).join("");
+  openSheet(`<h2>${found.length} numéro(s) trouvé(s)</h2>
+    <p class="hint">Cochez ceux à ajouter. Les noms et numéros sont remplis automatiquement.</p>
+    <div class="row"><button class="btn sm" type="button" id="impAll">Tout cocher</button><button class="btn sm" type="button" id="impNone">Tout décocher</button></div>
+    <div class="stack" style="display:grid;gap:8px;max-height:45vh;overflow:auto;margin:10px 0">${rows}</div>
+    <label class="f">Ajouter aussi à une liste (facultatif)<select id="impList"><option value="">— Aucune —</option>${S.lists.map(l => `<option value="${l.id}">${esc(l.name)} (${l.destIds.length})</option>`).join("")}<option value="__new">+ Nouvelle liste…</option></select></label>
+    <label class="f" id="impNewBox" hidden>Nom de la nouvelle liste<input id="impNew" placeholder="Ex. Prospects octobre"></label>
+    <div class="row"><button class="btn green" type="button" id="impSave">Ajouter la sélection</button><button class="btn" type="button" id="impCancel">Annuler</button></div>`);
+  const boxes = () => [...document.querySelectorAll("[data-imp]")];
+  $("impAll").onclick = () => boxes().forEach(b => { b.checked = true; });
+  $("impNone").onclick = () => boxes().forEach(b => { b.checked = false; });
+  $("impList").onchange = () => { $("impNewBox").hidden = $("impList").value !== "__new"; };
+  $("impCancel").onclick = closeSheet;
+  $("impSave").onclick = async () => {
+    const chosen = boxes().filter(b => b.checked).map(b => found[+b.dataset.imp]);
+    if (!chosen.length) { toast("Cochez au moins un contact"); return; }
+    const ids = []; let added = 0;
+    for (const c of chosen) {
+      const ex = S.dests.find(d => d.type === "contact" && d.phone === c.phone);
+      if (ex) { ids.push(ex.id); continue; }
+      const id = uid(); await put("dests", { id, type: "contact", name: c.name, phone: c.phone }); ids.push(id); added++;
+    }
+    let lv = $("impList").value, L = null;
+    if (lv === "__new") { const nm = $("impNew").value.trim(); if (nm) { L = { id: uid(), name: nm, destIds: [] }; } }
+    else if (lv) { const o = S.lists.find(l => l.id === lv); if (o) { L = { ...o, destIds: [...o.destIds] }; } }
+    if (L) { for (const id of ids) { if (!L.destIds.includes(id)) { L.destIds.push(id); } } await put("lists", L); }
+    closeSheet(); await reload();
+    toast(added + " contact(s) ajouté(s)" + (L ? " · liste « " + L.name + " » mise à jour" : ""));
+  };
 }
 
 /* ================= Destinataires ================= */
@@ -323,9 +397,22 @@ function addDest(many) {
   const g = destTab === "groupe";
   openSheet(`<h2>${many ? "Ajouter plusieurs " + (g ? "groupes" : "contacts") : g ? "Nouveau groupe" : "Nouveau contact"}</h2>
     ${many ? `<label class="f">${g ? "Un nom de groupe par ligne" : "Un contact par ligne : Nom ; numéro"}<textarea id="dMany" placeholder="${g ? "Clients Ouaga\nForever Koudougou\nÉquipe Nouvelle Vision" : "Awa ; 70 00 00 00\nIssa ; +226 76 00 00 00"}"></textarea></label>`
-    : `<label class="f">Nom ${g ? "du groupe" : ""}<input id="dName" autocomplete="off" placeholder="${g ? "Ex. Clients Ouaga" : "Ex. Awa Ouédraogo"}"></label>${g ? "" : `<label class="f">Numéro WhatsApp (avec indicatif)<input id="dPhone" type="tel" inputmode="tel" placeholder="Ex. +226 70 00 00 00"></label>`}`}
+    : `${g ? "" : `<button class="btn green" type="button" id="dPick" style="width:100%;margin-bottom:10px">📇 Remplir depuis mes contacts du téléphone</button>`}<label class="f">Nom ${g ? "du groupe" : ""}<input id="dName" autocomplete="off" placeholder="${g ? "Ex. Clients Ouaga" : "Ex. Awa Ouédraogo"}"></label>${g ? "" : `<label class="f">Numéro WhatsApp (avec indicatif)<input id="dPhone" type="tel" inputmode="tel" autocomplete="off" placeholder="Ex. +226 70 00 00 00"></label><p class="hint" id="dHint"></p>`}`}
     <div class="row"><button class="btn green" type="button" id="dSave">Enregistrer</button><button class="btn" type="button" id="dCancel">Annuler</button></div>`);
   $("dCancel").onclick = closeSheet;
+  if ($("dPick")) {
+    $("dPick").onclick = async () => {
+      const r = await pickPhoneContacts(false);
+      if (r && r.length) { $("dName").value = r[0].name; $("dPhone").value = fmtPhone(r[0].phone); $("dHint").textContent = "✅ Nom et numéro remplis depuis le répertoire."; }
+    };
+    /* Pendant la saisie du numéro : affiche le numéro complet et signale un doublon */
+    $("dPhone").oninput = () => {
+      const p = normPhone($("dPhone").value);
+      const ex = p.length >= 11 && S.dests.find(d => d.type === "contact" && d.phone === p);
+      $("dHint").innerHTML = !p ? "" : ex ? "⚠️ Ce numéro est déjà enregistré : <b>" + esc(ex.name) + "</b>" : p.length >= 11 ? "Numéro : <b>" + esc(fmtPhone(p)) + "</b>" : "";
+      if (!$("dName").value.trim() && ex) { $("dName").value = ex.name; }
+    };
+  }
   $("dSave").onclick = async () => {
     const rows = many ? $("dMany").value.split("\n").map(s => s.trim()).filter(Boolean) : [g ? $("dName").value.trim() : $("dName").value.trim() + " ; " + $("dPhone").value.trim()];
     let n = 0;
