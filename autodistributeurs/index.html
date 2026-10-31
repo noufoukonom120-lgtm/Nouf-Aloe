@@ -404,26 +404,87 @@ function drawMedia() {
 }
 document.addEventListener("click", e => { const r = e.target.closest("[data-rmfile]"); if (r && editing) { editing.files.splice(+r.dataset.rmfile, 1); drawMedia(); } });
 
+let recTimer = null;
+function recMsg(html) { const el = $("recInfo"); if (el) { el.innerHTML = html; } }
+function recFallbackBtn() {
+  /* Solution de secours : ouvre l'enregistreur du téléphone */
+  return `<br><label class="btn filebtn" style="margin-top:8px">🎙️ Utiliser l'enregistreur du téléphone<input type="file" accept="audio/*" capture="user" onchange="recFromFile(this)"></label>`;
+}
+window.recFromFile = input => {
+  for (const f of input.files) { editing && editing.files.push({ name: f.name || ("vocal." + extFor(f.type || "audio/mp4")), type: f.type || "audio/mp4", blob: f, vocal: true }); }
+  input.value = ""; drawMedia(); recMsg("Vocal ajouté ✅");
+};
+function isInAppBrowser() {
+  const ua = navigator.userAgent || "";
+  return /FBAN|FBAV|FB_IAB|Instagram|WhatsApp|Line\/|TikTok|musical_ly|Snapchat|; wv\)/i.test(ua);
+}
 async function toggleRec() {
   if (rec) { stopRec(); return; }
+  if (isInAppBrowser()) {
+    recMsg("⚠️ Le micro est bloqué dans le navigateur de WhatsApp / Facebook / Instagram. Touchez les <b>⋮</b> en haut puis <b>« Ouvrir dans Chrome »</b> (ou Safari sur iPhone)." + recFallbackBtn());
+    return;
+  }
+  if (!window.isSecureContext || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.MediaRecorder) {
+    recMsg("⚠️ Ce navigateur ne permet pas d'enregistrer. Ouvrez l'application dans <b>Chrome</b> (Android) ou <b>Safari</b> (iPhone)." + recFallbackBtn());
+    return;
+  }
+  let stream;
   try {
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true } });
-    const mime = ["audio/mp4", "audio/ogg;codecs=opus", "audio/webm;codecs=opus", "audio/webm"].find(m => window.MediaRecorder && MediaRecorder.isTypeSupported(m)) || "";
-    const mr = new MediaRecorder(stream, mime ? { mimeType: mime } : {});
-    const chunks = []; const t0 = Date.now();
-    mr.ondataavailable = e => { if (e.data.size) { chunks.push(e.data); } };
-    mr.onstop = () => {
-      stream.getTracks().forEach(t => t.stop());
-      const type = (mr.mimeType || mime || "audio/webm").split(";")[0];
-      const blob = new Blob(chunks, { type });
-      if (blob.size && editing) { editing.files.push({ name: "vocal-" + new Date().toISOString().slice(11, 19).replace(/:/g, "") + "." + extFor(type), type, blob, vocal: true }); drawMedia(); }
-      if ($("pRec")) { $("pRec").classList.remove("rec"); $("pRec").innerHTML = ICON.mic + "Enregistrer un vocal"; }
-      if ($("recInfo")) { $("recInfo").textContent = "Vocal ajouté (" + Math.round((Date.now() - t0) / 1000) + " s)."; }
-    };
-    mr.start(); rec = mr;
-    $("pRec").classList.add("rec"); $("pRec").innerHTML = "■ Arrêter l'enregistrement";
-    $("recInfo").textContent = "Enregistrement en cours… parlez près du micro.";
-  } catch (err) { toast("Micro non disponible. Autorisez le micro pour ce site."); }
+    stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  } catch (err) {
+    const n = err && err.name;
+    let m;
+    if (n === "NotAllowedError" || n === "SecurityError") {
+      m = "⚠️ Le micro est refusé pour ce site. Touchez le <b>cadenas 🔒</b> à gauche de l'adresse → <b>Autorisations</b> → <b>Micro</b> → <b>Autoriser</b>, puis rechargez la page.<br>Vérifiez aussi : Paramètres du téléphone → Applis → <b>Chrome</b> → Autorisations → <b>Micro</b> → Autoriser.";
+    } else if (n === "NotFoundError" || n === "OverconstrainedError") {
+      m = "⚠️ Aucun micro trouvé sur cet appareil.";
+    } else if (n === "NotReadableError" || n === "AbortError") {
+      m = "⚠️ Le micro est déjà utilisé par une autre application (appel, WhatsApp, enregistreur…). Fermez-la puis réessayez.";
+    } else {
+      m = "⚠️ Micro indisponible (" + esc(n || String(err)) + ").";
+    }
+    recMsg(m + recFallbackBtn());
+    return;
+  }
+  /* Choisir un format que le téléphone sait vraiment enregistrer */
+  const candidates = ["audio/webm;codecs=opus", "audio/ogg;codecs=opus", "audio/mp4", "audio/webm", ""];
+  let mr = null, mime = "";
+  for (const c of candidates) {
+    if (c && !(MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(c))) { continue; }
+    try { mr = new MediaRecorder(stream, c ? { mimeType: c } : undefined); mime = c; break; } catch (e) { mr = null; }
+  }
+  if (!mr) {
+    stream.getTracks().forEach(t => t.stop());
+    recMsg("⚠️ L'enregistrement n'est pas pris en charge par ce navigateur." + recFallbackBtn());
+    return;
+  }
+  const chunks = []; const t0 = Date.now();
+  mr.ondataavailable = e => { if (e.data && e.data.size) { chunks.push(e.data); } };
+  mr.onerror = e => { recMsg("⚠️ Erreur pendant l'enregistrement : " + esc((e.error && e.error.name) || "inconnue") + recFallbackBtn()); };
+  mr.onstop = () => {
+    clearInterval(recTimer); recTimer = null;
+    stream.getTracks().forEach(t => t.stop());
+    const type = (mr.mimeType || mime || "audio/webm").split(";")[0];
+    const blob = new Blob(chunks, { type });
+    const secs = Math.round((Date.now() - t0) / 1000);
+    if ($("pRec")) { $("pRec").classList.remove("rec"); $("pRec").innerHTML = ICON.mic + "Enregistrer un vocal"; }
+    if (blob.size > 0 && editing) {
+      editing.files.push({ name: "vocal-" + new Date().toISOString().slice(11, 19).replace(/:/g, "") + "." + extFor(type), type, blob, vocal: true });
+      drawMedia();
+      recMsg("✅ Vocal ajouté (" + secs + " s). Il apparaît dans la liste des fichiers ci-dessus.");
+    } else {
+      recMsg("⚠️ Le vocal est vide. Réessayez en parlant au moins 2 secondes." + recFallbackBtn());
+    }
+  };
+  try { mr.start(1000); } catch (e) {
+    stream.getTracks().forEach(t => t.stop());
+    recMsg("⚠️ Impossible de démarrer l'enregistrement (" + esc(e.name || "erreur") + ")." + recFallbackBtn());
+    return;
+  }
+  rec = mr;
+  $("pRec").classList.add("rec"); $("pRec").innerHTML = "■ Arrêter l'enregistrement";
+  recMsg("🔴 Enregistrement en cours… <b>0 s</b> — parlez près du micro, puis touchez « Arrêter ».");
+  recTimer = setInterval(() => { recMsg("🔴 Enregistrement en cours… <b>" + Math.round((Date.now() - t0) / 1000) + " s</b> — touchez « Arrêter » quand vous avez fini."); }, 1000);
 }
 function stopRec() { if (rec && rec.state !== "inactive") { rec.stop(); } rec = null; }
 
