@@ -117,7 +117,9 @@ html[dir="rtl"] .sheet .hero .ccl{right:14px}
 
 /* Fiche détaillée */
 .sheet .body *{min-width:0;max-width:100%;overflow-wrap:break-word;word-wrap:break-word}
-.sheet .hero{max-width:100%;box-sizing:border-box;overflow:hidden}
+.sheet .hero{max-width:100%;box-sizing:border-box;overflow:hidden;grid-template-columns:minmax(0,1fr)}
+.sheet .hero #d-pic{min-width:0;max-width:100%}
+html,body,.sheet,.sheet .panel{touch-action:manipulation}
 .sheet{position:fixed;inset:0;background:rgba(17,16,8,.55);display:flex;justify-content:flex-end;z-index:20}
 .sheet .panel{background:var(--cream);width:100%;max-width:560px;min-width:0;flex:0 1 auto;box-sizing:border-box;height:100%;overflow-y:auto;overflow-x:hidden;border-left:3px solid var(--ink);padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}
 .sheet .hero{background:var(--panel-soft);border-bottom:2px solid var(--ink);display:grid;place-items:center;padding:24px 24px 24px 110px;position:relative}
@@ -1081,6 +1083,7 @@ function renderGrid(){
     </button>`}).join(""):`<p class="empty">${U().empty}</p>`;
 }
 function openSheet(code){
+  {const pn=$("sheet").querySelector(".panel");if(pn){pn.scrollLeft=0}}
   const p0=P.find(x=>x.key===code); if(!p0)return; const p=L(p0); state.open=code;
   if(typeof gc==="function")gc("produit-"+code,"Produit : "+p0.name);
   $("d-pic").innerHTML=art(p)+(p.img&&p.img.length>1?`<div class="thumbs">${p.img.map((s,i)=>`<button data-i="${i}" aria-label="Photo ${i+1}" aria-pressed="${i===0}"><img src="${s}" alt=""></button>`).join("")}</div>`:"");
@@ -1103,7 +1106,7 @@ function openSheet(code){
     ?`<div class="vit"><b>${U().skinT}</b><small>${U().skinD}</small></div>`
     :`<div class="vit"><b>${U().natT}</b><small>${U().natD}</small></div>`);
   $("d-use").innerHTML="<b>"+U().use+"</b> "+esc(p.use);
-  $("sheet").hidden=false; document.body.style.overflow="hidden"; $("close").focus();
+  $("sheet").hidden=false; document.body.style.overflow="hidden"; {const pn=$("sheet").querySelector(".panel");pn.scrollLeft=0;requestAnimationFrame(()=>{pn.scrollLeft=0})} $("close").focus();
 }
 function closeSheet(){$("sheet").hidden=true;document.body.style.overflow="";state.open=null}
 function renderVit(){
