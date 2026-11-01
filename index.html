@@ -36,7 +36,8 @@
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
-html,body{background:var(--bg);color:var(--ink)}
+html,body{background:var(--bg);color:var(--ink);max-width:100%;overflow-x:hidden}
+@supports (overflow-x:clip){html,body{overflow-x:clip}}
 body{font-family:var(--body);font-size:16px;line-height:1.55;padding-inline:16px;padding-block:0 48px}
 .wrap{max-width:1120px;margin:0 auto}
 h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0;color:var(--ink)}
@@ -120,7 +121,7 @@ html[dir="rtl"] .sheet .hero .ccl{right:14px}
 .sheet .hero{max-width:100%;box-sizing:border-box;overflow:hidden;grid-template-columns:minmax(0,1fr)}
 .sheet .hero #d-pic{min-width:0;max-width:100%}
 html,body,.sheet,.sheet .panel{touch-action:manipulation}
-.sheet{position:fixed;inset:0;background:rgba(17,16,8,.55);display:flex;justify-content:flex-end;z-index:20}
+.sheet{position:fixed;inset:0;top:0;left:0;right:0;bottom:0;width:100%;height:100%;overflow:hidden;background:rgba(17,16,8,.55);display:flex;justify-content:flex-end;z-index:20}
 .sheet .panel{background:var(--cream);width:100%;max-width:560px;min-width:0;flex:0 1 auto;box-sizing:border-box;height:100%;overflow-y:auto;overflow-x:hidden;border-left:3px solid var(--ink);padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}
 .sheet .hero{background:var(--panel-soft);border-bottom:2px solid var(--ink);display:grid;place-items:center;padding:24px 24px 24px 110px;position:relative}
 .sheet .hero svg{height:220px;width:auto;max-width:100%}
@@ -1106,9 +1107,9 @@ function openSheet(code){
     ?`<div class="vit"><b>${U().skinT}</b><small>${U().skinD}</small></div>`
     :`<div class="vit"><b>${U().natT}</b><small>${U().natD}</small></div>`);
   $("d-use").innerHTML="<b>"+U().use+"</b> "+esc(p.use);
-  $("sheet").hidden=false; document.body.style.overflow="hidden"; {const pn=$("sheet").querySelector(".panel");pn.scrollLeft=0;requestAnimationFrame(()=>{pn.scrollLeft=0})} $("close").focus();
+  $("sheet").hidden=false; document.body.style.overflow="hidden"; {const pn=$("sheet").querySelector(".panel");pn.scrollLeft=0;requestAnimationFrame(()=>{pn.scrollLeft=0})} try{$("close").focus({preventScroll:true})}catch(e){} if(window.scrollX)window.scrollTo(0,window.scrollY);
 }
-function closeSheet(){$("sheet").hidden=true;document.body.style.overflow="";state.open=null}
+function closeSheet(){$("sheet").hidden=true;document.body.style.overflow="";state.open=null;if(document.activeElement&&document.activeElement.blur)document.activeElement.blur();if(window.scrollX)window.scrollTo(0,window.scrollY)}
 function renderVit(){
   $("vgrid").innerHTML=VIT_ORDER.map(k=>{
     const v=VIT[k], prods=P.filter(p=>p.vit.includes(k));
