@@ -126,6 +126,7 @@ input[type=range]{width:100%;accent-color:var(--aloe);min-width:0}
 .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--aloe),var(--gold));transition:width .2s}
 .pct{font-family:var(--display);font-size:32px;font-weight:800;font-variant-numeric:tabular-nums}
 .hint{margin:0;color:var(--muted);font-size:14px}
+.conv{display:flex;flex-direction:column;gap:8px;width:100%}.conv b{font-size:15.5px}.conv span{font-size:14px;line-height:1.45}.cvbar{height:10px;border-radius:99px;background:rgba(128,128,128,.25);overflow:hidden}.cvbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#C9A227,#E8C766);transition:width .3s}.conv .btn{align-self:flex-start;background:transparent;border:1.5px solid currentColor;color:var(--ink)}
 .err{background:#FDECE8;border:1px solid #F0B9AC;color:#7A2414;border-radius:14px;padding:12px 14px;font-size:14.5px}
 .ok-head{display:flex;align-items:center;gap:10px;color:var(--aloe);font-weight:700}
 .ok-head svg{width:26px;height:26px}
@@ -366,6 +367,51 @@ const drop = $("drop");
 drop.addEventListener("drop", e => { const f = e.dataTransfer.files[0]; if (f) { load(f); } });
 $("file").addEventListener("change", e => { const f = e.target.files[0]; if (f) { load(f); } e.target.value = ""; });
 
+/* ---------- Conversion des vidéos sans image (HEVC sur ordinateur…) ---------- */
+let convWorker = null;
+function convertForComputer(f) {
+  return new Promise(resolve => {
+    const m = $("meta");
+    m.hidden = false;
+    m.innerHTML = `<div class="conv">
+      <b>Cette vidéo n'affiche pas d'image sur cet appareil</b>
+      <span id="cvMsg">Son format (souvent HEVC / H.265 des téléphones récents) n'est pas lu par ce navigateur. Nouf Vidéo HD la convertit automatiquement en format universel…</span>
+      <div class="cvbar"><i id="cvBar"></i></div>
+      <span id="cvPct">Chargement du convertisseur (1re fois : environ 30 Mo)…</span>
+      <button type="button" class="btn" id="cvStop">Annuler</button>
+    </div>`;
+    if (convWorker) { convWorker.terminate(); }
+    const w = convWorker = new Worker("ffmpeg-worker.js");
+    const t0 = performance.now(); let tConv = 0;
+    const end = (val) => { if (convWorker === w) { convWorker = null; } w.terminate(); resolve(val); };
+    $("cvStop").onclick = () => { m.innerHTML = `<span class="err" style="display:block">Conversion annulée.</span>`; end(null); };
+    w.onmessage = (e) => {
+      const { type, data } = e.data;
+      if (type === "stage" && data === "convert") { tConv = performance.now(); $("cvPct").textContent = "Conversion en cours… 0 %"; }
+      else if (type === "progress") {
+        const p = Math.max(0, Math.min(1, data.progress || 0));
+        $("cvBar").style.width = (p * 100).toFixed(1) + "%";
+        let txt = "Conversion en cours… " + Math.round(p * 100) + " %";
+        if (p > 0.03 && tConv) { const rest = (performance.now() - tConv) / p * (1 - p) / 1000; txt += " · encore environ " + (rest < 60 ? Math.ceil(rest) + " s" : Math.ceil(rest / 60) + " min"); }
+        $("cvPct").textContent = txt;
+      }
+      else if (type === "done") {
+        const name = f.name.replace(/\.[^.]+$/, "") + ".mp4";
+        const nf = new File([data], name, { type: "video/mp4" });
+        nf.noufConverted = true;
+        toast("Vidéo convertie : vous pouvez l'améliorer");
+        end(nf);
+      }
+      else if (type === "error") {
+        m.innerHTML = `<span class="err" style="display:block">La conversion n'a pas réussi sur cet ordinateur (vidéo trop lourde ou connexion Internet coupée). Essayez avec une vidéo plus courte, ou ouvrez cette vidéo sur votre téléphone.</span>`;
+        end(null);
+      }
+    };
+    w.onerror = () => { m.innerHTML = `<span class="err" style="display:block">Impossible de charger le convertisseur. Vérifiez votre connexion Internet puis réessayez.</span>`; end(null); };
+    w.postMessage({ file: f, maxSide: 1920 });
+  });
+}
+
 async function load(f) {
   file = f;
   resetResult();
@@ -374,9 +420,19 @@ async function load(f) {
   video.playsInline = true; video.preload = "auto"; video.src = URL.createObjectURL(f);
   $("meta").hidden = false;
   $("meta").innerHTML = `<b></b><span>Chargement…</span>`; $("meta").firstChild.textContent = f.name;
+  let readable = true;
   try {
     await new Promise((res, rej) => { video.onloadeddata = res; video.onerror = () => rej(new Error("lecture")); });
-  } catch {
+  } catch { readable = false; }
+  // Image absente (ex. vidéo HEVC/H.265 sur un ordinateur) : on la convertit d'abord en H.264
+  if ((!readable || !video.videoWidth) && !f.noufConverted) {
+    video.pause(); video.removeAttribute("src"); video.load();
+    $("editCard").hidden = $("fmtCard").hidden = $("textCard").hidden = $("audioCard").hidden = true;
+    const nf = await convertForComputer(f);
+    if (nf) { return load(nf); }
+    return;
+  }
+  if (!readable || !video.videoWidth) {
     $("meta").innerHTML = `<span class="err" style="display:block">Cette vidéo ne peut pas être lue par ce navigateur. Essayez une autre vidéo ou ouvrez la page dans Google Chrome.</span>`;
     $("editCard").hidden = $("fmtCard").hidden = $("textCard").hidden = $("audioCard").hidden = true;
     return;
