@@ -60,6 +60,14 @@ header.top .brand p{color:var(--ink)}
 .tabs button{border:0;background:transparent;padding:8px 16px;border-radius:999px;font-weight:700;cursor:pointer;font-size:.92rem}
 .tabs button[aria-selected="true"]{background:var(--ink);color:var(--bg)}
 
+/* Vidéos (avant la barre de recherche) */
+.videos{padding-top:20px}
+.videos h2{font-size:1.7rem;margin-bottom:10px}
+.vlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,420px),1fr));gap:14px}
+.vidcard{margin:0;background:var(--panel);border:2px solid var(--ink);border-radius:14px;overflow:hidden}
+.vidcard video{display:block;width:100%;aspect-ratio:640/368;background:var(--ink)}
+.vidcard figcaption{padding:10px 14px;font-weight:700}
+
 /* Barre d'outils */
 .tools{display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding-block:20px 8px}
 .search{flex:1 1 260px;display:flex;align-items:center;gap:8px;background:var(--panel-soft);border:2px solid var(--ink);border-radius:12px;padding:0 12px}
@@ -257,6 +265,17 @@ img{max-width:100%}
   </header>
 
   <section id="view-prod">
+    <div class="videos" aria-labelledby="t-videos">
+      <h2 id="t-videos">Vidéos</h2>
+      <div class="vlist">
+        <figure class="vidcard">
+          <video controls playsinline preload="none" poster="videos/aloe-vera-tele.jpg">
+            <source src="videos/aloe-vera-tele.mp4" type="video/mp4">
+          </video>
+          <figcaption id="t-v1">L'aloe vera présenté à la télévision</figcaption>
+        </figure>
+      </div>
+    </div>
     <div class="tools">
       <label class="search" for="q">
         <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="#111008" stroke-width="2.4"/><path d="M15.5 15.5 21 21" stroke="#111008" stroke-width="2.4" stroke-linecap="round"/></svg>
@@ -778,7 +797,7 @@ function prix(p){const v=PRIX[p.key];return v?v.toLocaleString("fr-FR").replace(
 
 /* ---------- Traductions (FR par défaut, EN, AR) ---------- */
 const UI={
- fr:{sub:"Bienfaits, composition et vitamines des produits Forever",tabProd:"Produits",tabVit:"Vitamines",search:"Chercher un produit, un bienfait, un ingrédient…",contains:"Contient :",
+ fr:{videos:"Vidéos",v1:"L'aloe vera présenté à la télévision",sub:"Bienfaits, composition et vitamines des produits Forever",tabProd:"Produits",tabVit:"Vitamines",search:"Chercher un produit, un bienfait, un ingrédient…",contains:"Contient :",
   count:(n,v)=>n+(n>1?" produits":" produit")+(v?" riches en "+v.toLowerCase():""),empty:"Aucun produit ne correspond. Essayez un autre mot ou retirez un filtre.",
   ben:"Bienfaits",inc:"Produits du pack",comp:"Composition",vit:"Vitamines & nutriments",use:"Conseil d'utilisation :",ref:"Réf.",badge:"Produit Forever Living",food:"Dans l'alimentation :",
   skinT:"Soin externe",skinD:"Produit appliqué sur la peau : son action vient des plantes et de l'aloès, pas des vitamines.",
@@ -787,7 +806,7 @@ const UI={
   fTitle:"Formation",fText:"Apprendre les produits Forever et le business Forever avec les managers du pays.",fMgr:"MANAGER KONOMBO",
   close:"Fermer",avatar:"Voir la photo de profil",langLbl:"Langue",
   cats:{"Tous":"Tous","Programmes":"Programmes","Boissons":"Boissons","Nutrition":"Nutrition","Produits de la ruche":"Produits de la ruche","Soins":"Soins"}},
- en:{sub:"Benefits, ingredients and vitamins of Forever products",tabProd:"Products",tabVit:"Vitamins",search:"Search a product, a benefit, an ingredient…",contains:"Contains:",
+ en:{videos:"Videos",v1:"Aloe vera featured on television",sub:"Benefits, ingredients and vitamins of Forever products",tabProd:"Products",tabVit:"Vitamins",search:"Search a product, a benefit, an ingredient…",contains:"Contains:",
   count:(n,v)=>n+(n>1?" products":" product")+(v?" rich in "+v:""),empty:"No product matches. Try another word or remove a filter.",
   ben:"Benefits",inc:"Products in the pack",comp:"Ingredients",vit:"Vitamins & nutrients",use:"How to use:",ref:"Ref.",badge:"Forever Living product",food:"In food:",
   skinT:"External care",skinD:"Applied to the skin: it works through plants and aloe, not through vitamins.",
@@ -887,7 +906,7 @@ const PT={en:{
 "fiber-fusion":{"tag": "Apple-flavored fiber jelly, 8 g of fiber per stick, 30 sticks of 29 g.", "ben": ["High in fiber: 8 g per stick", "Supports regular digestion", "Helps you feel full for longer", "Handy: take it straight, no water needed"], "comp": [["Fiber blend", "8 g per stick"], ["Apple flavor", "taste"]], "use": "1 stick a day, straight or before a meal. Drink enough water during the day."},
 "marine-collagen":{"tag": "Drinkable marine collagen, for beautiful skin.", "ben": ["Collagen supports skin elasticity and hydration", "Helps keep hair and nails healthy", "Vitamin C contributes to normal collagen formation"], "comp": [["Hydrolyzed marine collagen", "skin"], ["Vitamin C", "collagen formation"], ["Biotin", "hair and skin"], ["Zinc", "skin, hair and nails"], ["Fruit juice concentrate", "taste"]], "use": "Follow the dose on the pack. Contains fish."}
 }};
-UI.ar={sub:"دليلكم المرجعي لفوائد منتجات فوريفر ومكوّناتها وقيمتها الغذائية",tabProd:"المنتجات",tabVit:"الفيتامينات",search:"ابحثوا باسم المنتج أو الفائدة أو المكوّن…",contains:"يحتوي على:",
+UI.ar={videos:"فيديوهات",v1:"الألوفيرا في التلفزيون",sub:"دليلكم المرجعي لفوائد منتجات فوريفر ومكوّناتها وقيمتها الغذائية",tabProd:"المنتجات",tabVit:"الفيتامينات",search:"ابحثوا باسم المنتج أو الفائدة أو المكوّن…",contains:"يحتوي على:",
   count:(n,v)=>(v?"المنتجات الغنية بـ"+v+": ":"عدد المنتجات المعروضة: ")+n,empty:"لا توجد منتجات مطابقة لبحثكم. يُرجى تجربة كلمة أخرى أو إلغاء أحد عوامل التصفية.",
   ben:"الفوائد الرئيسية",inc:"محتويات الباقة",comp:"التركيبة",vit:"الفيتامينات والعناصر الغذائية",use:"طريقة الاستخدام:",ref:"المرجع",badge:"من منتجات فوريفر ليفينغ",food:"المصادر الغذائية:",
   skinT:"للاستخدام الخارجي",skinD:"يُستخدم على البشرة، ويستمدّ فعاليته من الألوفيرا والمستخلصات النباتية لا من الفيتامينات.",
@@ -1147,7 +1166,7 @@ function applyLang(){
   const u=U(), h=document.documentElement;
   h.lang=LANG; h.dir=LANG==="ar"?"rtl":"ltr";
   $("t-sub").textContent=u.sub; $("tab-prod").textContent=u.tabProd; $("tab-vit").textContent=u.tabVit;
-  $("q").placeholder=u.search; $("t-note").innerHTML=u.note;
+  $("q").placeholder=u.search; $("t-videos").textContent=u.videos; $("t-v1").textContent=u.v1; $("t-note").innerHTML=u.note;
   $("t-ftitle").textContent=u.fTitle; $("t-ftext").textContent=u.fText; $("t-fmgr").textContent=u.fMgr;
   $("t-ben").textContent=u.ben; $("t-inc").textContent=u.inc; $("t-comp").textContent=u.comp; $("t-vit").textContent=u.vit; $("t-badge").textContent=u.badge;
   $("close").setAttribute("aria-label",u.close); $("avatar").setAttribute("aria-label",u.avatar); $("langs").setAttribute("aria-label",u.langLbl);
