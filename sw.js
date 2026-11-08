@@ -1,5 +1,5 @@
 // Nouf-Aloe : fonctionne hors connexion après la première ouverture
-const CACHE="nouf-aloe-v37";
+const CACHE="nouf-aloe-v38";
 const FILES=["./img/arabe-calligraphie.png",
  "./",
  "index.html",
@@ -31,6 +31,8 @@ const FILES=["./img/arabe-calligraphie.png",
  "img/aloe-body-wash.webp",
  "img/aloe-first.webp",
  "img/aloe-activator.png",
+ "img/vitamin-c-milk.png",
+ "img/bakuchiol-milk.png",
  "img/aloe-jojoba-shampoo.webp",
  "img/aloe-lips.png",
  "img/aloe-liquid-soap.png",
