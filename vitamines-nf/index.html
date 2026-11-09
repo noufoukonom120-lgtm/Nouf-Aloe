@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Fonction Vitamines NF</title>
+<meta name="description" content="Toutes les vitamines : définition, sources dans l'alimentation et maladies dues à leur manque.">
+<meta name="theme-color" content="#D9A11A">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Vitamines NF">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&display=swap">
+<style>
+:root{
+  color-scheme:light;
+  --bg:#D9A11A; --bg-deep:#C48E0E;
+  --panel:#FFF5DA; --panel-soft:#FFFBEF;
+  --ink:#111008; --ink-2:#2B2410; --ink-3:#5A4A1A;
+  --red:#9C2B17; --red-soft:#FBE3D9;
+  --green:#1E5B2E; --green-soft:#E3F0DC;
+  --display:"DM Serif Display",Georgia,"Times New Roman",serif;
+  --body:"Nunito Sans","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0;background:var(--bg);color:var(--ink);overflow-x:hidden}
+body{font-family:var(--body);font-size:16px;line-height:1.55;padding:calc(env(safe-area-inset-top,0px) + 16px) max(16px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 40px) max(16px,env(safe-area-inset-left,0px))}
+.wrap{max-width:1120px;margin:0 auto}
+h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;line-height:1.05;text-wrap:balance}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+
+/* En-tête */
+header.top{background:var(--panel);border:2px solid var(--ink);border-radius:18px;padding:20px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:14px;min-width:0}
+.brand img{width:64px;height:64px;border-radius:50%;flex:none;border:2px solid var(--ink)}
+.brand h1{font-size:clamp(1.9rem,6vw,3rem)}
+.brand h1 i{font-style:italic}
+.brand p{margin:4px 0 0;font-weight:600;color:var(--ink-2);font-size:.95rem}
+.install{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:999px;background:var(--ink);color:var(--bg);padding:10px 16px;font-weight:800;cursor:pointer}
+
+.intro{margin:12px 0 0;background:var(--panel-soft);border:2px solid var(--ink);border-radius:14px;padding:12px 16px;font-size:.88rem;line-height:1.45;color:var(--ink-2)}
+.intro b{color:var(--ink)}
+
+/* Recherche */
+.tools{position:sticky;top:0;z-index:5;background:var(--bg);padding:14px 0 10px;display:grid;gap:10px}
+.search{display:flex;align-items:center;gap:10px;background:var(--panel-soft);border:2px solid var(--ink);border-radius:14px;padding:0 14px}
+.search input{flex:1;min-width:0;border:0;background:transparent;padding:13px 0;font-weight:600;font-size:16px}
+.search input:focus{outline:none}
+.search input::placeholder{color:var(--ink-3)}
+.search .clear{border:0;background:var(--bg-deep);border-radius:999px;width:28px;height:28px;font-weight:800;cursor:pointer;flex:none}
+.chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.chips::-webkit-scrollbar{display:none}
+.chips button{flex:none;border:2px solid var(--ink);background:var(--panel-soft);border-radius:999px;padding:6px 12px;font-weight:700;font-size:.9rem;cursor:pointer;white-space:nowrap}
+.chips button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.chips .sep{flex:none;width:2px;background:var(--ink);opacity:.25;margin:4px 2px;border-radius:2px}
+.count{margin:0;font-weight:700;font-size:.9rem;color:var(--ink-2)}
+
+/* Cases des vitamines */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,330px),1fr));gap:14px;align-items:start}
+.vit{background:var(--panel);border:2px solid var(--ink);border-radius:16px;overflow:hidden;scroll-margin-top:150px}
+.vhead{display:flex;gap:12px;align-items:center;padding:14px 16px;border-bottom:2px solid var(--ink);background:var(--panel-soft)}
+.badge{flex:none;width:58px;height:58px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-family:var(--display);font-size:1.6rem;line-height:1}
+.badge.long{font-size:1.25rem}
+.vhead h2{font-size:1.45rem}
+.vhead .chem{margin:2px 0 0;font-weight:700;color:var(--ink-3);font-size:.92rem}
+.type{display:inline-block;margin-top:5px;font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;border:1.5px solid var(--ink);border-radius:999px;padding:1px 8px}
+.type.lipo{background:#F6D27A}
+.type.hydro{background:#CFE6F2}
+.vbody{padding:14px 16px 16px;display:grid;gap:12px}
+.vbody h3{font-family:var(--body);font-weight:800;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:5px;display:flex;align-items:center;gap:6px}
+.vbody h3 svg{width:15px;height:15px;flex:none}
+.vbody p{margin:0;color:var(--ink-2)}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin:0;padding:0;list-style:none}
+.tags li{background:var(--green-soft);color:var(--green);border:1px solid rgba(30,91,46,.3);border-radius:999px;padding:2px 10px;font-size:.88rem;font-weight:700}
+.ill{margin:0;padding:0;list-style:none;display:grid;gap:5px}
+.ill li{background:var(--red-soft);border-left:4px solid var(--red);border-radius:6px;padding:5px 10px;font-size:.92rem;color:var(--ink-2)}
+.ill li b{color:var(--red)}
+.note{font-size:.86rem;font-style:italic;color:var(--ink-3)}
+mark{background:#FFE07A;color:inherit;border-radius:3px;padding:0 1px}
+
+.empty{background:var(--panel);border:2px solid var(--ink);border-radius:16px;padding:24px;text-align:center;font-weight:700}
+footer{margin-top:24px;text-align:center;font-size:.85rem;font-weight:600;color:var(--ink-2);display:grid;gap:4px}
+footer b{color:var(--ink)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <img src="icon-192.png" alt="" width="64" height="64">
+      <div>
+        <h1>Fonction <i>Vitamines</i> NF</h1>
+        <p>Définition, sources et maladies dues au manque de chaque vitamine</p>
+      </div>
+    </div>
+    <button class="install" id="install" hidden>
+      <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 20h16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Installer l'application
+    </button>
+  </header>
+
+  <p class="intro">Une <b>vitamine</b> est une substance que le corps ne fabrique pas (ou pas assez) et qu'il doit trouver dans l'alimentation, en très petite quantité, pour bien fonctionner. Il en existe <b>13</b>. Les vitamines <b>liposolubles</b> (A, D, E, K) se dissolvent dans les graisses et se stockent dans le corps. Les vitamines <b>hydrosolubles</b> (C et groupe B) se dissolvent dans l'eau et doivent être apportées chaque jour.</p>
+
+  <div class="tools">
+    <label class="search" for="q">
+      <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="#111008" stroke-width="2.4"/><path d="M15.5 15.5 21 21" stroke="#111008" stroke-width="2.4" stroke-linecap="round"/></svg>
+      <input id="q" type="text" inputmode="search" placeholder="Chercher une vitamine, un aliment, une maladie…" autocomplete="off" enterkeyhint="search">
+      <button class="clear" id="clear" type="button" aria-label="Effacer" hidden>×</button>
+    </label>
+    <div class="chips" id="chips" role="group" aria-label="Filtrer les vitamines"></div>
+    <p class="count" id="count" aria-live="polite"></p>
+  </div>
+
+  <main class="grid" id="grid"></main>
+  <div class="empty" id="empty" hidden>Aucune vitamine ne correspond à cette recherche.</div>
+
+  <footer>
+    <span>Informations générales sur la santé. Elles ne remplacent pas l'avis d'un médecin ou d'un pharmacien.</span>
+    <span><b>Fonction Vitamines NF</b> · Nouf-Aloe · MANAGER KONOMBO</span>
+  </footer>
+</div>
+
+<script>
+const V=[
+ {id:"A",type:"lipo",chem:"Rétinol, bêta-carotène",
+  def:"Vitamine liposoluble indispensable à la vision, surtout la nuit. Elle protège la peau et les muqueuses (yeux, bouche, intestins, poumons), renforce les défenses contre les infections et participe à la croissance de l'enfant.",
+  src:["Foie","Jaune d'œuf","Lait entier","Beurre","Poissons gras","Carotte","Patate douce orange","Mangue","Papaye","Épinards","Feuilles de moringa","Huile de palme rouge"],
+  mal:[["Héméralopie","on voit mal la nuit (cécité nocturne)"],["Xérophtalmie","yeux très secs, pouvant aller jusqu'à la cécité"],["Infections fréquentes","rougeole et diarrhées plus graves chez l'enfant"],["Peau sèche et rugueuse",""],["Retard de croissance","chez l'enfant"]]},
+ {id:"D",type:"lipo",chem:"Calciférol (D2, D3)",
+  def:"Vitamine liposoluble fabriquée par la peau grâce au soleil. Elle permet au corps d'absorber le calcium et le phosphore, donc de construire des os et des dents solides. Elle agit aussi sur les muscles et l'immunité.",
+  src:["Soleil sur la peau","Sardine","Maquereau","Thon","Huile de foie de morue","Jaune d'œuf","Foie","Lait enrichi"],
+  mal:[["Rachitisme","os mous et jambes arquées chez l'enfant"],["Ostéomalacie","os fragiles et douloureux chez l'adulte"],["Ostéoporose","os qui se cassent facilement"],["Faiblesse et crampes musculaires",""],["Tétanie","spasmes dus au manque de calcium"]]},
+ {id:"E",type:"lipo",chem:"Tocophérols",
+  def:"Vitamine liposoluble antioxydante : elle protège les cellules, les nerfs et les globules rouges contre l'usure (radicaux libres). Elle soutient aussi les défenses de l'organisme et la santé de la peau.",
+  src:["Huile de tournesol","Huile de germe de blé","Huile d'arachide","Arachides","Amandes","Graines de tournesol","Avocat","Légumes verts"],
+  mal:[["Troubles des nerfs","fourmillements, mauvais équilibre, démarche instable"],["Faiblesse musculaire",""],["Anémie hémolytique","globules rouges détruits, surtout chez le prématuré"],["Troubles de la vue","atteinte de la rétine"]],
+  note:"Le manque est rare ; il touche surtout les personnes qui absorbent mal les graisses."},
+ {id:"K",type:"lipo",chem:"Phylloquinone (K1), ménaquinones (K2)",
+  def:"Vitamine liposoluble nécessaire à la coagulation du sang : sans elle, une blessure ne s'arrête pas de saigner. Elle aide aussi à fixer le calcium dans les os. Une partie est fabriquée par les bonnes bactéries de l'intestin.",
+  src:["Épinards","Chou","Brocoli","Feuilles de manioc","Feuilles de moringa","Salade verte","Huiles végétales","Foie","Œufs","Fromages fermentés"],
+  mal:[["Saignements","du nez, des gencives, dans les urines ou les selles"],["Bleus (ecchymoses)","qui apparaissent facilement"],["Maladie hémorragique du nouveau-né","d'où l'injection de vitamine K à la naissance"],["Os plus fragiles",""]]},
+ {id:"C",type:"hydro",chem:"Acide ascorbique",
+  def:"Vitamine hydrosoluble antioxydante. Elle sert à fabriquer le collagène (peau, gencives, vaisseaux, cicatrisation), aide le corps à absorber le fer des végétaux et renforce les défenses contre les infections.",
+  src:["Pain de singe (fruit du baobab)","Goyave","Orange","Citron","Mangue","Papaye","Ananas","Tomate","Poivron","Feuilles de moringa","Feuilles vertes"],
+  mal:[["Scorbut","gencives qui gonflent et saignent, dents qui se déchaussent"],["Fatigue et faiblesse",""],["Plaies qui guérissent mal",""],["Bleus et petites hémorragies sous la peau",""],["Anémie","par manque d'absorption du fer"],["Douleurs des articulations",""]]},
+ {id:"B1",type:"hydro",chem:"Thiamine",
+  def:"Vitamine hydrosoluble qui transforme les sucres et les céréales en énergie. Elle est indispensable au bon fonctionnement des nerfs, des muscles et du cœur.",
+  src:["Mil","Sorgho","Riz non décortiqué","Céréales complètes","Niébé (haricot)","Lentilles","Arachides","Viande de porc","Levure","Graines de tournesol"],
+  mal:[["Béribéri","faiblesse, jambes engourdies (forme sèche) ou gonflées avec cœur fatigué (forme humide)"],["Syndrome de Wernicke-Korsakoff","confusion et troubles de la mémoire, surtout chez les buveurs d'alcool"],["Fatigue, perte d'appétit, irritabilité",""]]},
+ {id:"B2",type:"hydro",chem:"Riboflavine",
+  def:"Vitamine hydrosoluble qui aide à produire l'énergie à partir des aliments. Elle entretient la peau, les yeux, les muqueuses et participe à la formation des globules rouges.",
+  src:["Lait","Yaourt","Fromage","Œufs","Viande","Foie","Poisson","Légumes verts","Champignons","Amandes"],
+  mal:[["Perlèche","fissures aux coins de la bouche"],["Lèvres sèches et gercées (chéilite)",""],["Glossite","langue rouge, lisse et douloureuse"],["Dermatite","peau grasse qui pèle autour du nez"],["Yeux rouges et gênés par la lumière",""],["Anémie",""]]},
+ {id:"B3",type:"hydro",chem:"Niacine (vitamine PP)",
+  def:"Vitamine hydrosoluble qui libère l'énergie des aliments. Elle protège la peau, le système digestif et le système nerveux.",
+  src:["Viande","Poulet","Poisson","Foie","Arachides","Céréales complètes","Champignons","Niébé et légumineuses"],
+  mal:[["Pellagre","la maladie des « 3 D » : dermatite (peau brûlée au soleil), diarrhée et démence (confusion)"],["Langue rouge et bouche douloureuse",""],["Fatigue, maux de tête, dépression",""]],
+  note:"La pellagre touche surtout les personnes qui mangent presque uniquement du maïs."},
+ {id:"B5",type:"hydro",chem:"Acide pantothénique",
+  def:"Vitamine hydrosoluble présente dans presque tous les aliments. Elle sert à produire l'énergie, à fabriquer certaines hormones et le cholestérol, et aide la peau et les cheveux à se renouveler.",
+  src:["Viande","Foie","Œufs","Lait","Champignons","Avocat","Céréales complètes","Légumineuses","Arachides"],
+  mal:[["Syndrome des pieds brûlants","brûlures et engourdissements des pieds"],["Fatigue et irritabilité",""],["Troubles du sommeil",""],["Troubles digestifs","nausées, crampes d'estomac"]],
+  note:"Le manque est très rare ; il survient surtout en cas de malnutrition sévère."},
+ {id:"B6",type:"hydro",chem:"Pyridoxine",
+  def:"Vitamine hydrosoluble qui aide le corps à utiliser les protéines. Elle participe à la fabrication des globules rouges, des messagers du cerveau (humeur, sommeil) et des défenses immunitaires.",
+  src:["Poisson","Poulet","Foie","Banane","Pomme de terre","Pois chiches","Céréales complètes","Arachides","Avocat"],
+  mal:[["Anémie","globules rouges petits et pâles"],["Dermatite et lèvres fissurées",""],["Langue enflée (glossite)",""],["Dépression, confusion",""],["Convulsions","chez le nourrisson"],["Fourmillements des mains et des pieds",""],["Baisse de l'immunité",""]]},
+ {id:"B8",type:"hydro",chem:"Biotine (aussi appelée B7 ou vitamine H)",
+  def:"Vitamine hydrosoluble qui aide à transformer les graisses, les sucres et les protéines en énergie. Elle est connue pour son rôle dans la santé de la peau, des cheveux et des ongles.",
+  src:["Jaune d'œuf cuit","Foie","Arachides","Amandes","Graines","Soja","Patate douce","Champignons","Banane"],
+  mal:[["Chute des cheveux",""],["Ongles cassants",""],["Dermatite","rougeurs autour des yeux, du nez et de la bouche"],["Conjonctivite",""],["Fatigue, dépression, fourmillements",""]],
+  note:"Manger souvent beaucoup de blanc d'œuf cru peut bloquer la biotine."},
+ {id:"B9",type:"hydro",chem:"Folates, acide folique",
+  def:"Vitamine hydrosoluble indispensable à la fabrication des cellules et des globules rouges. Elle est très importante pendant la grossesse pour la bonne formation du cerveau et de la colonne vertébrale du bébé.",
+  src:["Feuilles vertes","Épinards","Feuilles de baobab","Feuilles de moringa","Niébé","Lentilles","Pois chiches","Foie","Arachides","Avocat","Orange"],
+  mal:[["Anémie mégaloblastique","grands globules rouges qui fonctionnent mal : fatigue, pâleur, essoufflement"],["Malformations du bébé","spina bifida (colonne vertébrale mal fermée) si la mère manque de folates en début de grossesse"],["Langue rouge et douloureuse",""],["Retard de croissance",""]]},
+ {id:"B12",type:"hydro",chem:"Cobalamine",
+  def:"Vitamine hydrosoluble nécessaire à la fabrication des globules rouges et à la protection des nerfs et du cerveau. Elle se trouve presque uniquement dans les aliments d'origine animale.",
+  src:["Foie","Viande","Poisson","Fruits de mer","Œufs","Lait","Fromage","Aliments enrichis"],
+  mal:[["Anémie pernicieuse (mégaloblastique)","grande fatigue, pâleur, essoufflement"],["Fourmillements et engourdissements","des mains et des pieds"],["Troubles de la mémoire et de l'équilibre",""],["Dépression",""],["Langue lisse et douloureuse",""]],
+  note:"Risque plus élevé chez les végétariens stricts, les personnes âgées et celles qui ont des problèmes d'estomac."}
+];
+
+const $=id=>document.getElementById(id);
+const norm=s=>s.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().replace(/[’']/g," ");
+const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const ICON={
+ def:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.1"/></svg>',
+ src:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19c0-8 5-13 14-14-1 9-6 14-14 14zM5 19l7-7"/></svg>',
+ mal:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 20h20zM12 10v4M12 17v.1"/></svg>'
+};
+
+let filter="all", query="";
+
+function hl(text,terms){
+  let out=esc(text); if(!terms.length) return out;
+  const n=norm(text); const marks=[];
+  terms.forEach(t=>{let i=n.indexOf(t);while(i>-1){marks.push([i,i+t.length]);i=n.indexOf(t,i+t.length)}});
+  if(!marks.length) return out;
+  marks.sort((a,b)=>a[0]-b[0]);
+  let res="",pos=0;
+  for(const [a,b] of marks){if(a<pos)continue;res+=esc(text.slice(pos,a))+"<mark>"+esc(text.slice(a,b))+"</mark>";pos=b}
+  return res+esc(text.slice(pos));
+}
+
+function card(v,terms){
+  const name="Vitamine "+v.id;
+  return `<article class="vit" id="vit-${v.id}">
+    <div class="vhead">
+      <div class="badge${v.id.length>1?" long":""}" aria-hidden="true">${v.id}</div>
+      <div>
+        <h2>${hl(name,terms)}</h2>
+        <p class="chem">${hl(v.chem,terms)}</p>
+        <span class="type ${v.type}">${v.type==="lipo"?"Liposoluble":"Hydrosoluble"}</span>
+      </div>
+    </div>
+    <div class="vbody">
+      <section><h3>${ICON.def}Définition</h3><p>${hl(v.def,terms)}</p></section>
+      <section><h3>${ICON.src}Sources</h3><ul class="tags">${v.src.map(s=>`<li>${hl(s,terms)}</li>`).join("")}</ul></section>
+      <section><h3>${ICON.mal}Maladies en cas de manque</h3><ul class="ill">${v.mal.map(([m,d])=>`<li><b>${hl(m,terms)}</b>${d?" : "+hl(d,terms):""}</li>`).join("")}</ul></section>
+      ${v.note?`<p class="note">${hl(v.note,terms)}</p>`:""}
+    </div>
+  </article>`;
+}
+
+V.forEach(v=>{v._txt=norm(["vitamine "+v.id,"vit "+v.id,v.id,v.chem,v.def,v.src.join(" "),v.mal.flat().join(" "),v.note||"",v.type==="lipo"?"liposoluble":"hydrosoluble"].join(" "))});
+
+function render(){
+  const terms=norm(query).split(/\s+/).filter(t=>t.length>0);
+  const strict=terms.filter(t=>!["vitamine","vitamines","vit","la","le","de","des","du","les"].includes(t));
+  const list=V.filter(v=>{
+    if(filter==="lipo"||filter==="hydro"){if(v.type!==filter)return false}
+    else if(filter!=="all"&&v.id!==filter)return false;
+    if(!strict.length) return true;
+    return strict.every(t=>{
+      if(/^(b?\d{1,2}|[adekch])$/.test(t)) return norm(v.id)===t||norm(v.id)==="b"+t||v._txt.includes(" "+t+" ");
+      return v._txt.includes(t);
+    });
+  });
+  const hlTerms=strict.filter(t=>t.length>2);
+  $("grid").innerHTML=list.map(v=>card(v,hlTerms)).join("");
+  $("empty").hidden=list.length>0;
+  $("count").textContent=list.length===V.length?"13 vitamines":list.length+(list.length>1?" vitamines trouvées":" vitamine trouvée");
+}
+
+function chips(){
+  const items=[["all","Toutes"],["lipo","Liposolubles"],["hydro","Hydrosolubles"],["|"],...V.map(v=>[v.id,v.id])];
+  $("chips").innerHTML=items.map(([k,l])=>k==="|"?'<span class="sep"></span>':`<button type="button" data-f="${k}" aria-pressed="${k===filter}">${l}</button>`).join("");
+}
+$("chips").addEventListener("click",e=>{
+  const b=e.target.closest("button"); if(!b)return;
+  filter=(filter===b.dataset.f&&b.dataset.f!=="all")?"all":b.dataset.f;
+  chips(); render();
+});
+$("q").addEventListener("input",e=>{query=e.target.value;$("clear").hidden=!query;render()});
+$("clear").addEventListener("click",()=>{$("q").value="";query="";$("clear").hidden=true;render();$("q").focus()});
+
+chips(); render();
+
+/* Installation et hors connexion */
+let deferred=null;
+window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferred=e;$("install").hidden=false});
+$("install").addEventListener("click",async()=>{if(!deferred)return;deferred.prompt();await deferred.userChoice;deferred=null;$("install").hidden=true});
+window.addEventListener("appinstalled",()=>{$("install").hidden=true});
+if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}))}
+</script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "name": "Fonction Vitamines NF",
+  "short_name": "Vitamines NF",
+  "description": "Toutes les vitamines : définition, sources et maladies dues à leur manque.",
+  "lang": "fr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#D9A11A",
+  "theme_color": "#D9A11A",
+  "icons": [
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
+  ]
+}
