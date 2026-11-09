@@ -39,9 +39,12 @@ button,input{font:inherit;color:inherit}
 :focus-visible{outline:3px solid var(--ink);outline-offset:2px}
 
 /* En-tête */
-header.top{background:var(--panel);border:2px solid var(--ink);border-radius:18px;padding:16px 18px;display:grid;gap:12px}
+header.top{position:relative;overflow:hidden;background:var(--panel);border:2px solid var(--ink);border-radius:18px;padding:0;display:grid}
+.hero{position:relative;height:clamp(170px,42vw,300px);background:url(accueil.jpg) center 55%/cover no-repeat}
+.hero::after{content:"";position:absolute;inset:auto 0 0 0;height:45%;background:linear-gradient(to bottom,rgba(255,245,218,0),var(--panel))}
+.hcontent{position:relative;padding:0 18px 16px;margin-top:-34px;display:grid;gap:12px;z-index:1}
 .brand{display:flex;align-items:center;gap:14px;min-width:0}
-.brand img{width:60px;height:60px;border-radius:50%;flex:none;border:2px solid var(--ink)}
+.brand img{width:64px;height:64px;border-radius:50%;flex:none;border:3px solid var(--panel);box-shadow:0 0 0 2px var(--ink)}
 .brand h1{font-size:clamp(1.8rem,6vw,2.9rem)}
 .brand h1 i{font-style:italic}
 html[dir="rtl"] .brand h1 i{font-style:normal}
@@ -130,6 +133,8 @@ footer b{color:var(--ink)}
 <body>
 <div class="wrap">
   <header class="top">
+    <div class="hero" role="img" aria-label="Fruits, légumes, graines et huiles riches en vitamines"></div>
+    <div class="hcontent">
     <div class="brand">
       <img src="icon-192.png" alt="" width="60" height="60">
       <div>
@@ -146,6 +151,7 @@ footer b{color:var(--ink)}
         <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 20h16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <span id="t-install"></span>
       </button>
+    </div>
     </div>
   </header>
 

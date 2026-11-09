@@ -1,6 +1,6 @@
 // Fonction Vitamines NF : fonctionne hors connexion après la première ouverture
-const CACHE="vitamines-nf-v2";
-const FILES=["./","index.html","manifest.webmanifest","icon-192.png","icon-512.png","apple-touch-icon.png","data.js","arabe-calligraphie.png"];
+const CACHE="vitamines-nf-v3";
+const FILES=["./","index.html","manifest.webmanifest","icon-192.png","icon-512.png","apple-touch-icon.png","data.js","arabe-calligraphie.png","accueil.jpg"];
 self.addEventListener("install",e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(FILES)).then(()=>self.skipWaiting()))});
 self.addEventListener("activate",e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k.startsWith("vitamines-nf")&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
 self.addEventListener("fetch",e=>{
