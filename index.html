@@ -133,6 +133,12 @@ html,body,.sheet,.sheet .panel{touch-action:manipulation}
 .sheet .panel{background:var(--cream);width:100%;max-width:560px;min-width:0;flex:0 1 auto;box-sizing:border-box;height:100%;overflow-y:auto;overflow-x:hidden;border-left:3px solid var(--ink);padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}
 .sheet .hero{background:var(--panel-soft);border-bottom:2px solid var(--ink);display:grid;place-items:center;padding:24px 24px 24px 110px;position:relative}
 .sheet .hero svg{height:220px;width:auto;max-width:100%}
+.backbar{position:sticky;top:0;z-index:3;background:var(--cream);border-bottom:2px solid var(--ink);padding:8px 12px;display:flex}
+.backbtn{display:inline-flex;align-items:center;gap:8px;border:2px solid var(--ink);background:var(--bg);color:var(--ink);border-radius:999px;padding:7px 16px 7px 12px;font:inherit;font-weight:800;font-size:1rem;cursor:pointer}
+.backbtn svg{flex:none}
+html[dir="rtl"] .backbtn svg{transform:scaleX(-1)}
+.ntoast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;font-weight:700;font-size:.95rem;z-index:100;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;max-width:90vw;text-align:center}
+.ntoast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 .close{position:absolute;top:12px;right:12px;border:2px solid var(--ink);background:var(--bg);border-radius:999px;width:40px;height:40px;font-size:1.3rem;font-weight:800;cursor:pointer;line-height:1}
 .sheet .body{min-width:0;max-width:100%;box-sizing:border-box;padding:22px 22px 32px;display:flex;flex-direction:column;gap:22px}
 .sheet h2{font-size:2.1rem;line-height:1.05}
@@ -311,8 +317,10 @@ img{max-width:100%}
 </div></div>
 <div class="ihelp" id="ihelp" hidden><div class="box" role="dialog" aria-modal="true" aria-labelledby="ih-t"><h3 id="ih-t"></h3><ol id="ih-steps"></ol><button id="ih-ok">OK</button></div></div>
 <div class="lightbox" id="lightbox" hidden><img src="img/profil-nouf-aloe.png" alt="Nouf-Aloe, produit Forever naturel pur"></div>
+<div class="ntoast" id="ntoast" role="status" aria-live="polite"></div>
 <div class="sheet" id="sheet" hidden>
   <div class="panel" role="dialog" aria-modal="true" aria-labelledby="d-name">
+    <div class="backbar"><button class="backbtn" id="back" type="button"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span id="t-back">Retour</span></button></div>
     <div class="hero"><span class="fbadge"><img src="img/logo-forever-v2.png" alt="Logo Forever"><span id="t-badge">Produit Forever Living</span></span><div id="d-pic"></div><span class="ccl" id="d-cc"></span><button class="close" id="close" aria-label="Fermer">×</button></div>
     <div class="body">
       <div>
@@ -1178,6 +1186,23 @@ $("q").addEventListener("input",e=>{state.q=e.target.value.trim();renderGrid()})
 $("grid").addEventListener("click",e=>{const b=e.target.closest("[data-code]");if(b)openSheet(b.dataset.code)});
 $("vgrid").addEventListener("click",e=>{const b=e.target.closest("[data-code]");if(b)openSheet(b.dataset.code)});
 $("close").addEventListener("click",closeSheet);
+$("back").addEventListener("click",closeSheet);
+/* ---------- Retour calme : le bouton Retour du téléphone ferme d'abord la fiche, et ne quitte jamais d'un coup ---------- */
+const BACK_T={fr:{b:"Retour",x:"Appuyez encore sur Retour pour quitter"},en:{b:"Back",x:"Press Back again to exit"},ar:{b:"رجوع",x:"اضغط «رجوع» مرة أخرى للخروج"}};
+function backT(){return BACK_T[LANG]||BACK_T.fr}
+let exitArmed=false,toastTimer=null;
+function ntoast(msg){const t=$("ntoast");t.textContent=msg;t.classList.add("on");clearTimeout(toastTimer);toastTimer=setTimeout(()=>{t.classList.remove("on");exitArmed=false},2200)}
+try{history.replaceState({nv:"base"},"");history.pushState({nv:"app"},"")}catch(e){}
+window.addEventListener("popstate",()=>{
+  const keep=()=>{try{history.pushState({nv:"app"},"")}catch(e){}};
+  if(!$("lightbox").hidden){$("lightbox").hidden=true;keep();return}
+  if(!$("ihelp").hidden){$("ihelp").hidden=true;keep();return}
+  if(!$("stats").hidden){$("stats").hidden=true;keep();return}
+  if(!$("sheet").hidden){closeSheet();keep();return}
+  if($("view-prod").hidden){showTab("prod");window.scrollTo({top:0,behavior:"smooth"});keep();return}
+  if(exitArmed){history.back();return}
+  exitArmed=true;ntoast(backT().x);keep();
+});
 $("avatar").addEventListener("click",()=>{$("lightbox").hidden=false});
 $("lightbox").addEventListener("click",()=>{$("lightbox").hidden=true});
 $("d-inc").addEventListener("click",e=>{const b=e.target.closest("[data-code]");if(b){openSheet(b.dataset.code);$("sheet").querySelector(".panel").scrollTop=0}});
@@ -1193,7 +1218,7 @@ function applyLang(){
   $("q").placeholder=u.search; $("t-videos").textContent=u.videos; $("t-v1").textContent=u.v1; $("t-note").innerHTML=u.note;
   $("t-ftitle").textContent=u.fTitle; $("t-ftext").textContent=u.fText; $("t-fmgr").textContent=u.fMgr;
   $("t-ben").textContent=u.ben; $("t-inc").textContent=u.inc; $("t-comp").textContent=u.comp; $("t-vit").textContent=u.vit; $("t-badge").textContent=u.badge;
-  $("close").setAttribute("aria-label",u.close); $("avatar").setAttribute("aria-label",u.avatar); $("langs").setAttribute("aria-label",u.langLbl);
+  $("close").setAttribute("aria-label",u.close); $("t-back").textContent=backT().b; $("avatar").setAttribute("aria-label",u.avatar); $("langs").setAttribute("aria-label",u.langLbl);
   document.querySelectorAll("#langs button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.lang===LANG));
   renderFilters();renderGrid();renderVit();
   if(state.open&&!$("sheet").hidden)openSheet(state.open);
