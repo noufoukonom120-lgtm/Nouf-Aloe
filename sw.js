@@ -1,5 +1,5 @@
 // Nouf-Aloe : fonctionne hors connexion après la première ouverture
-const CACHE="nouf-aloe-v43";
+const CACHE="nouf-aloe-v44";
 const FILES=["./img/arabe-calligraphie.png",
  "./",
  "index.html",
@@ -71,7 +71,7 @@ const FILES=["./img/arabe-calligraphie.png",
  "img/lite-ultra.webp",
  "img/logo-forever-v2.png",
  "img/lycium-plus.png",
- "img/malosi.jpg",
+ "img/malosi-v2.jpg",
  "img/alofa.webp",
  "img/moisturizing-lotion.webp",
  "img/move-1.png",
@@ -81,7 +81,7 @@ const FILES=["./img/arabe-calligraphie.png",
  "img/propolis-creme.webp",
  "img/royal-jelly.webp",
  "img/skin-oil.jpg",
- "img/supergreens.png",
+ "img/supergreens-v2.png",
  "img/vital5.png"
 ];
 self.addEventListener("install",e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(FILES)).then(()=>self.skipWaiting()))});
