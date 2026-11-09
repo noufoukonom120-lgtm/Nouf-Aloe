@@ -1,7 +1,7 @@
 {
   "name": "Fonction Vitamines NF",
   "short_name": "Vitamines NF",
-  "description": "Toutes les vitamines : définition, sources et maladies dues à leur manque.",
+  "description": "Vitamines, minéraux et acides aminés : définition, sources et maladies dues au manque. Français et arabe.",
   "lang": "fr",
   "start_url": "./",
   "scope": "./",
