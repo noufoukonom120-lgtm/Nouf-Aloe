@@ -601,6 +601,12 @@ const P = [
   comp:[["Aloe vera","hydratation"],["Actifs régénérants","renouvellement de la peau"],["Extraits végétaux","douceur"]],
   vit:[],
   use:"Appliquer le soir sur le visage et le cou propres, en massant doucement. Éviter le contour des yeux. Utiliser une protection solaire le jour."},
+ {id:"alofa",name:"Forever Alofa",cat:"Soins",
+  tag:"Parfum fin pour femme de la collection Forever.",
+  ben:["Parfum élégant et durable pour le quotidien ou les grandes occasions","Le pendant féminin du parfum Malosi","Flacon pratique à emporter"],
+  comp:[["Parfum (fragrance)","eau de parfum"],["Alcool, eau","base"]],
+  vit:[],
+  use:"Vaporiser sur le cou et les poignets. Éviter les yeux."},
  {id:"malosi",name:"Forever Malosi",cat:"Soins",
   tag:"Parfum fin pour homme de la collection Forever.",
   ben:["Parfum élégant et durable pour le quotidien ou les grandes occasions","Flacon pratique à emporter"],
@@ -790,7 +796,7 @@ const IMG={
  "473":["img/argi-plus.png"],"355":["img/immublend.png"],"immune-gummy":["img/immune-gummy.png"],
  "551":["img/move-2.webp","img/move-1.png"],"264":["img/active-ha.png"],"289":["img/lean.png"],
  "200":["img/aloe-blossom-tea.png"],"205":["img/msm-gel.png"],"067":["img/ever-shield.webp"],
- "liquid-soap":["img/aloe-liquid-soap.png"],"body-wash":["img/aloe-body-wash.webp"],"malosi":["img/malosi.jpg"],
+ "liquid-soap":["img/aloe-liquid-soap.png"],"body-wash":["img/aloe-body-wash.webp"],"malosi":["img/malosi.jpg"],"alofa":["img/alofa.webp"],
  "610":["img/active-pro-b.png"],"048":["img/absorbent-c.png"],"734":["img/berry-nectar.webp"],"026":["img/bee-pollen.png"],
  "376":["img/arctic-sea.webp"],"207":["img/bee-honey.webp"],"027":["img/bee-propolis.webp"],"072":["img/lycium-plus.png"],
  "065":["img/garlic-thyme.png"],"206":["img/calcium.png"],"022":["img/aloe-lips.png"],"028":["img/bright-toothgel.webp"],
@@ -803,7 +809,7 @@ const IMG={
 P.forEach(p=>{p.key=p.id||p.code;p.img=IMG[p.key]||null});
 /* ---------- Prix (FCFA) ---------- */
 const PRIX={"715":22000,"734":22000,"196":32000,"777":22000,"200":15500,"440":5000,"321":5000,"026":13000,"207":15500,"027":28500,"036":28500,"355":20500,
- "immune-gummy":32000,"376":26000,"048":15000,"065":16000,"439":16000,"610":32000,"206":21500,"354":13000,"072":26000,"264":29000,"551":55000,"473":65500,"375":27500,"312":29000,"622":72500,"marine-collagen":69000,"624":30500,"188":13500,"037":16000,"464":25000,"skin-oil":26500,"shampoo":29000,"conditioner":20500,"vital5":223000,"dx4":115500,"612":14000,"malosi":29000,"040":17500};
+ "immune-gummy":32000,"376":26000,"048":15000,"065":16000,"439":16000,"610":32000,"206":21500,"354":13000,"072":26000,"264":29000,"551":55000,"473":65500,"375":27500,"312":29000,"622":72500,"marine-collagen":69000,"624":30500,"188":13500,"037":16000,"464":25000,"skin-oil":26500,"shampoo":29000,"conditioner":20500,"vital5":223000,"dx4":115500,"612":14000,"malosi":29000,"alofa":29000,"040":17500};
 const CC={"715":0.100,"734":0.100,"777":0.100,"196":0.146,"200":0.070,"440":0.019,"321":0.019,
  "026":0.060,"207":0.070,"027":0.130,"036":0.130,"051":0.077,
  "551":0.250,"206":0.098,"264":0.136,"621":0.154,"610":0.147,"464":0.115,"068":0.051,
@@ -902,6 +908,7 @@ const PT={en:{
 "r3-factor":{"tag": "Smoothing aloe creme with collagen and vitamins A and E, 56.7 g.", "ben": ["Retain, restore, renew: helps the skin keep its moisture", "Smooths the skin and reduces the look of fine lines", "AHAs help remove dead cells for a brighter complexion", "Vitamins A and E protect the skin"], "comp": [["Aloe vera", "moisture"], ["Soluble collagen and elastin", "firmness"], ["Vitamins A and E", "skin protection"], ["Alpha hydroxy acids (AHA)", "skin renewal"]], "use": "Apply morning and evening to clean face and neck, massaging gently. AHAs make skin more sensitive to the sun: use sun protection during the day."},
 "day-lotion":{"tag": "Moisturizing aloe day lotion with SPF 20 sun protection, 50 ml.", "ben": ["Moisturizes the skin all day", "SPF 20 helps protect the skin from the sun's rays", "Helps prevent sun-related skin aging", "Light texture, ideal under make-up"], "comp": [["Aloe vera", "moisture"], ["SPF 20 sunscreens", "UV protection"], ["Vitamins and plant extracts", "skin care"]], "use": "Apply every morning to clean face and neck. Reapply after long sun exposure."},
 "renewing-creme":{"tag": "Renewing aloe night creme, 56.7 g.", "ben": ["Helps the skin renew itself overnight", "Deeply moisturizes and softens the skin", "Reduces the look of fine lines for smoother skin", "Pairs with Protecting Day Lotion in the morning"], "comp": [["Aloe vera", "moisture"], ["Renewing actives", "skin renewal"], ["Plant extracts", "softness"]], "use": "Apply in the evening to clean face and neck, massaging gently. Avoid the eye area. Use sun protection during the day."},
+"alofa":{tag:"Fine fragrance for women from the Forever collection.",ben:["Elegant, long-lasting scent for everyday or special occasions","The feminine counterpart of Malosi","Handy bottle to take along"],comp:[["Fragrance","eau de parfum"],["Alcohol, water","base"]],use:"Spray on the neck and wrists. Avoid the eyes."},
 "malosi":{tag:"Fine fragrance for men from the Forever collection.",ben:["Elegant, long-lasting scent for everyday or special occasions","Handy bottle to take along"],comp:[["Fragrance","eau de parfum"],["Alcohol, water","base"]],use:"Spray on the neck and wrists. Avoid the eyes."},
 "207":{tag:"100% natural honey, in a 500 g squeeze bottle.",ben:["Fast, natural source of energy","Soothes the throat, lovely in hot herbal teas","Replaces sugar in drinks and desserts"],comp:[["Natural honey","100%"]],use:"1 to 2 spoons a day, plain or in a warm drink. Do not give to babies under one year."},
 "072":{tag:"Tablets with lycium (goji) berries and licorice.",ben:["Goji berries are rich in antioxidants","Traditionally used in Asia for vitality and vision","Licorice is known for throat and digestive comfort"],comp:[["Lycium (goji) berry extract","antioxidants"],["Licorice root extract","plant"]],use:"1 to 2 tablets a day. Not recommended with high blood pressure (licorice), pregnancy or breastfeeding."},
@@ -1000,6 +1007,7 @@ PT.ar={
 "r3-factor":{"name": "كريم R3 فاكتور لحماية البشرة", "tag": "كريم منعّم بالألوفيرا والكولاجين وفيتاميني A وE، 56.7 غ.", "ben": ["يحفظ ويجدّد ويستعيد: يساعد البشرة على الاحتفاظ بترطيبها", "ينعّم البشرة ويخفّف مظهر الخطوط الدقيقة", "تساعد أحماض AHA على إزالة الخلايا الميتة لبشرة أكثر إشراقًا", "يحمي فيتامينا A وE البشرة"], "comp": [["الألوفيرا", "ترطيب"], ["الكولاجين والإيلاستين القابلان للذوبان", "شدّ البشرة"], ["فيتامينا A وE", "حماية البشرة"], ["أحماض ألفا هيدروكسي (AHA)", "تجديد البشرة"]], "use": "يُوضع صباحًا ومساءً على الوجه والعنق النظيفين مع تدليك لطيف. تزيد أحماض AHA حساسية البشرة للشمس: يُستعمل واقٍ شمسي في النهار."},
 "day-lotion":{"name": "لوشن النهار الواقي SPF 20", "tag": "كريم نهاري مرطّب بالألوفيرا مع حماية من الشمس SPF 20، سعة 50 مل.", "ben": ["يرطّب البشرة طوال اليوم", "يساعد عامل الحماية SPF 20 على حماية البشرة من أشعة الشمس", "يساعد على الوقاية من شيخوخة البشرة الناتجة عن الشمس", "قوام خفيف مثالي تحت المكياج"], "comp": [["الألوفيرا", "ترطيب"], ["مرشّحات شمسية SPF 20", "حماية من الأشعة"], ["فيتامينات ومستخلصات نباتية", "العناية بالبشرة"]], "use": "يُوضع كل صباح على الوجه والعنق النظيفين، ويُعاد وضعه عند التعرّض الطويل للشمس."},
 "renewing-creme":{"name": "كريم تجديد البشرة", "tag": "كريم ليلي مجدِّد بالألوفيرا، 56.7 غ.", "ben": ["يساعد البشرة على التجدّد أثناء الليل", "يرطّب البشرة بعمق وينعّمها", "يخفّف مظهر الخطوط الدقيقة لبشرة أكثر نعومة", "يكمّل لوشن النهار الواقي المستعمل صباحًا"], "comp": [["الألوفيرا", "ترطيب"], ["مكوّنات مجدِّدة", "تجديد البشرة"], ["مستخلصات نباتية", "نعومة"]], "use": "يُوضع مساءً على الوجه والعنق النظيفين مع تدليك لطيف. يُتجنّب محيط العينين. يُستعمل واقٍ شمسي في النهار."},
+"alofa":{name:"فوريفر ألوفا",tag:"عطر نسائي راقٍ من مجموعة فوريفر.",ben:["عطر أنيق يدوم طويلًا للاستخدام اليومي والمناسبات الخاصة","النسخة النسائية من عطر مالوسي","قارورة عملية يسهل حملها"],comp:[["تركيبة عطرية","ماء عطر (أو دو بارفان)"],["الكحول والماء","المكوّن الأساسي"]],use:"يُرشّ على الرقبة والمعصمين، مع تجنّب العينين."},
 "malosi":{tag:"عطر رجالي راقٍ من مجموعة فوريفر.",ben:["عطر أنيق يدوم طويلًا للاستخدام اليومي والمناسبات الخاصة","قارورة عملية يسهل حملها"],comp:[["تركيبة عطرية","ماء عطر (أو دو بارفان)"],["الكحول والماء","المكوّن الأساسي"]],use:"يُرشّ على الرقبة والمعصمين، مع تجنّب ملامسة العينين."},
 "207":{tag:"عسل طبيعي 100٪ في عبوة سكب سعة 500 غ.",ben:["مصدر طبيعي وسريع للطاقة","يلطّف الحلق، ويُضفي مذاقًا مميزًا على المشروبات العشبية الساخنة","بديل طبيعي للسكر في المشروبات والحلويات"],comp:[["عسل طبيعي","100٪"]],use:"ملعقة إلى ملعقتين يوميًا، صافيًا أو في مشروب دافئ. لا يُعطى للرضّع دون السنة الأولى من العمر."},
 "072":{tag:"أقراص من توت الليسيوم (الغوجي) وعرق السوس.",ben:["توت الغوجي غني بمضادات الأكسدة","يُستخدم تقليديًا في آسيا لتعزيز الحيوية وصحة البصر","يُعرف عرق السوس بدوره في تلطيف الحلق وراحة الهضم"],comp:[["مستخلص توت الليسيوم (الغوجي)","مضادات أكسدة"],["مستخلص جذر عرق السوس","نبات"]],use:"قرص إلى قرصين يوميًا. لا يُنصح به في حالات ارتفاع ضغط الدم (بسبب عرق السوس) أو الحمل أو الرضاعة."},
