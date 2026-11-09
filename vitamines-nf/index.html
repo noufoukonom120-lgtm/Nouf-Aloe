@@ -116,6 +116,14 @@ html[dir="rtl"] .ibody h3{letter-spacing:0;font-size:.9rem}
 .ill li b{color:var(--red)}
 .note{font-size:.86rem;font-style:italic;color:var(--ink-3)}
 html[dir="rtl"] .note{font-style:normal}
+.pc{margin-inline-start:4px;background:var(--ink);color:var(--bg);border-radius:999px;padding:0 7px;font-size:.72rem;letter-spacing:0}
+.prods{display:flex;gap:8px;overflow-x:auto;padding:2px 0 6px;scroll-snap-type:x proximity;scrollbar-width:thin}
+.prod{flex:none;width:100px;scroll-snap-align:start;display:grid;align-content:start;gap:4px;justify-items:center;text-align:center;text-decoration:none;color:var(--ink);background:#fff;border:1.5px solid var(--ink);border-radius:12px;padding:8px 6px}
+.prod:active{transform:scale(.97)}
+.pimg{width:70px;height:70px;display:grid;place-items:center}
+.pimg img{max-width:100%;max-height:100%;object-fit:contain}
+.pn{font-family:"Nunito Sans",sans-serif;font-size:.76rem;font-weight:800;line-height:1.2}
+.ps{font-size:.66rem;font-weight:700;background:#E4D8F0;border-radius:999px;padding:0 6px}
 mark{background:#FFE07A;color:inherit;border-radius:3px;padding:0 1px}
 
 .empty{background:var(--panel);border:2px solid var(--ink);border-radius:16px;padding:20px;text-align:center;font-weight:700;display:grid;gap:10px;justify-items:center}
@@ -187,6 +195,7 @@ footer b{color:var(--ink)}
 <button class="totop" id="totop" type="button" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 15l7-7 7 7"/></svg></button>
 
 <script src="data.js"></script>
+<script src="products.js"></script>
 <script>
 const UI={
  fr:{dir:"ltr",title:'Fonction <i>Vitamines</i> NF',sub:"Vitamines, minéraux et acides aminés : définition, sources et maladies dues au manque",
@@ -200,6 +209,7 @@ const UI={
   grp:{lipo:"Liposoluble",hydro:"Hydrosoluble",macro:"Macroélément",oligo:"Oligo-élément",ess:"Essentiel"},
   grpP:{lipo:"Liposolubles",hydro:"Hydrosolubles",macro:"Macroéléments",oligo:"Oligo-éléments"},
   def:"Définition",src:"Sources",mal:"Maladies en cas de manque",
+  prod:"Produits Forever qui en contiennent",prodB:"Produits Forever riches en vitamines B",prodAA:"Produits Forever riches en protéines",soin:"Soin peau",
   total:{vit:n=>n+" vitamines",min:n=>n+" minéraux",aa:n=>n+" acides aminés essentiels"},
   found:n=>n+(n>1?" résultats":" résultat"),
   back:"Retour",top:"Haut de la page",install:"Installer l'application",clear:"Effacer",langs:"Langue",filters:"Filtres",
@@ -216,6 +226,7 @@ const UI={
   grp:{lipo:"يذوب في الدهون",hydro:"يذوب في الماء",macro:"معدن كبير",oligo:"عنصر نزر",ess:"أساسي"},
   grpP:{lipo:"الذائبة في الدهون",hydro:"الذائبة في الماء",macro:"المعادن الكبرى",oligo:"العناصر النزرة"},
   def:"التعريف",src:"المصادر",mal:"الأمراض الناتجة عن النقص",
+  prod:"منتجات فوريفر التي تحتوي عليه",prodB:"منتجات فوريفر الغنية بفيتامينات B",prodAA:"منتجات فوريفر الغنية بالبروتين",soin:"للبشرة",
   total:{vit:n=>"عدد الفيتامينات: "+n,min:n=>"عدد المعادن: "+n,aa:n=>"عدد الأحماض الأمينية الأساسية: "+n},
   found:n=>"النتائج: "+n,
   back:"رجوع",top:"أعلى الصفحة",install:"تثبيت التطبيق",clear:"مسح",langs:"اللغة",filters:"التصفية",
@@ -239,13 +250,24 @@ const ICON={
  def:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.1"/></svg>',
  src:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19c0-8 5-13 14-14-1 9-6 14-14 14zM5 19l7-7"/></svg>',
  mal:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 20h20zM12 10v4M12 17v.1"/></svg>',
+ prod:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v4l-3 3v10a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V10l-3-3V3"/><path d="M7 14h10"/></svg>',
  go:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>'
 };
 const STOP=new Set(["vitamine","vitamines","vit","mineral","mineraux","acide","acides","amine","amines","la","le","de","des","du","les","et","فيتامين","فيتامينات","حمض","احماض","اميني","امينيه","و","في"]);
 
+/* Produits Forever (repris de Nouf-Aloe) */
+const BGEN=["B1","B2","B3","B5","B6","B8"];
+function prodsFor(d){
+  const P=window.PRODUCTS||[];let r=[];
+  if(d.cat==="aa") r=P.filter(p=>p.v.includes("Prot"));
+  else if(d.cat==="vit") r=P.filter(p=>p.v.includes(BGEN.includes(d.id)?"B":d.id));
+  else if(["Ca","Mg","Zn"].includes(d.id)) r=P.filter(p=>p.v.includes(d.id));
+  return r.slice().sort((a,b)=>(a.c==="soin")-(b.c==="soin"));
+}
 /* Index de recherche : les deux langues */
 DATA.forEach(d=>{
-  const parts=[d.id,"vitamine "+d.id];
+  d._prods=prodsFor(d);
+  const parts=[d.id,"vitamine "+d.id,d._prods.map(p=>p.n).join(" ")];
   ["fr","ar"].forEach(l=>{const x=d[l];parts.push(x.name,x.chem,x.def,x.src.join(" "),x.mal.flat().join(" "),x.note||"",UI[l].grp[d.grp])});
   d._txt=" "+norm(parts.join(" ")).replace(/[,.;:()«»"!?،؛]/g," ")+" ";
   d._id=norm(d.id);
@@ -290,6 +312,8 @@ function card(d,ts){
       <section><h3>${ICON.src}${u.src}</h3><ul class="tags">${x.src.map(s=>`<li>${hl(s,ts)}</li>`).join("")}</ul></section>
       <section><h3>${ICON.mal}${u.mal}</h3><ul class="ill">${x.mal.map(([m,dd])=>`<li><b>${hl(m,ts)}</b>${dd?(LANG==="ar"?"، ":" : ")+hl(dd,ts):""}</li>`).join("")}</ul></section>
       ${x.note?`<p class="note">${hl(x.note,ts)}</p>`:""}
+      ${d._prods.length?`<section><h3>${ICON.prod}${d.cat==="aa"?u.prodAA:BGEN.includes(d.id)?u.prodB:u.prod}<span class="pc">${d._prods.length}</span></h3>
+        <div class="prods">${d._prods.map(p=>`<a class="prod" href="../?lang=${LANG}#p=${encodeURIComponent(p.k)}"><span class="pimg">${p.i?`<img src="../${p.i}" alt="" loading="lazy" decoding="async">`:""}</span><span class="pn" dir="ltr">${hl(p.n.replace(/^Forever /,""),ts)}</span>${p.c==="soin"?`<span class="ps">${u.soin}</span>`:""}</a>`).join("")}</div></section>`:""}
     </div>
   </article>`;
 }

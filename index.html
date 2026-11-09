@@ -1244,6 +1244,8 @@ $("langs").addEventListener("click",e=>{const b=e.target.closest("[data-lang]");
 
 applyLang();
 if(location.hash==="#vitamines")showTab("vit");
+/* Lien direct vers une fiche produit (depuis Fonction Vitamines NF) : #p=CODE */
+if(location.hash.startsWith("#p=")){const k=decodeURIComponent(location.hash.slice(3));if(P.some(x=>x.key===k))openSheet(k)}
 
 /* ---------- Installation comme une vraie application ---------- */
 const IT={
