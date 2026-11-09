@@ -194,8 +194,8 @@ footer b{color:var(--ink)}
 </div>
 <button class="totop" id="totop" type="button" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 15l7-7 7 7"/></svg></button>
 
-<script src="data.js"></script>
-<script src="products.js"></script>
+<script src="data.js?v=5"></script>
+<script src="products.js?v=5"></script>
 <script>
 const UI={
  fr:{dir:"ltr",title:'Fonction <i>Vitamines</i> NF',sub:"Vitamines, minéraux et acides aminés : définition, sources et maladies dues au manque",
@@ -416,7 +416,7 @@ let deferred=null;
 window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferred=e;$("install").hidden=false});
 $("install").addEventListener("click",async()=>{if(!deferred)return;deferred.prompt();await deferred.userChoice;deferred=null;$("install").hidden=true});
 window.addEventListener("appinstalled",()=>{$("install").hidden=true});
-if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}))}
+if("serviceWorker" in navigator){let had=!!navigator.serviceWorker.controller,done=false;navigator.serviceWorker.addEventListener("controllerchange",()=>{if(had&&!done){done=true;location.reload()}});window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js",{updateViaCache:"none"}).then(g=>g.update()).catch(()=>{}))}
 </script>
 </body>
 </html>
