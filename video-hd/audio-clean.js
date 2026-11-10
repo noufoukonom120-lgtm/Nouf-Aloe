@@ -1,6 +1,8 @@
 /* Nouf Vidéo HD : nettoyage du son
  * 1. Vent : filtre passe-haut (4e ordre) + atténuation des rafales graves détectées image par image.
  * 2. Bruit de fond : réduction spectrale (profil de bruit mesuré dans les silences, gains lissés).
+ * 2b. Mode « Voix seule » (4) : profil de bruit = niveau habituel du fond (foule, marché, musique),
+ *     coupure hors de la bande de la voix et forte baisse quand personne ne parle.
  * 3. Volume : mise à niveau douce (crête à -1 dB, gain max ×4).
  * Entrée / sortie : tableaux Float32Array par canal (planaires). */
 
@@ -63,8 +65,9 @@ export const cleanAudio = async (chans, sr, opt, onProgress = () => {}) => {
 	const C = chans.length, L = chans[0].length;
 	if (!L) { return chans; }
 
-	if (opt.wind) {
-		for (const x of chans) { highPass(x, sr, 110); }
+	const voice = opt.noise >= 4;
+	if (opt.wind || voice) {
+		for (const x of chans) { highPass(x, sr, voice ? 120 : 110); }
 	}
 
 	const spectral = opt.wind || opt.noise > 0;
@@ -83,7 +86,8 @@ export const cleanAudio = async (chans, sr, opt, onProgress = () => {}) => {
 		let noise = null;
 		if (opt.noise > 0) {
 			const blk = Math.max(8, Math.round(0.8 * sr / H));
-			const mins = [];
+			const mins = [], means = [];
+			let acc = new Float32Array(B);
 			let cur = new Float32Array(B).fill(Infinity), cnt = 0;
 			const sm = new Float32Array(B); let started = false;
 			for (let f = 0; f < frames; f++) {
@@ -96,23 +100,33 @@ export const cleanAudio = async (chans, sr, opt, onProgress = () => {}) => {
 					re[i] = v * win[i]; im[i] = 0;
 				}
 				fft(re, im, false);
-				for (let b = 0; b < B; b++) { const pw = re[b] * re[b] + im[b] * im[b]; sm[b] = started ? sm[b] * 0.85 + pw * 0.15 : pw; if (sm[b] < cur[b]) { cur[b] = sm[b]; } }
+				for (let b = 0; b < B; b++) { const pw = re[b] * re[b] + im[b] * im[b]; sm[b] = started ? sm[b] * 0.85 + pw * 0.15 : pw; if (sm[b] < cur[b]) { cur[b] = sm[b]; } acc[b] += pw; }
 				started = true;
-				if (++cnt === blk) { mins.push(cur); cur = new Float32Array(B).fill(Infinity); cnt = 0; }
+				if (++cnt === blk) { mins.push(cur); for (let b = 0; b < B; b++) { acc[b] /= cnt; } means.push(acc); cur = new Float32Array(B).fill(Infinity); acc = new Float32Array(B); cnt = 0; }
 				if ((f & 511) === 0) { onProgress(0.3 * f / frames); await tick(); }
 			}
-			if (cnt > blk / 2 || !mins.length) { mins.push(cur); }
+			if (cnt > blk / 2 || !mins.length) { mins.push(cur); for (let b = 0; b < B; b++) { acc[b] /= Math.max(1, cnt); } means.push(acc); }
 			noise = new Float32Array(B);
 			const col = new Float32Array(mins.length);
 			for (let b = 0; b < B; b++) {
 				for (let m = 0; m < mins.length; m++) { col[m] = Number.isFinite(mins[m][b]) ? mins[m][b] : 0; }
 				const sorted = Array.from(col).sort((a, z) => a - z);
 				noise[b] = sorted[Math.floor(sorted.length * 0.4)] * 1.8; // minima lissés → niveau moyen du bruit
+				if (voice) {
+					// Fond qui ne s'arrête jamais (foule, musique) : niveau moyen des blocs les plus calmes
+					const mc = means.map(m => m[b]).sort((a, z) => a - z);
+					const bg = mc[Math.floor(mc.length * 0.3)] || 0;
+					if (bg > noise[b]) { noise[b] = bg; }
+				}
 			}
 		}
 
-		const alpha = [0, 1.2, 1.8, 2.6][opt.noise] || 0;
-		const floor = [1, 0.32, 0.2, 0.12][opt.noise] || 1;
+		const alpha = [0, 1.2, 1.8, 2.8, 2.4][opt.noise] || 0;
+		const floor = [1, 0.32, 0.2, 0.1, 0.04][opt.noise] || 1;
+		const vLo = Math.round(300 / (sr / N)), vHi = Math.round(3400 / (sr / N)), bandTop = Math.round(7500 / (sr / N));
+		let nVoice = 0;
+		if (voice && noise) { for (let b = vLo; b < vHi; b++) { nVoice += noise[b]; } }
+		let gate = 1;
 		out = chans.map(() => new Float32Array(L));
 		const res = Array.from({ length: C }, () => [new Float32Array(N), new Float32Array(N)]);
 		const G = new Float32Array(B), Gp = new Float32Array(B).fill(1), Gs = new Float32Array(B), P = new Float32Array(B);
@@ -138,6 +152,14 @@ export const cleanAudio = async (chans, sr, opt, onProgress = () => {}) => {
 			// Lissage en fréquence puis en temps (attaque rapide, relâchement lent)
 			for (let b = 0; b < B; b++) { Gs[b] = (G[Math.max(0, b - 1)] + 2 * G[b] + G[Math.min(B - 1, b + 1)]) / 4; }
 			for (let b = 0; b < B; b++) { const g = Gs[b] > Gp[b] ? Gs[b] : Gp[b] * 0.65 + Gs[b] * 0.35; Gp[b] = g; G[b] = g; }
+			// Voix seule : hors bande de la voix coupé, et baisse forte quand personne ne parle
+			if (voice && noise) {
+				let e = 0; for (let b = vLo; b < vHi; b++) { e += P[b]; }
+				const snr = e / (nVoice + 1e-12);
+				const tgt = snr > 3 ? 1 : snr > 1.6 ? (snr - 1.6) / 1.4 * 0.85 + 0.15 : 0.15;
+				gate = tgt > gate ? gate * 0.3 + tgt * 0.7 : gate * 0.93 + tgt * 0.07;
+				for (let b = 0; b < B; b++) { G[b] *= gate; if (b > bandTop) { G[b] *= 0.25; } }
+			}
 			// Rafales de vent : énergie grave très supérieure aux médiums
 			if (opt.wind) {
 				let lo = 0, mid = 0;

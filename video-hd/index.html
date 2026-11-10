@@ -120,6 +120,8 @@ input[type=range]{width:100%;accent-color:var(--aloe);min-width:0}
 .swatches button{width:34px;height:34px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1.5px var(--line);cursor:pointer}
 .swatches button[aria-pressed="true"]{box-shadow:0 0 0 3px var(--gold)}
 .seg.s3{grid-template-columns:repeat(3,1fr)}
+.seg.s5{grid-template-columns:repeat(5,1fr)}
+.seg.s5 span{padding:8px 2px;font-size:13px;line-height:1.2;height:100%;display:flex;align-items:center;justify-content:center}
 .times{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .times label{display:grid;gap:4px;font-size:13px;color:var(--muted);font-weight:600}
 .times div{display:flex;gap:6px}
@@ -198,6 +200,8 @@ footer{color:var(--muted);font-size:13px;text-align:center;display:grid;gap:4px}
       <div class="sl"><label for="sBright">Luminosité</label><output id="oBright"></output><input type="range" id="sBright" min="-0.2" max="0.25" step="0.01" value="0"></div>
       <div class="sl"><label for="sContrast">Contraste</label><output id="oContrast"></output><input type="range" id="sContrast" min="0.7" max="1.6" step="0.02" value="1"></div>
       <div class="sl"><label for="sSat">Couleurs</label><output id="oSat"></output><input type="range" id="sSat" min="0.5" max="1.7" step="0.02" value="1"></div>
+      <div class="sl"><label for="sSkin">Teint de la peau plus clair</label><output id="oSkin"></output><input type="range" id="sSkin" min="0" max="1" step="0.05" value="0"><small>Éclaircit le visage et enlève le rouge de la peau, sans toucher au reste</small></div>
+      <div class="sl"><label for="sRed">Moins de rouge</label><output id="oRed"></output><input type="range" id="sRed" min="0" max="1" step="0.05" value="0"><small>Si toute l'image est trop rouge ou orangée (lampe, soleil du soir)</small></div>
       <div class="sl"><label for="sSharp">Netteté</label><output id="oSharp"></output><input type="range" id="sSharp" min="0" max="2.5" step="0.05" value="0"><small>Rend les contours plus nets. Une vidéo très floue ne peut pas devenir parfaitement nette.</small></div>
     </div>
   </section>
@@ -218,12 +222,13 @@ footer{color:var(--muted);font-size:13px;text-align:center;display:grid;gap:4px}
     <label class="tog"><input type="checkbox" id="aWind" checked><span><b>Supprimer le bruit du vent</b><small>Enlève le grondement et les souffles du vent dans le micro</small></span></label>
     <div class="grp">
       <b>Bruits de fond inutiles</b>
-      <small>Souffle, ventilateur, moteur, bruit de rue, grésillement</small>
-      <div class="seg" role="radiogroup" aria-label="Réduction des bruits de fond">
+      <small>Souffle, ventilateur, moteur, bruit de rue, grésillement. « Voix seule » : pour le marché, la foule, la musique autour ; garde seulement la voix proche du téléphone.</small>
+      <div class="seg s5" role="radiogroup" aria-label="Réduction des bruits de fond">
         <label><input type="radio" name="aNoise" value="0"><span>Aucun</span></label>
         <label><input type="radio" name="aNoise" value="1"><span>Léger</span></label>
-        <label><input type="radio" name="aNoise" value="2" checked><span>Moyen</span></label>
-        <label><input type="radio" name="aNoise" value="3"><span>Fort</span></label>
+        <label><input type="radio" name="aNoise" value="2"><span>Moyen</span></label>
+        <label><input type="radio" name="aNoise" value="3" checked><span>Fort</span></label>
+        <label><input type="radio" name="aNoise" value="4"><span>Voix seule</span></label>
       </div>
     </div>
     <div class="sl"><label for="vVoice">Volume de la voix (son d'origine)</label><output id="oVoice">100 %</output><input type="range" id="vVoice" min="0" max="2" step="0.05" value="1"><small>Mettez à 0 pour couper le son d'origine et ne garder que la musique</small></div>
@@ -303,7 +308,7 @@ footer{color:var(--muted);font-size:13px;text-align:center;display:grid;gap:4px}
 <div class="toast" id="toast" hidden></div>
 
 <script type="module">
-import { cleanAudio } from "./audio-clean.js";
+import { cleanAudio } from "./audio-clean.js?v=2";
 const $ = id => document.getElementById(id);
 const toast = (t) => { const el = $("toast"); el.textContent = t; el.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(() => { el.hidden = true; }, 2600); };
 const fmtTime = s => { s = Math.max(0, Math.round(s || 0)); const m = Math.floor(s / 60); return m + ":" + String(s % 60).padStart(2, "0"); };
@@ -313,7 +318,7 @@ if (!("VideoEncoder" in window) || !("VideoFrame" in window)) { $("unsupported")
 
 /* ---------- Rendu WebGL : netteté, éclaircissement, contraste, couleurs ---------- */
 const FRAG = `precision mediump float;
-uniform sampler2D t; uniform vec2 px; uniform float g,br,ct,sa,sh,sp;
+uniform sampler2D t; uniform vec2 px; uniform float g,br,ct,sa,sh,sp,rd,sk;
 varying vec2 v;
 vec3 fx(vec2 uv){
   vec3 c=texture2D(t,uv).rgb;
@@ -327,6 +332,17 @@ vec3 fx(vec2 uv){
   c=(c-0.5)*ct+0.5;
   float l=dot(c,vec3(0.299,0.587,0.114));
   c=mix(vec3(l),c,sa);
+  c=clamp(c,0.,1.);
+  if(rd>0.0){ c*=vec3(1.0-0.16*rd,1.0+0.015*rd,1.0+0.05*rd); }
+  if(sk>0.0){
+    float y=dot(c,vec3(0.299,0.587,0.114));
+    float cb=0.5-0.168736*c.r-0.331264*c.g+0.5*c.b, cr=0.5+0.5*c.r-0.418688*c.g-0.081312*c.b;
+    float m=smoothstep(0.52,0.56,cr)*(1.0-smoothstep(0.66,0.70,cr))*smoothstep(0.28,0.32,cb)*(1.0-smoothstep(0.50,0.54,cb))*smoothstep(0.08,0.18,y);
+    float k=m*sk;
+    float gb=(c.g+c.b)*0.5;
+    c.r=c.r-(c.r-gb)*0.30*k;
+    c=c+(1.0-c)*0.16*k;
+  }
   return clamp(c,0.,1.);
 }
 void main(){
@@ -350,22 +366,22 @@ class Renderer {
     const loc = gl.getAttribLocation(pr, "p"); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
     const tex = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, tex);
     for (const [k, val] of [[gl.TEXTURE_MIN_FILTER, gl.LINEAR], [gl.TEXTURE_MAG_FILTER, gl.LINEAR], [gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE], [gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE]]) { gl.texParameteri(gl.TEXTURE_2D, k, val); }
-    this.u = {}; for (const n of ["px", "g", "br", "ct", "sa", "sh", "sp"]) { this.u[n] = gl.getUniformLocation(pr, n); }
+    this.u = {}; for (const n of ["px", "g", "br", "ct", "sa", "sh", "sp", "rd", "sk"]) { this.u[n] = gl.getUniformLocation(pr, n); }
   }
   size(w, h) { if (this.canvas.width !== w || this.canvas.height !== h) { this.canvas.width = w; this.canvas.height = h; } this.gl.viewport(0, 0, w, h); }
   draw(source, p, split) {
     const gl = this.gl, u = this.u;
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, source);
     gl.uniform2f(u.px, 1 / this.canvas.width, 1 / this.canvas.height);
-    gl.uniform1f(u.g, p.gamma); gl.uniform1f(u.br, p.bright); gl.uniform1f(u.ct, p.contrast); gl.uniform1f(u.sa, p.sat); gl.uniform1f(u.sh, p.sharp); gl.uniform1f(u.sp, split);
+    gl.uniform1f(u.g, p.gamma); gl.uniform1f(u.br, p.bright); gl.uniform1f(u.ct, p.contrast); gl.uniform1f(u.sa, p.sat); gl.uniform1f(u.sh, p.sharp); gl.uniform1f(u.sp, split); gl.uniform1f(u.rd, p.red || 0); gl.uniform1f(u.sk, p.skin || 0);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
   }
 }
 
 /* ---------- État ---------- */
-const NEUTRAL = { gamma: 1, bright: 0, contrast: 1, sat: 1, sharp: 0 };
+const NEUTRAL = { gamma: 1, bright: 0, contrast: 1, sat: 1, sharp: 0, skin: 0, red: 0 };
 const P = { ...NEUTRAL };
-const SL = { gamma: ["sGamma", "oGamma", v => "×" + v.toFixed(2).replace(".", ",")], bright: ["sBright", "oBright", v => (v > 0 ? "+" : "") + Math.round(v * 100)], contrast: ["sContrast", "oContrast", v => Math.round(v * 100) + " %"], sat: ["sSat", "oSat", v => Math.round(v * 100) + " %"], sharp: ["sSharp", "oSharp", v => Math.round(v * 40) + " %"] };
+const SL = { gamma: ["sGamma", "oGamma", v => "×" + v.toFixed(2).replace(".", ",")], bright: ["sBright", "oBright", v => (v > 0 ? "+" : "") + Math.round(v * 100)], contrast: ["sContrast", "oContrast", v => Math.round(v * 100) + " %"], sat: ["sSat", "oSat", v => Math.round(v * 100) + " %"], sharp: ["sSharp", "oSharp", v => Math.round(v * 40) + " %"], skin: ["sSkin", "oSkin", v => Math.round(v * 100) + " %"], red: ["sRed", "oRed", v => Math.round(v * 100) + " %"] };
 let hasAudio = false, file = null, video = null, preview = null, srcW = 0, srcH = 0, conversion = null, outUrl = null, outFile = null;
 
 const syncSliders = () => { for (const [k, [sid, oid, f]] of Object.entries(SL)) { $(sid).value = P[k]; $(oid).textContent = f(P[k]); } };
@@ -639,13 +655,18 @@ $("addText").addEventListener("click", () => {
 async function autoCorrect() {
   const c = document.createElement("canvas"); c.width = 64; c.height = 36;
   const ctx = c.getContext("2d", { willReadFrequently: true });
-  const keep = video.currentTime, n = 6; let sum = 0, sum2 = 0, cnt = 0;
+  const keep = video.currentTime, n = 6; let sum = 0, sum2 = 0, cnt = 0, sr = 0, sg = 0, sb = 0, nskin = 0, skr = 0;
   for (let i = 0; i < n; i++) {
     const t = video.duration * (i + 0.5) / n;
     await new Promise(r => { video.addEventListener("seeked", r, { once: true }); video.currentTime = t; });
     ctx.drawImage(video, 0, 0, 64, 36);
     const d = ctx.getImageData(0, 0, 64, 36).data;
-    for (let j = 0; j < d.length; j += 4) { const l = (0.299 * d[j] + 0.587 * d[j + 1] + 0.114 * d[j + 2]) / 255; sum += l; sum2 += l * l; cnt++; }
+    for (let j = 0; j < d.length; j += 4) {
+      const R0 = d[j], G0 = d[j + 1], B0 = d[j + 2], l = (0.299 * R0 + 0.587 * G0 + 0.114 * B0) / 255; sum += l; sum2 += l * l; cnt++;
+      if (l > 0.08 && l < 0.92) { sr += R0; sg += G0; sb += B0; }
+      const cb = 128 - 0.168736 * R0 - 0.331264 * G0 + 0.5 * B0, cr = 128 + 0.5 * R0 - 0.418688 * G0 - 0.081312 * B0;
+      if (cr > 137 && cr < 175 && cb > 77 && cb < 135 && l > 0.1) { nskin++; skr += R0 / Math.max(1, (G0 + B0) / 2); }
+    }
   }
   const mean = sum / cnt, sd = Math.sqrt(Math.max(0, sum2 / cnt - mean * mean));
   P.gamma = +Math.min(2.1, Math.max(1, 1 + (0.46 - mean) * 3)).toFixed(2);
@@ -653,6 +674,11 @@ async function autoCorrect() {
   P.contrast = sd < 0.16 ? 1.18 : sd < 0.22 ? 1.08 : 1;
   P.sat = 1.12;
   P.sharp = 0.9;
+  const rg = sr / Math.max(1, sg), rb = sr / Math.max(1, sb);
+  P.red = +Math.min(0.8, Math.max(0, (rg - 1.08) * 3 + Math.max(0, rb - 1.35) * 0.8)).toFixed(2);
+  const skinShare = nskin / cnt, skinRed = nskin ? skr / nskin : 1;
+  P.skin = skinShare > 0.02 ? +Math.min(0.8, Math.max(0.35, (skinRed - 1.25) * 1.2)).toFixed(2) : 0;
+  if (P.red > 0.3) { P.sat = 1.05; }
   syncSliders();
   await new Promise(r => { video.addEventListener("seeked", r, { once: true }); video.currentTime = keep > 0 ? keep : Math.min(1, video.duration / 3); });
   renderPreview();
@@ -675,6 +701,8 @@ function updateOutInfo() { if (!srcW) { return; } const d = outDims(srcW, srcH);
 document.querySelectorAll("input[name=fmt]").forEach(r => r.addEventListener("change", updateOutInfo));
 
 /* ---------- Son ---------- */
+try { const sv = localStorage.getItem("nvhd-noise"); if (sv) { const el = document.querySelector(`input[name=aNoise][value="${sv}"]`); if (el) { el.checked = true; } } } catch {}
+document.querySelectorAll("input[name=aNoise]").forEach(r => r.addEventListener("change", () => { try { localStorage.setItem("nvhd-noise", r.value); } catch {} }));
 const audioOpts = () => ({ wind: $("aWind").checked, noise: parseInt(document.querySelector("input[name=aNoise]:checked").value, 10), level: $("aLevel").checked });
 const bitrate = () => parseInt(document.querySelector("input[name=aQual]:checked").value, 10);
 const QTXT = { 128000: "Standard : 128 kb/s, stéréo. Fichier le plus léger.", 192000: "Haute : 192 kb/s, stéréo. Bon équilibre entre qualité et taille.", 256000: "Studio : 256 kb/s, stéréo. Meilleur son pour la musique." };
@@ -844,6 +872,8 @@ async function convert() {
     if (!vt) { throw new Error("NOVIDEO"); }
     const d = outDims(vt.displayWidth, vt.displayHeight);
     if (!(await M.canEncodeVideo("avc", { width: d.w, height: d.h }))) { throw new Error("NOAVC"); }
+    let hw;
+    try { const cs = await VideoEncoder.isConfigSupported({ codec: "avc1.640028", width: d.w, height: d.h, bitrate: 4e6, hardwareAcceleration: "prefer-hardware" }); if (cs.supported) { hw = "prefer-hardware"; } } catch {}
     let fps;
     try { const st = await vt.computePacketStats(120); if (st.averagePacketRate > 31) { fps = 30; } } catch {}
 
@@ -874,7 +904,7 @@ async function convert() {
     activeOutput = output;
     const videoOpts = {
       codec: "avc", quality: M.QUALITY_HIGH, keyFrameInterval: 2, forceTranscode: true,
-      allowTransformationMetadata: false, frameRate: fps,
+      allowTransformationMetadata: false, frameRate: fps, hardwareAcceleration: hw,
       processedWidth: d.w, processedHeight: d.h,
       process: sample => {
         ctx2.fillStyle = "#000"; ctx2.fillRect(0, 0, d.w, d.h);

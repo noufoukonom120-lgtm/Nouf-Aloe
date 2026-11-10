@@ -1,5 +1,5 @@
 // Nouf-Aloe : fonctionne hors connexion après la première ouverture
-const CACHE="nouf-aloe-v48";
+const CACHE="nouf-aloe-v49";
 const FILES=["./img/arabe-calligraphie.png",
  "./",
  "index.html",
@@ -92,6 +92,7 @@ self.addEventListener("fetch",e=>{
   const u=new URL(r.url);
   if(u.host.endsWith("goatcounter.com")||u.host==="gc.zgo.at")return;
   if(u.origin===location.origin&&(u.pathname.includes("/konombo-aloe/")||u.pathname.includes("/sante-bien-etre-b/")||u.pathname.includes("/vitamines-nf/")))return; /* site Konombo Aloe : toujours en ligne, hors cache de l'application */
+  if(u.origin===location.origin&&u.pathname.includes("/video-hd/")&&!u.pathname.endsWith(".mjs")){e.respondWith(fetch(r,{cache:"no-cache"}).then(res=>{if(res.ok){const c=res.clone();caches.open(CACHE).then(k=>k.put(r,c))}return res}).catch(()=>caches.match(r,{ignoreSearch:true})));return} /* Nouf Vidéo HD : toujours la dernière version */
   if(u.origin===location.origin&&u.pathname.includes("/videos/")&&u.pathname.endsWith(".mp4"))return; /* vidéos : lues en ligne (lecture par morceaux) */
   if(r.mode==="navigate"){e.respondWith(fetch(r).then(res=>{const c=res.clone();caches.open(CACHE).then(k=>k.put("index.html",c));return res}).catch(()=>caches.match("index.html")));return}
   e.respondWith(caches.match(r).then(hit=>hit||fetch(r).then(res=>{if(res.ok&&(u.origin===location.origin||u.host.endsWith("googleapis.com")||u.host.endsWith("gstatic.com"))){const c=res.clone();caches.open(CACHE).then(k=>k.put(r,c))}return res})))
