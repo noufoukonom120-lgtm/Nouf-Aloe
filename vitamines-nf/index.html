@@ -266,10 +266,10 @@ function renderGal(ts){
   g.hidden=!(TAB==="vit"&&!ts.length&&FILTER==="all");
   if(g.hidden) return;
   $("t-gal").textContent=u.gal; $("t-galhint").textContent=u.galHint;
-  $("gal-row").innerHTML=GAL.map((f,i)=>`<button type="button" data-g="${i}"><img src="guides/${f}.webp" alt="${u.galCap[i]}" loading="lazy" decoding="async"><span>${u.galCap[i]}</span></button>`).join("");
+  $("gal-row").innerHTML=GAL.map((f,i)=>`<button type="button" data-g="${i}"><img src="guides/${f}.webp?v=2" alt="${u.galCap[i]}" loading="lazy" decoding="async"><span>${u.galCap[i]}</span></button>`).join("");
 }
 function openViewer(i){
-  const u=U();$("v-img").src="guides/"+GAL[i]+".webp";$("v-img").alt=u.galCap[i];$("v-cap").textContent=u.galCap[i];
+  const u=U();$("v-img").src="guides/"+GAL[i]+".webp?v=2";$("v-img").alt=u.galCap[i];$("v-cap").textContent=u.galCap[i];
   $("viewer").hidden=false;document.body.style.overflow="hidden";
 }
 function closeViewer(){$("viewer").hidden=true;document.body.style.overflow=""}
