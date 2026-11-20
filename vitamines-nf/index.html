@@ -129,6 +129,20 @@ mark{background:#FFE07A;color:inherit;border-radius:3px;padding:0 1px}
 
 footer{margin-top:24px;text-align:center;font-size:.85rem;font-weight:600;color:var(--ink-2);display:grid;gap:4px}
 footer b{color:var(--ink)}
+/* Guides en images */
+.gal{margin-top:12px;background:var(--panel-soft);border:2px solid var(--ink);border-radius:14px;padding:10px 12px 12px}
+.gal h2{margin:0;font-size:.95rem;font-weight:800}
+.gal .hint{margin:2px 0 8px;font-size:.76rem;color:var(--ink-2)}
+.gal-row{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:4px;scrollbar-width:thin}
+.gal-row button{flex:none;width:150px;scroll-snap-align:start;border:2px solid var(--ink);border-radius:12px;background:#fff;padding:0;overflow:hidden;cursor:pointer;display:grid;text-align:center;font:inherit;color:var(--ink)}
+.gal-row button:first-child{width:150px}
+.gal-row img{width:100%;height:150px;object-fit:cover;display:block}
+.gal-row span{font-size:.74rem;font-weight:800;padding:5px 6px;line-height:1.25}
+.viewer{position:fixed;inset:0;z-index:50;background:rgba(17,16,8,.94);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;gap:10px}
+.viewer[hidden]{display:none}
+.viewer img{max-width:100%;max-height:80vh;object-fit:contain;border-radius:10px;background:#fff}
+.viewer p{margin:0;color:#FFF5DA;font-weight:800;text-align:center}
+.viewer button{position:absolute;top:12px;inset-inline-end:12px;width:44px;height:44px;border-radius:50%;border:2px solid #FFF5DA;background:transparent;color:#FFF5DA;font-size:1.6rem;line-height:1;cursor:pointer}
 </style>
 </head>
 <body>
@@ -163,6 +177,7 @@ footer b{color:var(--ink)}
   </nav>
 
   <p class="intro" id="intro"></p>
+  <section class="gal" id="gal" hidden><h2 id="t-gal"></h2><p class="hint" id="t-galhint"></p><div class="gal-row" id="gal-row"></div></section>
 
   <div class="tools">
     <label class="search" for="q">
@@ -185,6 +200,7 @@ footer b{color:var(--ink)}
     <span><b>Fonction Vitamines NF</b> · Nouf-Aloe · MANAGER KONOMBO</span>
   </footer>
 </div>
+<div class="viewer" id="viewer" hidden role="dialog" aria-modal="true"><button type="button" id="v-close" aria-label="Fermer">×</button><img id="v-img" alt=""><p id="v-cap"></p></div>
 <button class="totop" id="totop" type="button" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 15l7-7 7 7"/></svg></button>
 
 <script src="data.js?v=6"></script>
@@ -205,6 +221,7 @@ const UI={
   found:n=>n+(n>1?" résultats":" résultat"),
   back:"Retour",top:"Haut de la page",install:"Installer l'application",clear:"Effacer",langs:"Langue",filters:"Filtres",
   empty:"Aucun résultat dans cet onglet.",emptyAll:"Aucun résultat pour cette recherche.",seeIn:"Voir dans",
+  gal:"Guides en images",galHint:"Touchez une image pour l'agrandir.",galCap:["La roue des vitamines","Guide alimentaire des vitamines","Aliments riches en vitamines","Aliments riches en vitamines B"],
   foot:"Informations générales sur la santé. Elles ne remplacent pas l'avis d'un médecin ou d'un pharmacien."},
  ar:{dir:"rtl",title:'وظائف <i>الفيتامينات</i> NF',sub:"الفيتامينات والمعادن والأحماض الأمينية: التعريف والمصادر والأمراض الناتجة عن نقصها",
   tabs:{vit:"الفيتامينات",min:"المعادن",aa:"الأحماض الأمينية"},
@@ -221,11 +238,28 @@ const UI={
   found:n=>"النتائج: "+n,
   back:"رجوع",top:"أعلى الصفحة",install:"تثبيت التطبيق",clear:"مسح",langs:"اللغة",filters:"التصفية",
   empty:"لا توجد نتائج في هذا القسم.",emptyAll:"لا توجد نتائج لهذا البحث.",seeIn:"عرض في",
+  gal:"أدلة بالصور",galHint:"المس الصورة لتكبيرها.",galCap:["عجلة الفيتامينات","الدليل الغذائي للفيتامينات","أطعمة غنية بالفيتامينات","أطعمة غنية بفيتامينات B"],
   foot:"معلومات صحية عامة، ولا تُغني عن استشارة الطبيب أو الصيدلي."}
 };
 const GROUPS={vit:["lipo","hydro","assim"],min:["macro","oligo"],aa:[]};
 
 const $=id=>document.getElementById(id);
+/* Guides en images (onglet Vitamines) */
+const GAL=["roue-vitamines","guide-vitamines","aliments-riches","vitamine-b"];
+function renderGal(ts){
+  const u=U(),g=$("gal");
+  g.hidden=!(TAB==="vit"&&!ts.length&&FILTER==="all");
+  if(g.hidden) return;
+  $("t-gal").textContent=u.gal; $("t-galhint").textContent=u.galHint;
+  $("gal-row").innerHTML=GAL.map((f,i)=>`<button type="button" data-g="${i}"><img src="guides/${f}.webp" alt="${u.galCap[i]}" loading="lazy" decoding="async"><span>${u.galCap[i]}</span></button>`).join("");
+}
+function openViewer(i){
+  const u=U();$("v-img").src="guides/"+GAL[i]+".webp";$("v-img").alt=u.galCap[i];$("v-cap").textContent=u.galCap[i];
+  $("viewer").hidden=false;document.body.style.overflow="hidden";
+}
+function closeViewer(){$("viewer").hidden=true;document.body.style.overflow=""}
+document.addEventListener("click",e=>{const b=e.target.closest("#gal-row button");if(b)openViewer(+b.dataset.g);else if(e.target.closest("#viewer"))closeViewer()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("viewer").hidden)closeViewer()});
 const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 /* Normalisation caractère par caractère (accents français, voyelles et formes de l'alif en arabe) */
 function nc(c){
@@ -307,6 +341,7 @@ function renderChips(){
 function render(){
   const u=U(), ts=terms();
   const byCat={vit:[],min:[],aa:[]};
+  renderGal(ts);
   DATA.forEach(d=>{if(!ts.length||matches(d,ts))byCat[d.cat].push(d)});
   // onglets
   document.querySelectorAll("#tabs button").forEach(b=>{
