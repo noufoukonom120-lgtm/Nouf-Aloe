@@ -9,9 +9,12 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Vitamines NF">
-<link rel="manifest" href="manifest.webmanifest">
+<link rel="manifest" href="manifest.webmanifest?v=2">
 <link rel="icon" type="image/png" href="icon-192.png">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=2">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Vitamines NF">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&family=Amiri:wght@400;700&family=Noto+Sans+Arabic:wght@400;600;700;800&display=swap">
@@ -143,9 +146,21 @@ footer b{color:var(--ink)}
 .viewer img{max-width:100%;max-height:80vh;object-fit:contain;border-radius:10px;background:#fff}
 .viewer p{margin:0;color:#FFF5DA;font-weight:800;text-align:center}
 .viewer button{position:absolute;top:12px;inset-inline-end:12px;width:44px;height:44px;border-radius:50%;border:2px solid #FFF5DA;background:transparent;color:#FFF5DA;font-size:1.6rem;line-height:1;cursor:pointer}
+/* Écran d'accueil avec le logo (application installée) */
+.splash{position:fixed;inset:0;z-index:100;background:#D9A11A;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;transition:opacity .45s}
+.splash img{width:150px;height:150px;border-radius:50%;animation:pop .6s ease-out}
+.splash b{font-family:"DM Serif Display",Georgia,serif;font-size:1.7rem;color:#111008}
+.splash.out{opacity:0;pointer-events:none}
+@keyframes pop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
 </style>
 </head>
 <body>
+<div class="splash" id="splash" hidden><img src="icon-512.png" alt=""><b>Fonction Vitamines NF</b></div>
+<script>
+(function(){var inst=matchMedia("(display-mode: standalone)").matches||navigator.standalone===true;
+if(!inst)return;var s=document.getElementById("splash");s.hidden=false;
+setTimeout(function(){s.classList.add("out");setTimeout(function(){s.remove()},500)},1300)})();
+</script>
 <div class="wrap">
   <header class="top">
     <div class="hero" role="img" aria-label="Fruits, légumes, graines et huiles riches en vitamines"></div>
