@@ -103,6 +103,7 @@ html[dir="rtl"] .type{letter-spacing:0;font-size:.78rem}
 .type.hydro{background:#CFE6F2}
 .type.macro{background:#EAD3B5}
 .type.oligo{background:#E4D8F0}
+.type.assim{background:#F4C6B8}
 .type.ess{background:var(--green-soft)}
 .ibody{padding:14px 16px 16px;display:grid;gap:12px}
 .ibody h3{font-family:var(--body);font-weight:800;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:5px;display:flex;align-items:center;gap:6px}
@@ -186,21 +187,21 @@ footer b{color:var(--ink)}
 </div>
 <button class="totop" id="totop" type="button" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 15l7-7 7 7"/></svg></button>
 
-<script src="data.js?v=5"></script>
+<script src="data.js?v=6"></script>
 <script>
 const UI={
  fr:{dir:"ltr",title:'Fonction <i>Vitamines</i> NF',sub:"Vitamines, minéraux et acides aminés : définition, sources et maladies dues au manque",
   tabs:{vit:"Vitamines",min:"Minéraux",aa:"Acides aminés"},
   intro:{
-   vit:"Une <b>vitamine</b> est une substance que le corps ne fabrique pas (ou pas assez) et qu'il doit trouver dans l'alimentation, en très petite quantité, pour bien fonctionner. Il en existe <b>13</b>. Les vitamines <b>liposolubles</b> (A, D, E, K) se dissolvent dans les graisses et se stockent dans le corps. Les vitamines <b>hydrosolubles</b> (C et groupe B) se dissolvent dans l'eau et doivent être apportées chaque jour.",
+   vit:"Une <b>vitamine</b> est une substance que le corps ne fabrique pas (ou pas assez) et qu'il doit trouver dans l'alimentation, en très petite quantité, pour bien fonctionner. Il en existe <b>13</b>. Les vitamines <b>liposolubles</b> (A, D, E, K) se dissolvent dans les graisses et se stockent dans le corps. Les vitamines <b>hydrosolubles</b> (C et groupe B) se dissolvent dans l'eau et doivent être apportées chaque jour. On y ajoute deux nutriments <b>apparentés</b>, la choline et les oméga-3, tout aussi indispensables.",
    min:"Les <b>minéraux</b> sont des éléments de la terre que les plantes absorbent et que nous mangeons. Le corps ne peut pas les fabriquer. Les <b>macroéléments</b> (calcium, magnésium…) sont nécessaires en grande quantité ; les <b>oligo-éléments</b> (fer, zinc, iode…) en très petite quantité, mais ils sont tout aussi indispensables.",
    aa:"Les <b>acides aminés</b> sont les briques qui forment les protéines : muscles, peau, cheveux, enzymes, hormones et anticorps. Il en existe <b>20</b>. Le corps sait en fabriquer 11 ; les <b>9 autres, dits essentiels</b>, doivent venir de l'alimentation. Un manque prolongé de protéines provoque chez l'enfant le <b>kwashiorkor</b> (ventre gonflé, œdèmes, cheveux décolorés) ou le <b>marasme</b> (maigreur extrême)."},
   search:"Chercher une vitamine, un minéral, un aliment, une maladie…",
   all:{vit:"Toutes",min:"Tous",aa:"Tous"},
-  grp:{lipo:"Liposoluble",hydro:"Hydrosoluble",macro:"Macroélément",oligo:"Oligo-élément",ess:"Essentiel"},
-  grpP:{lipo:"Liposolubles",hydro:"Hydrosolubles",macro:"Macroéléments",oligo:"Oligo-éléments"},
+  grp:{lipo:"Liposoluble",hydro:"Hydrosoluble",macro:"Macroélément",oligo:"Oligo-élément",assim:"Apparenté aux vitamines",ess:"Essentiel"},
+  grpP:{lipo:"Liposolubles",hydro:"Hydrosolubles",macro:"Macroéléments",oligo:"Oligo-éléments",assim:"Apparentés"},
   def:"Définition",src:"Sources",mal:"Maladies en cas de manque",
-  total:{vit:n=>n+" vitamines",min:n=>n+" minéraux",aa:n=>n+" acides aminés essentiels"},
+  total:{vit:(n,x)=>n+" vitamines"+(x?" + "+x+" apparentés":""),min:n=>n+" minéraux",aa:n=>n+" acides aminés essentiels"},
   found:n=>n+(n>1?" résultats":" résultat"),
   back:"Retour",top:"Haut de la page",install:"Installer l'application",clear:"Effacer",langs:"Langue",filters:"Filtres",
   empty:"Aucun résultat dans cet onglet.",emptyAll:"Aucun résultat pour cette recherche.",seeIn:"Voir dans",
@@ -208,21 +209,21 @@ const UI={
  ar:{dir:"rtl",title:'وظائف <i>الفيتامينات</i> NF',sub:"الفيتامينات والمعادن والأحماض الأمينية: التعريف والمصادر والأمراض الناتجة عن نقصها",
   tabs:{vit:"الفيتامينات",min:"المعادن",aa:"الأحماض الأمينية"},
   intro:{
-   vit:"<b>الفيتامين</b> مادة لا يصنعها الجسم (أو لا يصنع منها ما يكفي)، ويجب أن يحصل عليها من الغذاء بكميات صغيرة جدًا ليعمل بشكل سليم. يوجد منها <b>13</b> فيتامينًا. الفيتامينات <b>الذائبة في الدهون</b> (A وD وE وK) تُخزَّن في الجسم، أما الفيتامينات <b>الذائبة في الماء</b> (C ومجموعة B) فيجب الحصول عليها كل يوم.",
+   vit:"<b>الفيتامين</b> مادة لا يصنعها الجسم (أو لا يصنع منها ما يكفي)، ويجب أن يحصل عليها من الغذاء بكميات صغيرة جدًا ليعمل بشكل سليم. يوجد منها <b>13</b> فيتامينًا. الفيتامينات <b>الذائبة في الدهون</b> (A وD وE وK) تُخزَّن في الجسم، أما الفيتامينات <b>الذائبة في الماء</b> (C ومجموعة B) فيجب الحصول عليها كل يوم. وأضفنا مادتين <b>شبيهتين بالفيتامينات</b>، هما الكولين وأوميغا 3، وهما ضروريتان أيضًا.",
    min:"<b>المعادن</b> عناصر من الأرض تمتصها النباتات ونأكلها نحن، ولا يستطيع الجسم صنعها. <b>المعادن الكبرى</b> (الكالسيوم والمغنيسيوم…) يحتاجها الجسم بكميات كبيرة، أما <b>العناصر النزرة</b> (الحديد والزنك واليود…) فيحتاجها بكميات صغيرة جدًا، لكنها ضرورية بالقدر نفسه.",
    aa:"<b>الأحماض الأمينية</b> هي اللبنات التي تتكوّن منها البروتينات: العضلات والجلد والشعر والإنزيمات والهرمونات والأجسام المضادة. يوجد منها <b>20</b> حمضًا. يستطيع الجسم صنع 11 منها، أما <b>التسعة الباقية، وتسمّى الأساسية</b>، فيجب أن تأتي من الغذاء. النقص الطويل في البروتينات يسبّب عند الأطفال <b>الكواشيوركور</b> (انتفاخ البطن والوذمات وتغيّر لون الشعر) أو <b>السغل</b> (النحافة الشديدة)."},
   search:"ابحث عن فيتامين أو معدن أو غذاء أو مرض…",
   all:{vit:"الكل",min:"الكل",aa:"الكل"},
-  grp:{lipo:"يذوب في الدهون",hydro:"يذوب في الماء",macro:"معدن كبير",oligo:"عنصر نزر",ess:"أساسي"},
-  grpP:{lipo:"الذائبة في الدهون",hydro:"الذائبة في الماء",macro:"المعادن الكبرى",oligo:"العناصر النزرة"},
+  grp:{lipo:"يذوب في الدهون",hydro:"يذوب في الماء",macro:"معدن كبير",oligo:"عنصر نزر",assim:"شبيه بالفيتامينات",ess:"أساسي"},
+  grpP:{lipo:"الذائبة في الدهون",hydro:"الذائبة في الماء",macro:"المعادن الكبرى",oligo:"العناصر النزرة",assim:"الشبيهة بالفيتامينات"},
   def:"التعريف",src:"المصادر",mal:"الأمراض الناتجة عن النقص",
-  total:{vit:n=>"عدد الفيتامينات: "+n,min:n=>"عدد المعادن: "+n,aa:n=>"عدد الأحماض الأمينية الأساسية: "+n},
+  total:{vit:(n,x)=>"عدد الفيتامينات: "+n+(x?" + "+x+" شبيهة بها":""),min:n=>"عدد المعادن: "+n,aa:n=>"عدد الأحماض الأمينية الأساسية: "+n},
   found:n=>"النتائج: "+n,
   back:"رجوع",top:"أعلى الصفحة",install:"تثبيت التطبيق",clear:"مسح",langs:"اللغة",filters:"التصفية",
   empty:"لا توجد نتائج في هذا القسم.",emptyAll:"لا توجد نتائج لهذا البحث.",seeIn:"عرض في",
   foot:"معلومات صحية عامة، ولا تُغني عن استشارة الطبيب أو الصيدلي."}
 };
-const GROUPS={vit:["lipo","hydro"],min:["macro","oligo"],aa:[]};
+const GROUPS={vit:["lipo","hydro","assim"],min:["macro","oligo"],aa:[]};
 
 const $=id=>document.getElementById(id);
 const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -275,10 +276,10 @@ function hl(text,ts){
 
 function card(d,ts){
   const x=d[LANG],u=U();
-  const bc=d.id.length>=3?" l":d.id.length===2?" m":"";
+  const bd=d.badge||d.id,bc=bd.length>=3?" l":bd.length===2?" m":"";
   return `<article class="item" data-cat="${d.cat}" id="i-${d.cat}-${d.id}" lang="${LANG}">
     <div class="ihead">
-      <div class="badge${bc}" aria-hidden="true" dir="ltr">${d.id}</div>
+      <div class="badge${bc}" aria-hidden="true" dir="ltr">${bd}</div>
       <div>
         <h2>${hl(x.name,ts)}</h2>
         <p class="chem">${hl(x.chem,ts)}</p>
@@ -299,7 +300,7 @@ function renderChips(){
   let h=`<button type="button" data-f="all" aria-pressed="${FILTER==="all"}">${u.all[TAB]}</button>`;
   GROUPS[TAB].forEach(g=>{h+=`<button type="button" data-f="${g}" aria-pressed="${FILTER===g}">${u.grpP[g]}</button>`});
   h+='<span class="sep"></span>';
-  list.forEach(d=>{const lbl=TAB==="vit"?d.id:d[LANG].name;h+=`<button type="button" data-f="${d.id}" aria-pressed="${FILTER===d.id}">${esc(lbl)}</button>`});
+  list.forEach(d=>{const lbl=TAB==="vit"?(d.badge||d.id):d[LANG].name;h+=`<button type="button" data-f="${d.id}" aria-pressed="${FILTER===d.id}">${esc(lbl)}</button>`});
   $("chips").innerHTML=h; $("chips").setAttribute("aria-label",u.filters);
 }
 
@@ -325,8 +326,8 @@ function render(){
     $("jumps").innerHTML=others.map(t=>`<button class="jump" type="button" data-go="${t}">${u.seeIn} ${u.tabs[t]} (${byCat[t].length})${ICON.go}</button>`).join("");
     if(FILTER!=="all"&&byCat[TAB].length) $("t-empty").textContent=u.emptyAll;
   }
-  const total=DATA.filter(d=>d.cat===TAB).length;
-  $("count").textContent=(!ts.length&&FILTER==="all")?u.total[TAB](total):u.found(list.length);
+  const all=DATA.filter(d=>d.cat===TAB),xtra=all.filter(d=>d.grp==="assim").length,total=all.length-xtra;
+  $("count").textContent=(!ts.length&&FILTER==="all")?u.total[TAB](total,xtra):u.found(list.length);
   $("back").hidden=!(QUERY||FILTER!=="all"||DEPTH>0);
 }
 
